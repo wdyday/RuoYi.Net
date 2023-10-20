@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Quartz" Version="3.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuoYi.Common\RuoYi.Common.csproj" />
+    <ProjectReference Include="..\RuoYi.Data\RuoYi.Data.csproj" />
+    <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
+    <ProjectReference Include="..\RuoYi.System\RuoYi.System.csproj" />
+  </ItemGroup>
+
+</Project>

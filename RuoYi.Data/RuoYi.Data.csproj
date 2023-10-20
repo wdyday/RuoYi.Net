@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;8618;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;8618;</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Enums\BusinessType.cs" />
+    <Compile Remove="Enums\DataScope.cs" />
+    <Compile Remove="Enums\DelFlag.cs" />
+    <Compile Remove="Enums\GenType.cs" />
+    <Compile Remove="Enums\NoticeType.cs" />
+    <Compile Remove="Enums\OperatorType.cs" />
+    <Compile Remove="Enums\Sex.cs" />
+    <Compile Remove="Enums\Status.cs" />
+    <Compile Remove="Enums\YesNo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
+</Project>

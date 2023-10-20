@@ -1,0 +1,34 @@
+﻿using SqlSugar;
+using System;
+using System.Collections.Generic;
+using RuoYi.Data.Entities;
+
+namespace @(Model.PackageName).Data.Entities
+{
+    @{
+        var entity = Model.Table.IsTree() ? "TreeEntity" : "BaseEntity";
+    }
+    /// <summary>
+    ///  @Model.SubTable.FunctionName 对象 @Model.SubTableName
+    ///  author @Model.Author
+    ///  date   @Model.DateTime
+    /// </summary>
+    [SugarTable("@Model.SubTable.TableName", "@Model.SubTable.TableComment")]
+    public class @(Model.SubClassName) : @entity
+    {
+@{ 
+foreach (RuoYi.Data.Entities.GenTableColumn col in Model.SubTable.Columns)
+{
+    @if(!Model.Table.IsSuperColumn(col.NetField))
+    {
+        @:/// <summary>
+        @:/// @col.ColumnComment (@col.ColumnName)
+        @:/// </summary>
+        @:[SugarColumn(ColumnName = "@col.ColumnName", ColumnDescription = "@col.ColumnComment")]
+        @:public @col.NetType @col.NetField { get; set; }
+        @:        
+    }
+}
+}
+    }
+}

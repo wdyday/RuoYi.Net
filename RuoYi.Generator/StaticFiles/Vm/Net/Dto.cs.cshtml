@@ -1,0 +1,30 @@
+﻿using System.Collections.Generic;
+using RuoYi.Data.Dtos;
+
+namespace @(Model.PackageName).Data.Dtos
+{
+    @{
+        var dto = Model.Table.IsTree() ? "TreeDto" : "BaseDto";
+    }
+    /// <summary>
+    ///  @Model.FunctionName 对象 @Model.TableName
+    ///  author @Model.Author
+    ///  date   @Model.DateTime
+    /// </summary>
+    public class @(Model.ClassName)Dto : @dto
+    {
+@{ 
+foreach (RuoYi.Data.Entities.GenTableColumn col in Model.Columns)
+{
+    @if(!Model.Table.IsSuperColumn(col.NetField))
+    {
+        @:/// <summary>
+        @:/// @col.ColumnComment
+        @:/// </summary>
+        @:public @col.NetType @col.NetField { get; set; }
+        @:        
+    }
+}
+}
+    }
+}

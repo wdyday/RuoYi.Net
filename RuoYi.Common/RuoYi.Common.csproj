@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;8600;8604;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;8600;8604;</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Constants\Constants.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuoYi.Data\RuoYi.Data.csproj" />
+    <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configs\" />
+  </ItemGroup>
+
+</Project>

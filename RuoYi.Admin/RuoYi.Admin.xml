@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RuoYi.Admin</name>
+    </assembly>
+    <members>
+        <member name="F:RuoYi.Admin.Authorization.AuthorizationMiddlewareResultHandler.ALL_PERMISSION">
+            所有权限标识 
+        </member>
+        <member name="M:RuoYi.Admin.Authorization.AuthorizationMiddlewareResultHandler.CheckAuthorize(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            检查 Contoller的 AppAuthorizeAttribute 授权
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.Authorization.AuthorizationMiddlewareResultHandler.HasPermi(System.String)">
+            <summary>
+            判断是否包含权限
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.Authorization.AuthorizationMiddlewareResultHandler.HasAnyPermi(System.String[])">
+            <summary>
+            判断是否包含权限
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.Authorization.AuthorizationMiddlewareResultHandler.HasPermissions(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            判断是否包含权限
+            </summary>
+        </member>
+        <member name="T:RuoYi.Admin.Authorization.JwtHandler">
+            <summary>
+            JWT 授权自定义处理程序
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.Authorization.JwtHandler.HandleAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext)">
+            <summary>
+            此处不做校验, 在 AuthorizationMiddlewareResultHandler 校验, 返回自定义code
+            </summary>
+        </member>
+        <member name="T:RuoYi.Admin.CaptchaController">
+            <summary>
+            验证码操作处理
+            参考: https://github.com/pojianbing/LazyCaptcha
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.CaptchaController.GetCaptchaImage">
+            <summary>
+            获取系统描述
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RuoYi.Admin.IndexController">
+            <summary>
+            系统服务接口
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.IndexController.GetDescription">
+            <summary>
+            获取系统描述
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RuoYi.Admin.Sample.SampleController">
+            <summary>
+            示例接口
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.Sample.SampleController.Get(System.Nullable{System.Int64})">
+            <summary>
+            从库(slave) 用户查询
+            表 SysUser 的实体类上 添加特性 [Tenant(DataConstants.Slave)]
+            </summary>
+        </member>
+        <member name="T:RuoYi.System.Controllers.CacheController">
+            <summary>
+            缓存监控
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.CacheController.GetCacheInfo">
+            <summary>
+            缓存监控
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.CacheController.GetCacheNames">
+            <summary>
+            取缓存信息
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.CacheController.GetCacheKeys(System.String)">
+            <summary>
+            取缓存 key
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.CacheController.GetCacheValue(System.String,System.String)">
+            <summary>
+            取缓存 值
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.CacheController.ClearCacheName(System.String)">
+            <summary>
+            按名字删除缓存
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.CacheController.ClearCacheKey(System.String)">
+            <summary>
+            按key删除缓存
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.CacheController.ClearCacheAll">
+            <summary>
+            删除全部缓存
+            </summary>
+        </member>
+        <member name="T:RuoYi.System.Controllers.DruidController">
+            <summary>
+            数据监控(暂无此功能)
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.DruidController.GetDruidInfo">
+            <summary>
+            数据监控
+            </summary>
+        </member>
+        <member name="T:RuoYi.System.Controllers.ServerController">
+            <summary>
+            服务器监控
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.ServerController.GetServerInfo">
+            <summary>
+            服务器监控
+            </summary>
+        </member>
+        <member name="T:RuoYi.System.Controllers.SysLogininforController">
+            <summary>
+            系统访问记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysLogininforController.GetSysLogininforList(RuoYi.Data.Dtos.SysLogininforDto)">
+            <summary>
+            查询系统访问记录列表
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysLogininforController.Get(System.Int64)">
+            <summary>
+            获取 系统访问记录 详细信息
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysLogininforController.Add(RuoYi.Data.Dtos.SysLogininforDto)">
+            <summary>
+            新增 系统访问记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysLogininforController.Edit(RuoYi.Data.Dtos.SysLogininforDto)">
+            <summary>
+            修改 系统访问记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysLogininforController.Remove(System.String)">
+            <summary>
+            删除 系统访问记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysLogininforController.Import(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            导入 系统访问记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysLogininforController.Export(RuoYi.Data.Dtos.SysLogininforDto)">
+            <summary>
+            导出 系统访问记录
+            </summary>
+        </member>
+        <member name="T:RuoYi.System.Controllers.SysOperLogController">
+            <summary>
+            操作日志记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysOperLogController.GetSysOperLogList(RuoYi.System.Data.Dtos.SysOperLogDto)">
+            <summary>
+            查询操作日志记录列表
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysOperLogController.Remove(System.String)">
+            <summary>
+            删除 操作日志记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysOperLogController.Clean">
+            <summary>
+            删除 操作日志记录
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysOperLogController.Export(RuoYi.System.Data.Dtos.SysOperLogDto)">
+            <summary>
+            导出 操作日志记录
+            </summary>
+        </member>
+        <member name="T:RuoYi.System.Controllers.SysUserOnlineController">
+            <summary>
+            在线用户监控
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysUserOnlineController.GetSysOperLogList(System.String,System.String)">
+            <summary>
+            查询操作日志记录列表
+            </summary>
+        </member>
+        <member name="M:RuoYi.System.Controllers.SysUserOnlineController.ForceLogout(System.String)">
+            <summary>
+            强退用户
+            </summary>
+        </member>
+    </members>
+</doc>

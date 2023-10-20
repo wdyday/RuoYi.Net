@@ -1,0 +1,481 @@
+﻿@{
+    var moduleName = Model.moduleName;
+    var businessName = Model.businessName;
+    var BusinessName = Model.BusinessName;
+    var dictType = "";
+    var attrName = "";
+    var comment = "";
+    int parentheseIndex = -1;
+    var subClassName = Model.SubClassName;
+    var subclassName = Model.subClassName;
+}
+<template>
+  <div class="app-container">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+@foreach(var column in Model.Columns) {
+  @if(column.Is_Query()) {
+      dictType = column.DictType ?? "";
+      attrName = column.NetFieldLower();
+      parentheseIndex = column.ColumnComment?.IndexOf("（") ?? -1;
+      comment = parentheseIndex != -1 ? column.ColumnComment.Substring(0, parentheseIndex) : column.ColumnComment;
+
+     if(column.HtmlType == "input") {
+      <el-form-item label="@(comment)" prop="@(attrName)">
+        <el-input
+          v-model="queryParams.@(attrName)"
+          placeholder="请输入@(comment)"
+          clearable
+          @@keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+     } else if((column.HtmlType == "select" || column.HtmlType == "radio") && "" != dictType) {
+      <el-form-item label="@(comment)" prop="@(attrName)">
+        <el-select v-model="queryParams.@(attrName)" placeholder="请选择@(comment)" clearable>
+          <el-option
+            v-for="dict in dict.type.@(dictType)"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+     } else if((column.HtmlType == "select" || column.HtmlType == "radio") && "" != dictType) {
+      <el-form-item label="@(comment)" prop="@(attrName)">
+        <el-select v-model="queryParams.@(attrName)" placeholder="请选择@(comment)" clearable>
+          <el-option label="请选择字典生成" value="" />
+        </el-select>
+      </el-form-item>
+    } else if(column.HtmlType == "datetime" && column.QueryType != "BETWEEN") {
+      <el-form-item label="@(comment)" prop="@(attrName)">
+        <el-date-picker clearable
+          v-model="queryParams.@(attrName)"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择@(comment)">
+        </el-date-picker>
+      </el-form-item>
+    } else if(column.HtmlType == "datetime" && column.QueryType == "BETWEEN") {
+      <el-form-item label="@(comment)">
+        <el-date-picker
+          v-model="daterange${AttrName}"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+    }
+  }
+}
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @@click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @@click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="primary" plain icon="el-icon-plus" size="mini"
+          @@click="handleAdd"
+          v-hasPermi="['@(moduleName):@(businessName):add']"
+        >新增</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="info" plain icon="el-icon-sort" size="mini"
+          @@click="toggleExpandAll">展开/折叠</el-button>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @@queryTable="getList"></right-toolbar>
+    </el-row>
+
+    <el-table v-if="refreshTable" v-loading="loading" :data="@(businessName)List" row-key="${treeCode}"
+      :default-expand-all="isExpandAll"
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      <el-table-column type="selection" width="55" align="center" />
+@foreach(var column in Model.Columns) {
+    attrName = column.NetFieldLower();
+    dictType = column.DictType ?? "";
+    parentheseIndex = column.ColumnComment?.IndexOf("（") ?? -1;
+    comment = parentheseIndex != -1 ? column.ColumnComment.Substring(0, parentheseIndex) : column.ColumnComment;
+    if(column.Is_Pk()) {
+      
+    } else if (column.Is_List() && column.HtmlType == "datetime") {
+      <el-table-column label="@(comment)" align="center" prop="@(attrName)" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.@(attrName), '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+    } else if (column.Is_List() && column.HtmlType == "imageUpload") {
+      <el-table-column label="@(comment)" align="center" prop="@(attrName)" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.@(attrName)" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+    } else if (column.Is_List() && "" != dictType) {
+      <el-table-column label="@(comment)" align="center" prop="@(attrName)">
+        <template slot-scope="scope">
+        @if(column.HtmlType == "checkbox") {
+          <dict-tag :options="dict.type.@(dictType)" :value="scope.row.@(attrName) ? scope.row.@(attrName).split(',') : []"/>
+        } else {
+          <dict-tag :options="dict.type.@(dictType)" :value="scope.row.@(attrName)" />
+        }
+        </template>
+      </el-table-column>
+    } else if (column.Is_List() && "" != attrName) {
+     @if(Model.Columns.IndexOf(column) ==  1) {
+      <el-table-column label="@(comment)" prop="@(attrName)" />
+     } else {
+      <el-table-column label="@(comment)" align="center" prop="@(attrName)" />
+     }
+    }
+}
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button size="mini" type="text" icon="el-icon-edit"
+            @@click="handleUpdate(scope.row)"
+            v-hasPermi="['@(moduleName):@(businessName):edit']"
+          >修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-plus"
+            @@click="handleAdd(scope.row)"
+            v-hasPermi="['@(moduleName):@(businessName):add']"
+          >新增</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete"
+            @@click="handleDelete(scope.row)"
+            v-hasPermi="['@(moduleName):@(businessName):remove']"
+          >删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!-- 添加或修改@(Model.FunctionName)对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+@foreach(var column in Model.Columns) {
+  attrName = column.NetFieldLower();
+  if(column.Is_Insert() && column.Is_Pk()) {
+    if(column.IsUsableColumn() || !column.IsSuperColumn()) {
+      parentheseIndex = column.ColumnComment.IndexOf("（");
+      comment = parentheseIndex != -1 ? column.ColumnComment.Substring(0, parentheseIndex) : column.ColumnComment;
+      dictType = column.DictType ?? "";
+      var selectVal = column.NetType.Contains("int") || column.NetType.Contains("long") ? "parseInt(dict.value)" : "dict.value";
+      var radioLabel = column.NetType.Contains("int") || column.NetType.Contains("long") ? "parseInt(dict.value)" : "dict.value";
+      @if ("" != Model.TreeParentCode && column.NetField == Model.TreeParentCode) {
+        <el-form-item label="@(comment)" prop="@(Model.treeParentCode)">
+          <treeselect v-model="form.${treeParentCode}" :options="@(businessName)Options" :normalizer="normalizer" placeholder="请选择@(comment)" />
+        </el-form-item>
+      } else if(column.HtmlType == "input") {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-input v-model="form.@(attrName)" placeholder="请输入@(comment)" />
+        </el-form-item>
+      } else if(column.HtmlType == "imageUpload") {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <image-upload v-model="form.@(attrName)"/>
+        </el-form-item>
+      } else if(column.HtmlType == "fileUpload") {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <file-upload v-model="form.@(attrName)"/>
+        </el-form-item>
+      } else if(column.HtmlType == "editor") {
+        <el-form-item label="@(comment)">
+          <editor v-model="form.@(attrName)" :min-height="192"/>
+        </el-form-item>
+      } else if(column.HtmlType == "select" && "" != dictType) {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-select v-model="form.@(attrName)" placeholder="请选择@(comment)">
+            <el-option
+              v-for="dict in dict.type.@(dictType)"
+              :key="dict.value"
+              :label="dict.label"
+              :value = "@(selectVal)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      } else if(column.HtmlType == "select" && "" != dictType) {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-select v-model="form.@(attrName)" placeholder="请选择@(comment)">
+            <el-option label="请选择字典生成" value="" />
+          </el-select>
+        </el-form-item>
+      } else if(column.HtmlType == "checkbox" && "" != dictType) {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-checkbox-group v-model="form.@(attrName)">
+            <el-checkbox
+              v-for="dict in dict.type.@(dictType)"
+              :key="dict.value"
+              :label="dict.value">
+              {{dict.label}}
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      } else if(column.HtmlType == "checkbox" &&  "" == dictType) {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-checkbox-group v-model="form.@(attrName)">
+            <el-checkbox>请选择字典生成</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      } else if(column.HtmlType == "radio" && "" != dictType) {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-radio-group v-model="form.@(attrName)">
+            <el-radio
+              v-for="dict in dict.type.@(dictType)"
+              :key="dict.value"
+              :label="@(radioLabel)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      } else if(column.HtmlType == "radio" && "" == dictType) {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-radio-group v-model="form.@(attrName)">
+            <el-radio label="1">请选择字典生成</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      } else if(column.HtmlType == "datetime") {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-date-picker clearable
+            v-model="form.@(attrName)"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择@(comment)">
+          </el-date-picker>
+        </el-form-item>
+      } else if(column.HtmlType == "textarea") {
+        <el-form-item label="@(comment)" prop="@(attrName)">
+          <el-input v-model="form.@(attrName)" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+      }
+    }
+  }
+}
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @@click="submitForm">确 定</el-button>
+        <el-button @@click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { list@(BusinessName), get@(BusinessName), del@(BusinessName), add@(BusinessName), update@(BusinessName) } from "@@/api/@(moduleName)/@(businessName)";
+import Treeselect from "@@riophae/vue-treeselect";
+import "@@riophae/vue-treeselect/dist/vue-treeselect.css";
+
+export default {
+  name: "@(BusinessName)",
+@if(Model.Dicts != "") {
+  @:dicts: [@(Model.Dicts)],
+}
+  components: {
+    Treeselect
+  },
+  data() {
+    return {
+      // 遮罩层
+      loading: true,
+      // 选中数组
+      ids: [],
+      // 显示搜索条件
+      showSearch: true,
+      // 总条数
+      total: 0,
+      // @(Model.FunctionName)表格数据
+      @(businessName)List: [],      
+      // @(Model.FunctionName)树选项
+      ${businessName}Options: [],
+      // 弹出层标题
+      title: "",
+      // 是否显示弹出层
+      open: false,
+      // 是否展开，默认全部展开
+      isExpandAll: true,
+      // 重新渲染表格状态
+      refreshTable: true,
+@foreach (var column in Model.Columns) {
+   if(column.HtmlType == "datetime" && column.QueryType == "BETWEEN") {
+       attrName = column.NetFieldLower();
+      @:// @(comment)时间范围
+      @:daterange@(attrName): [],
+   }
+}
+      // 查询参数
+      queryParams: {
+@foreach (var column in Model.Columns) {
+  if(column.Is_Query()) {
+        @:@(column.NetFieldLower()): null,
+  }
+}
+      },
+      // 表单参数
+      form: {},
+      // 表单校验
+      rules: {
+@foreach (var column in Model.Columns) {
+  @if(column.Is_Query()) {
+    parentheseIndex = column.ColumnComment.IndexOf("（");
+    comment = parentheseIndex != -1 ? column.ColumnComment.Substring(0, parentheseIndex) : column.ColumnComment;
+    var trigger = column.HtmlType == "select" || column.HtmlType == "radio" ? "change" : "blur";
+        @:@column.NetFieldLower(): [
+        @:  { required: true, message: "@(comment)不能为空", trigger: @(trigger) }
+        @:],
+  }
+}
+      }
+    };
+  },
+  created() {
+    this.getList();
+  },
+  methods: {
+    /** 查询@(Model.FunctionName)列表 */
+    getList() {
+      this.loading = true;
+@foreach (var column in Model.Columns) {
+  if(column.HtmlType == "datetime" && column.QueryType == "BETWEEN") {
+      @:this.queryParams.params = {};
+      break;
+  }
+}
+@foreach (var column in Model.Columns) {
+  if(column.HtmlType == "datetime" && column.QueryType == "BETWEEN") {
+      attrName = column.NetFieldLower();
+      @:if (null != this.daterange@(attrName) && '' != this.daterange@(attrName)) {
+        @:this.queryParams.params["begin@(attrName)"] = this.daterange@(attrName)[0];
+        @:this.queryParams.params["end@(attrName)"] = this.daterange@(attrName)[1];
+      @:}
+  }
+}
+      list@(BusinessName)(this.queryParams).then(response => {
+        this.@(businessName)List = this.handleTree(response.data, "@(Model.TreeCode)", "@(Model.TreeParentCode)");
+        this.loading = false;
+      });
+    },
+    /** 转换@(Model.FunctionName)数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.@(Model.TreeCode),
+        label: node.@(Model.TreeName),
+        children: node.children
+      };
+    },
+    /** 查询@(Model.FunctionName)下拉树结构 */
+    getTreeselect() {
+      list@(BusinessName)().then(response => {
+        this.@(businessName)Options =[];
+        const data = { @(Model.TreeCode): 0, @(Model.TreeName): '顶级节点', children: [] };
+        data.children = this.handleTree(response.data, "@(Model.TreeCode)", "@(Model.TreeParentCode)");
+        this.@(businessName)Options.push(data);
+      });
+    },
+    // 取消按钮
+    cancel() {
+      this.open = false;
+      this.reset();
+    },
+    // 表单重置
+    reset() {
+      this.form = {
+@foreach (var column in Model.Columns) {
+  var comma = Model.Columns.IndexOf(column) != Model.Columns.Count - 1 ? "," : "";
+  if(column.HtmlType == "checkbox") {
+        @:@column.NetFieldLower(): []@(comma)
+  } else {
+        @:@column.NetFieldLower(): null@(comma)
+  }
+}
+      };
+      this.resetForm("form");
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+@foreach (var column in Model.Columns) {
+  if(column.HtmlType == "datetime" && column.QueryType == "BETWEEN") {
+      attrName = column.NetFieldLower();
+      @:this.daterange@(attrName) = [];
+  }
+}
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    /** 新增按钮操作 */
+    handleAdd(row) {
+      this.reset();
+      this.getTreeselect();
+      if (row != null && row.@(Model.TreeCode)) {
+        this.form.@(Model.TreeParentCode) = row.@(Model.TreeCode);
+      } else {
+        this.form.@(Model.TreeParentCode) = 0;
+      }
+      this.open = true;
+      this.title = "添加@(Model.FunctionName)";
+    },
+    /** 展开/折叠操作 */
+    toggleExpandAll() {
+      this.refreshTable = false;
+      this.isExpandAll = !this.isExpandAll;
+      this.$nextTick(() => {
+        this.refreshTable = true;
+      });
+    },
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      this.reset();      
+      this.getTreeselect();
+      if (row != null) {
+        this.form.@(Model.TreeParentCode) = row.@(Model.TreeCode);
+      }
+      get@(BusinessName)(@(Model.PkColumn.NetFieldLower())).then(response => {
+        this.form = response.data;
+@foreach (var column in Model.Columns) {
+  if(column.HtmlType == "checkbox") {
+        @:this.form.@(column.NetFieldLower()) = this.form.@(attrName).split(",");
+  }
+}
+        this.open = true;
+        this.title = "修改@(Model.FunctionName)";
+      });
+    },
+    /** 提交按钮 */
+    submitForm() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+@foreach (var column in Model.Columns) {
+  if(column.HtmlType == "checkbox") {
+          @:this.form.@(column.NetFieldLower()) = this.form.@(attrName).join(",");
+  }
+}
+          if (this.form.@(Model.PkColumn.NetFieldLower()) != null) {
+            update@(BusinessName)(this.form).then(response => {
+              this.$modal.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
+            });
+          } else {
+            add@(BusinessName)(this.form).then(response => {
+              this.$modal.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
+            });
+          }
+        }
+      });
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      this.$modal.confirm('是否确认删除@(Model.FunctionName)编号为"' + row.@(Model.PkColumn.NetFieldLower()) + '"的数据项？').then(function() {
+        return del@(BusinessName)(@(Model.PkColumn.NetFieldLower()));
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("删除成功");
+      }).catch(() => {});
+    }
+  }
+};
+</script>
