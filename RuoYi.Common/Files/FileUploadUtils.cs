@@ -1,13 +1,14 @@
 ﻿using Furion;
-using Furion.FriendlyException;
 using Microsoft.AspNetCore.Http;
 using RuoYi.Common.Constants;
+using RuoYi.Common.Utils;
 using RuoYi.Framework;
+using RuoYi.Framework.Exceptions;
 using RuoYi.Framework.Extensions;
 using RuoYi.Framework.Utils;
 using System.IO.Compression;
 
-namespace RuoYi.Common.Utils
+namespace RuoYi.Common.Files
 {
     public static class FileUploadUtils
     {
@@ -78,10 +79,10 @@ namespace RuoYi.Common.Utils
         /// <returns>文件相对路径</returns>
         public static async Task<string> UploadAsync(IFormFile file, string subDirectory, string[] allowedExtension)
         {
-            int fileNamelength = file.FileName.Length;
-            if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH)
+            int fileNameLength = file.FileName.Length;
+            if (fileNameLength > DEFAULT_FILE_NAME_LENGTH)
             {
-                throw Oops.Oh(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
+                throw new ServiceException($"文件名最大长度不能超过{DEFAULT_FILE_NAME_LENGTH}");
             }
 
             AssertAllowed(file, allowedExtension);
@@ -118,7 +119,7 @@ namespace RuoYi.Common.Utils
             long size = file.Length;
             if (size > DEFAULT_MAX_SIZE)
             {
-                throw Oops.Oh($"上传的文件大小超出限制的文件大小！<br/>允许的文件最大大小是：{DEFAULT_MAX_SIZE / 1024 / 1024}MB！");
+                throw new ServiceException($"上传的文件大小超出限制的文件大小！<br/>允许的文件最大大小是：{DEFAULT_MAX_SIZE / 1024 / 1024}MB！");
             }
 
             string fileName = file.FileName;
@@ -126,7 +127,7 @@ namespace RuoYi.Common.Utils
             if (allowedExtension != null && !IsAllowedExtension(extension, allowedExtension))
             {
                 var msg = $"文件[{fileName}]后缀[{extension}]不正确，请上传[{string.Join(",", allowedExtension)}]格式";
-                throw Oops.Oh(msg);
+                throw new ServiceException(msg);
             }
         }
 

@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RuoYi.Admin.Authorization;
-using RuoYi.Common.Constants;
+using RuoYi.Common.Files;
 using RuoYi.Framework;
 using RuoYi.Framework.Filters;
 
@@ -122,15 +121,7 @@ namespace RuoYi.Admin
             //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, AppConstants.StaticFileFolder)),
-                OnPrepareResponse = (stf) =>
-                {
-                    stf.Context.Response.Headers["Access-Control-Allow-Origin"] = "*";
-                    stf.Context.Response.Headers["Access-Control-Allow-Headers"] = "*";
-                }
-            });
+            app.UseRyStaticFiles(env); 
 
             app.UseRouting();
 

@@ -1,4 +1,5 @@
 using RuoYi.Common.Enums;
+using RuoYi.Common.Files;
 using RuoYi.Common.Utils;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Models;
