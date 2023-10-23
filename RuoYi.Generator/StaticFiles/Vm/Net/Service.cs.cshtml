@@ -1,0 +1,52 @@
+﻿using Furion.DependencyInjection;
+using Mapster;
+using Microsoft.Extensions.Logging;
+using RuoYi.Data;
+using RuoYi.Data.Dtos;
+using RuoYi.Data.Entities;
+using @(Model.PackageName).Dtos;
+using @(Model.PackageName).Entities;
+using @(Model.PackageName).Repositories;
+
+namespace @(Model.PackageName).Services
+{    
+    /// <summary>
+    ///  @Model.FunctionName Service
+    ///  author @Model.Author
+    ///  date   @Model.DateTime
+    /// </summary>
+    public class @(Model.ClassName)Service : BaseService<@(Model.ClassName), @(Model.ClassName)Dto>, ITransient
+    {
+        private readonly ILogger<@(Model.ClassName)Service> _logger;
+        private readonly @(Model.ClassName)Repository _@(Model.className)Repository;
+
+        public @(Model.ClassName)Service(ILogger<@(Model.ClassName)Service> logger,
+            @(Model.ClassName)Repository @(Model.className)Repository)
+        {
+            BaseRepo = @(Model.className)Repository;
+
+            _logger = logger;
+            _@(Model.className)Repository = @(Model.className)Repository;
+        }
+
+        /// <summary>
+        /// 查询 @(Model.FunctionName) 详情
+        /// </summary>
+        public async Task<@(Model.ClassName)> GetAsync(@(Model.PkColumn.NetType) id)
+        {
+            var entity = await base.FirstOrDefaultAsync(e => e.@(Model.PkColumn.NetField) == id);
+            return entity;
+        }
+
+        /// <summary>
+        /// 查询 @(Model.FunctionName) 详情
+        /// </summary>
+        public async Task<@(Model.ClassName)Dto> GetDtoAsync(@(Model.PkColumn.NetType) id)
+        {
+            var entity = await base.FirstOrDefaultAsync(e => e.@(Model.PkColumn.NetField) == id);
+            var dto = entity.Adapt<@(Model.ClassName)Dto>();
+            // TODO 填充关联表数据
+            return dto;
+        }
+    }
+}

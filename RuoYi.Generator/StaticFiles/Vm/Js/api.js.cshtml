@@ -1,0 +1,44 @@
+﻿import request from '@@/utils/request'
+
+// 查询@(Model.FunctionName)列表
+export function list@(Model.BusinessName)(query) {
+  return request({
+    url: '/@(Model.moduleName)/@(Model.businessName)/list',
+    method: 'get',
+    params: query
+  })
+}
+
+// 查询@(Model.FunctionName)详细
+export function get@(Model.BusinessName)(@(Model.PkColumn_netField)) {
+  return request({
+    url: '/@(Model.moduleName)/@(Model.businessName)/' + @(Model.PkColumn_netField),
+    method: 'get'
+  })
+}
+
+// 新增@(Model.FunctionName)
+export function add@(Model.BusinessName)(data) {
+  return request({
+    url: '/@(Model.moduleName)/@(Model.businessName)',
+    method: 'post',
+    data: data
+  })
+}
+
+// 修改@(Model.FunctionName)
+export function update@(Model.BusinessName)(data) {
+  return request({
+    url: '/@(Model.moduleName)/@(Model.businessName)',
+    method: 'put',
+    data: data
+  })
+}
+
+// 删除@(Model.FunctionName)
+export function del@(Model.BusinessName)(@(Model.PkColumn_netField)) {
+  return request({
+    url: '/@(Model.moduleName)/@(Model.businessName)/' + @(Model.PkColumn_netField),
+    method: 'delete'
+  })
+}

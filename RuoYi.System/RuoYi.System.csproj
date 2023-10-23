@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuoYi.Common\RuoYi.Common.csproj" />
+    <ProjectReference Include="..\RuoYi.Data\RuoYi.Data.csproj" />
+    <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,127 @@
+﻿using Microsoft.Extensions.Logging;
+using RuoYi.Common.Enums;
+using RuoYi.Framework;
+using RuoYi.Framework.Extensions;
+using RuoYi.Framework.Utils;
+using @(Model.BasePackage).Data.Dtos;
+using @(Model.PackageName).Services;
+
+namespace @(Model.PackageName).Controllers
+{
+    /// <summary>
+    /// @Model.FunctionName
+    /// </summary>
+    [ApiDescriptionSettings("@(Model.ModuleName)")]
+    [Route("@(Model.moduleName)/@(Model.businessName)")]
+    public class @(Model.ClassName)Controller : ControllerBase
+    {
+        private readonly ILogger<@(Model.ClassName)Controller> _logger;
+        private readonly @(Model.ClassName)Service _@(Model.className)Service;
+                
+        public @(Model.ClassName)Controller(ILogger<@(Model.ClassName)Controller> logger,
+            @(Model.ClassName)Service @(Model.className)Service)
+        {
+            _logger = logger;
+            _@(Model.className)Service = @(Model.className)Service;
+        }
+
+        /// <summary>
+        /// 查询@(Model.FunctionName)列表
+        /// </summary>
+        [HttpGet("list")]
+        [AppAuthorize("@(Model.PermissionPrefix):list")]
+  @{
+    if (Model.Table.IsCrud() || Model.Table.IsSub())
+    {
+        @:public async Task<SqlSugarPagedList<@(Model.ClassName)Dto>> Get@(Model.ClassName)PagedList([FromQuery] @(Model.ClassName)Dto dto)
+        @:{
+        @:   return await _@(Model.className)Service.GetDtoPagedListAsync(dto);
+        @:}
+                
+    } else {
+        @:public async Task<AjaxResult> Get@(Model.ClassName)List([FromQuery] @(Model.ClassName)Dto dto)
+        @:{
+        @:   var data = await _@(Model.className)Service.GetDtoListAsync(dto);
+        @:   return AjaxResult.Success(data);
+        @:}
+    }
+        }
+
+        /// <summary>
+        /// 获取 @(Model.FunctionName) 详细信息
+        /// </summary>
+        [HttpGet("")]
+        [HttpGet("{id}")]
+        [AppAuthorize("@(Model.PermissionPrefix):query")]
+        public async Task<AjaxResult> Get(@(Model.PkColumn.NetType) id)
+        {
+            var data = await _@(Model.className)Service.GetDtoAsync(id);
+            return AjaxResult.Success(data);
+        }
+
+        /// <summary>
+        /// 新增 @(Model.FunctionName)
+        /// </summary>
+        [HttpPost("")]
+        [AppAuthorize("@(Model.PermissionPrefix):add")]
+        [TypeFilter(typeof(RuoYi.Framework.DataValidation.DataValidationFilter))]
+        [RuoYi.System.Log(Title = "@(Model.FunctionName)", BusinessType = BusinessType.INSERT)]
+        public async Task<AjaxResult> Add([FromBody] @(Model.ClassName)Dto dto)
+        {
+            var data = await _@(Model.className)Service.InsertAsync(dto);
+            return AjaxResult.Success(data);
+        }
+
+        /// <summary>
+        /// 修改 @(Model.FunctionName)
+        /// </summary>
+        [HttpPut("")]
+        [AppAuthorize("@(Model.PermissionPrefix):edit")]
+        [TypeFilter(typeof(RuoYi.Framework.DataValidation.DataValidationFilter))]
+        [RuoYi.System.Log(Title = "@(Model.FunctionName)", BusinessType = BusinessType.UPDATE)]
+        public async Task<AjaxResult> Edit([FromBody] @(Model.ClassName)Dto dto)
+        {
+            var data = await _@(Model.className)Service.UpdateAsync(dto);
+            return AjaxResult.Success(data);
+        }
+
+        /// <summary>
+        /// 删除 @(Model.FunctionName)
+        /// </summary>
+        [HttpDelete("{ids}")]
+        [AppAuthorize("@(Model.PermissionPrefix):remove")]
+        [RuoYi.System.Log(Title = "@(Model.FunctionName)", BusinessType = BusinessType.DELETE)]
+        public async Task<AjaxResult> Remove(string ids)
+        {
+            var idList = ids.SplitToList<long>();
+            var data = await _@(Model.className)Service.DeleteAsync(idList);
+            return AjaxResult.Success(data);
+        }
+
+        /// <summary>
+        /// 导入 @(Model.FunctionName)
+        /// </summary>
+        [HttpPost("import")]
+        [AppAuthorize("@(Model.PermissionPrefix):import")]
+        [RuoYi.System.Log(Title = "@(Model.FunctionName)", BusinessType = BusinessType.IMPORT)]
+        public async Task Import([Required] IFormFile file)
+        {
+            var stream = new MemoryStream();
+            file.CopyTo(stream);
+            var list = await ExcelUtils.ImportAsync<@(Model.ClassName)Dto>(stream);
+            await _@(Model.className)Service.ImportDtoBatchAsync(list);
+        }
+
+        /// <summary>
+        /// 导出 @(Model.FunctionName)
+        /// </summary>
+        [HttpPost("export")]
+        [AppAuthorize("@(Model.PermissionPrefix):export")]
+        [RuoYi.System.Log(Title = "@(Model.FunctionName)", BusinessType = BusinessType.EXPORT)]
+        public async Task Export(@(Model.ClassName)Dto dto)
+        {
+            var list = await _@(Model.className)Service.GetDtoListAsync(dto);
+            await ExcelUtils.ExportAsync(App.HttpContext.Response, list);
+        }
+    }
+}

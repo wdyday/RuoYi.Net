@@ -1,0 +1,80 @@
+﻿{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+
+  "CorsAccessorSettings": {
+    "WithExposedHeaders": [
+      "access-token",
+      "x-access-token",
+      "environment"
+    ]
+  },
+  //"DynamicApiControllerSettings": {
+  //  "KeepName": true,
+  //  "KeepVerb": true,
+  //  "LowercaseRoute": true
+  //},
+  "Logging": {
+    "Monitor": {
+      "GlobalEnabled": true, // 是否启用全局拦截，默认 `false`
+      "IncludeOfMethods": [], // 是否指定拦截特定方法，当 GlobalEnabled: false 有效
+      "ExcludeOfMethods": [], // 是否指定排除特定方法，当 GlobalEnabled: true 有效
+      "BahLogLevel": "Information", // 配置 Oops.Oh 和 Oops.Bah 业务日志输出级别，默认 Information
+      "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
+      "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
+      "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
+      "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+      "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
+      //"MethodsSettings": [
+      //  // 配置被监视方法更多信息，Furion 4.3.9+ 有效
+      //  {
+      //    "FullName": "Furion.Application.TestLoggerServices.MethodName", // 方法完全限定名
+      //    "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
+      //    "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
+      //    "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
+      //    "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
+      //    "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
+      //  }
+      //]
+    }
+  },
+
+  "RuoYiConfig": {
+    // 名称
+    "Name": "RuoYi.Net",
+    // 版本
+    "Version": "1.0.0",
+    // 版权年份
+    "CopyrightYear": "2023",
+    // 实例演示开关
+    "DemoEnabled": true,
+    // 文件路径 上传文件的文件夹名称
+    "Profile": "upload",
+    // 获取ip地址开关
+    "AddressEnabled": false,
+    // 验证码类型 math 数字计算 char 字符验证
+    "CaptchaType": "math"
+  },
+  "UserConfig": {
+    // 密码最大错误次数
+    "MaxRetryCount": 5,
+    // 密码锁定时间（默认10分钟）
+    "LockTime": 10
+  },
+
+  "JWTSettings": {
+    "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
+    "IssuerSigningKey": "6xxB6AOJqysdt-rvz=&NWc=lB+3r=$", // 密钥，string 类型，必须是复杂密钥，长度大于16
+    "ValidateIssuer": true, // 是否验证签发方，bool 类型，默认true
+    "ValidIssuer": "ruoyi.net.issuer", // 签发方，string 类型
+    "ValidateAudience": true, // 是否验证签收方，bool 类型，默认true
+    "ValidAudience": "ruoyi.net.audience", // 签收方，string 类型
+    "ValidateLifetime": true, // 是否验证过期时间，bool 类型，默认true，建议true
+    "ExpiredTime": 30, // 过期时间，long 类型，单位分钟，默认30分钟
+    "ClockSkew": 5, // 过期时间容错值，long 类型，单位秒，默认 5秒
+    "Algorithm": "HS256" // 加密算法，string 类型，默认 HS256
+  },
+
+  //"FriendlyExceptionSettings": {
+  //  "DefaultErrorMessage": "系统异常，请联系管理员" // Furion: 4.8.8.30 版本好用, 新版本不好用, 暂不要升级
+  //}
+}

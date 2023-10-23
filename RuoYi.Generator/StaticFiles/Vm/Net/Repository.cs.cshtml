@@ -1,0 +1,37 @@
+﻿using RuoYi.Data;
+using @(Model.PackageName).Dtos;
+using @(Model.PackageName).Entities;
+using SqlSugar;
+
+namespace @(Model.PackageName).Repositories
+{
+    /// <summary>
+    ///  @Model.FunctionName Repository
+    ///  author @Model.Author
+    ///  date   @Model.DateTime
+    /// </summary>
+    public class @(Model.ClassName)Repository : BaseRepository<@(Model.ClassName), @(Model.ClassName)Dto>
+    {
+        public @(Model.ClassName)Repository(ISqlSugarRepository<@(Model.ClassName)> sqlSugarRepository)
+        {
+            Repo = sqlSugarRepository;
+        }
+
+        public override ISugarQueryable<@(Model.ClassName)> Queryable(@(Model.ClassName)Dto dto)
+        {
+            return Repo.AsQueryable()
+                .WhereIF(dto.@(Model.PkColumn.NetField) > 0, (t) => t.@(Model.PkColumn.NetField) == dto.@(Model.PkColumn.NetField))
+            ;
+        }
+
+        public override ISugarQueryable<@(Model.ClassName)Dto> DtoQueryable(@(Model.ClassName)Dto dto)
+        {
+            return Repo.AsQueryable()
+                .WhereIF(dto.@(Model.PkColumn.NetField) > 0, (t) => t.@(Model.PkColumn.NetField) == dto.@(Model.PkColumn.NetField))
+                .Select((t) => new @(Model.ClassName)Dto
+                {
+                     @(Model.PkColumn.NetField) = t.@(Model.PkColumn.NetField) 
+                }, true);
+        }
+    }
+}

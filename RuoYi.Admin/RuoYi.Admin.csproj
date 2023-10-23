@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<DocumentationFile>RuoYi.Admin.xml</DocumentationFile>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Common\Services\ISystemService.cs" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Remove="adminsettings.json" />
+		<None Remove="RuoYi.Admin.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="adminsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\RuoYi.Common\RuoYi.Common.csproj" />
+	  <ProjectReference Include="..\RuoYi.Data\RuoYi.Data.csproj" />
+	  <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
+	  <ProjectReference Include="..\RuoYi.Generator\RuoYi.Generator.csproj" />
+	  <ProjectReference Include="..\RuoYi.Quartz\RuoYi.Quartz.csproj" />
+	  <ProjectReference Include="..\RuoYi.System\RuoYi.System.csproj" />
+	</ItemGroup>
+
+</Project>
