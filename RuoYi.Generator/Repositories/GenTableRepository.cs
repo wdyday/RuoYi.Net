@@ -94,6 +94,38 @@ namespace RuoYi.Generator.Repositories
         #region DbTable
         public ISugarQueryable<GenTable> DbQueryable(GenTableDto dto)
         {
+            var dbType = Repo.Context.CurrentConnectionConfig.DbType;
+            return dbType switch
+            {
+                DbType.MySql => GetMySqlDbQueryable(dto),
+                DbType.SqlServer => GetSqlServerDbQueryable(dto),
+                //DbType.Oracle => GetMySqlDbQueryable(dto),
+                _ => GetMySqlDbQueryable(dto),
+            };
+        }
+
+        public List<GenTable> SelectDbTableListByNames(string[] tableNames)
+        {
+            var sql = $@"
+                SELECT table_name, table_comment, create_time, update_time 
+                FROM information_schema.tables
+		        WHERE table_schema = (SELECT database())
+		        AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
+		        AND table_name IN (@tableNames)
+            ";
+            var parameters = new List<SugarParameter>(){
+                new SugarParameter("@tableNames", tableNames)
+            };
+
+            return Repo.Ado.SqlQuery<GenTable>(sql, parameters);
+        }
+        #endregion
+
+        #region Private Methods
+
+        // 查询 mysql 表信息
+        private ISugarQueryable<GenTable> GetMySqlDbQueryable(GenTableDto dto)
+        {
             var sql = $@"
                 SELECT table_name, table_comment, create_time, update_time 
                 FROM information_schema.tables
@@ -126,21 +158,42 @@ namespace RuoYi.Generator.Repositories
             return base.SqlQueryable(sql, parameters);
         }
 
-        public List<GenTable> SelectDbTableListByNames(string[] tableNames)
+        // 查询 SqlServer 表信息
+        private ISugarQueryable<GenTable> GetSqlServerDbQueryable(GenTableDto dto)
         {
             var sql = $@"
-                SELECT table_name, table_comment, create_time, update_time 
-                FROM information_schema.tables
-		        WHERE table_schema = (SELECT database())
-		        AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
-		        AND table_name IN (@tableNames)
+                SELECT t.[name] AS [table_name], p.[value] AS [table_comment], t.[crdate] AS [create_time], '' AS [update_time]
+                FROM  sys.sysobjects t 
+                LEFT JOIN sys.extended_properties p ON t.id = p.major_id AND p.minor_id = 0
+                WHERE t.xtype = 'U' AND t.name <> 'dtproperties'
+		        AND t.[name] NOT LIKE 'qrtz_%' AND t.[name] NOT LIKE 'gen_%'
+		        AND t.[name] NOT IN (SELECT table_name FROM gen_table)
             ";
-            var parameters = new List<SugarParameter>(){
-                new SugarParameter("@tableNames", tableNames)
-            };
+            var parameters = new List<SugarParameter>();
+            if (!string.IsNullOrEmpty(dto.TableName))
+            {
+                sql += "AND lower(t.[name]) LIKE lower(concat('%', @tableName, '%'))";
+                parameters.Add(new SugarParameter("@tableName", dto.TableName));
+            }
+            if (!string.IsNullOrEmpty(dto.TableComment))
+            {
+                sql += "AND lower(p.[value]) LIKE lower(concat('%', @tableComment, '%'))";
+                parameters.Add(new SugarParameter("@tableComment", dto.TableComment));
+            }
+            if (dto.Params.BeginTime != null)
+            {
+                sql += "AND DATEDIFF(DAY, @BeginTime, t.[crdate]) >= 0";
+                parameters.Add(new SugarParameter("@BeginTime", dto.Params.BeginTime));
+            }
+            if (dto.Params.BeginTime != null)
+            {
+                sql += "AND DATEDIFF(DAY, @EndTime, t.[crdate]) <= 0";
+                parameters.Add(new SugarParameter("@EndTime", dto.Params.EndTime));
+            }
 
-            return Repo.Ado.SqlQuery<GenTable>(sql, parameters);
+            return base.SqlQueryable(sql, parameters);
         }
+
         #endregion
     }
 }

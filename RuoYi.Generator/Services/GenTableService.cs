@@ -49,16 +49,6 @@ namespace RuoYi.Generator.Services
             return _genTableRepository.GetList(dto);
         }
 
-        ///// <summary>
-        ///// 分页查询
-        ///// </summary>
-        ///// <param name="dto"></param>
-        ///// <returns></returns>
-        //public SqlSugarPagedList<GenTable> GetPagedList(GenTableDto dto)
-        //{
-        //    return _genTableRepository.GetPagedList(dto);
-        //}
-
         /// <summary>
         /// 查询据库列表
         /// </summary>
