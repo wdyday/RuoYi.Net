@@ -1,10 +1,15 @@
-﻿namespace RuoYi.Generator.Repositories
+﻿using RuoYi.Generator.RepoSql;
+
+namespace RuoYi.Generator.Repositories
 {
     public class GenTableColumnRepository : BaseRepository<GenTableColumn, GenTableColumnDto>
     {
-        public GenTableColumnRepository(ISqlSugarRepository<GenTableColumn> sqlSugarRepository)
+        private readonly RepoSqlService _repoSqlService;
+
+        public GenTableColumnRepository(ISqlSugarRepository<GenTableColumn> sqlSugarRepository, RepoSqlService repoSqlService)
         {
             Repo = sqlSugarRepository;
+            _repoSqlService = repoSqlService;
         }
 
         public override ISugarQueryable<GenTableColumn> Queryable(GenTableColumnDto dto)
@@ -50,32 +55,12 @@
 
         #region DbTable
 
-        public ISugarQueryable<GenTableColumn> DbQueryable(long tableId)
-        {
-            var sql = $@"
-                select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, create_by, create_time, update_by, update_time 
-                from gen_table_column
-                where table_id = @tableId
-                order by sort
-            ";
-            var parameters = new List<SugarParameter>(){
-                new SugarParameter("@tableId",$"{tableId}")
-            };
-
-            return base.SqlQueryable(sql, parameters);
-        }
-
         public List<GenTableColumn> SelectDbTableColumnsByName(string tableName)
         {
-            var sql = $@"
-                SELECT column_name, (case when (is_nullable = 'no' && column_key != 'PRI') then '1' else '0' end) as is_required, (case when column_key = 'PRI' then '1' else '0' end) as is_pk, ordinal_position as sort, column_comment, (case when extra = 'auto_increment' then '1' else '0' end) as is_increment, column_type
-		        FROM information_schema.columns WHERE table_schema = (SELECT database()) and table_name = (@tableName)
-		        ORDER BY ordinal_position
-            ";
+            var sql = _repoSqlService.GetDbTableColumnsByName();
             var parameters = new List<SugarParameter>(){
                 new SugarParameter("@tableName",$"{tableName}")
             };
-
             return base.SqlQueryable(sql, parameters).ToList();
         }
 

@@ -21,7 +21,8 @@ namespace RuoYi.System.Repositories
         {
             //return this.UserQueryable(dto);
             return Repo.AsQueryable()
-                .Includes((u) => u.Dept)
+                //.Includes((u) => u.Dept)
+                .LeftJoin<SysDept>((u, d) => u.DeptId == d.DeptId)
                 .Where(u => u.DelFlag == DelFlag.No)
                 .WhereIF(dto.UserId > 0, u => u.UserId == dto.UserId)
                 .WhereIF(!string.IsNullOrEmpty(dto.UserName), u => u.UserName!.Contains(dto.UserName!))
@@ -97,6 +98,14 @@ namespace RuoYi.System.Repositories
             return await base.Updateable()
                  .SetColumns(u => u.Avatar == avatar)
                  .Where(u => u.UserName == userName)
+                 .ExecuteCommandAsync();
+        }
+
+        public async Task<int> UpdateUserStatusAsync(SysUserDto user)
+        {
+            return await base.Updateable()
+                 .SetColumns(u => u.Status == user.Status)
+                 .Where(u => u.UserId == user.UserId)
                  .ExecuteCommandAsync();
         }
 
@@ -217,7 +226,7 @@ namespace RuoYi.System.Repositories
         private string GetDtoTable()
         {
             return @"
-            select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
+            select distinct u.*
             from sys_user u
 		    left join sys_dept d on u.dept_id = d.dept_id
 		    left join sys_user_role ur on u.user_id = ur.user_id
@@ -257,6 +266,18 @@ namespace RuoYi.System.Repositories
             if (dto.DeptId.HasValue && dto.DeptId > 0)
             {
                 sb.AppendLine("AND (u.dept_id = @DeptId OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(@DeptId, ancestors) ))");
+            }
+            if (dto.IsAllocated.HasValue)
+            {
+                if (dto.IsAllocated.Value)
+                {
+                    sb.AppendLine("AND r.role_id = @RoleId");
+                }
+                else
+                {
+                    sb.AppendLine("AND (r.role_id != @RoleId OR r.role_id IS NULL)");
+                    sb.AppendLine("AND u.user_id NOT IN (select u.user_id from sys_user u inner join sys_user_role ur on u.user_id = ur.user_id and ur.role_id = @RoleId)");
+                }
             }
             // 数据范围过滤
             if (!string.IsNullOrEmpty(dto.Params.DataScopeSql))

@@ -1,4 +1,5 @@
-﻿using RuoYi.Framework.Attributes;
+﻿using Newtonsoft.Json;
+using RuoYi.Framework.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace RuoYi.Data.Dtos
@@ -43,7 +44,7 @@ namespace RuoYi.Data.Dtos
         public string? Avatar { get; set; }
 
         /** 密码 */
-        [Newtonsoft.Json.JsonIgnore]
+        //[Newtonsoft.Json.JsonIgnore]
         public string? Password { get; set; }
 
         /** 帐号状态（0正常 1停用） */
@@ -89,5 +90,13 @@ namespace RuoYi.Data.Dtos
         /// </summary>
         public bool? IsAllocated { get; set; }
 
+        /// <summary>
+        /// 不序列化 Password 
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializePassword()
+        {
+            return false;
+        }
     }
 }

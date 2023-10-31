@@ -27,6 +27,11 @@ namespace RuoYi.Data
         //    await Task.FromResult(true);
         //}
 
+        public DbType GetDbType()
+        {
+            return Repo.Context.CurrentConnectionConfig.DbType;
+        }
+
         public IUpdateable<TEntity> Updateable()
         {
             if (typeof(TEntity) == typeof(UserBaseEntity))

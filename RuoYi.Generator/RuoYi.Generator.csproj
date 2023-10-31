@@ -57,7 +57,10 @@
     <None Update="StaticFiles\Vm\Net\Service.cs.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="StaticFiles\Vm\Sql\sql.cshtml">
+    <None Update="StaticFiles\Vm\Sql\mysql.sql.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="StaticFiles\Vm\Sql\sqlserver.sql.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="StaticFiles\Vm\Vue\index-tree.vue.cshtml">

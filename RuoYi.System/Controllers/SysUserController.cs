@@ -160,7 +160,7 @@ namespace RuoYi.System.Controllers
         {
             _sysUserService.CheckUserAllowed(user);
             await _sysUserService.CheckUserDataScope(user.UserId ?? 0);
-            var data = _sysUserService.UpdateUserStatus(user);
+            var data = await _sysUserService.UpdateUserStatus(user);
             return AjaxResult.Success(data);
         }
 

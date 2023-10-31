@@ -58,10 +58,7 @@ namespace RuoYi.System.Services
             CheckLoginUser(username, password, userDto);
 
             // 记录登录成功
-            _ = Task.Factory.StartNew(async () =>
-            {
-                await _sysLogininforService.AddAsync(username, Constants.LOGIN_SUCCESS, MessageConstants.User_Login_Success);
-            });
+            await _sysLogininforService.AddAsync(username, Constants.LOGIN_SUCCESS, MessageConstants.User_Login_Success);
 
             var loginUser = CreateLoginUser(userDto);
             await RecordLoginInfoAsync(userDto.UserId ?? 0);

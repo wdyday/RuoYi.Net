@@ -22,6 +22,7 @@ namespace RuoYi.System.Repositories
                 .WhereIF(!string.IsNullOrEmpty(dto.Status), (m) => m.Status == dto.Status)
                 .WhereIF(!string.IsNullOrEmpty(dto.MenuName), (m) => m.MenuName!.Contains(dto.MenuName!))
                 .WhereIF(!string.IsNullOrEmpty(dto.Visible), (m) => m.Visible == dto.Visible)
+                .WhereIF(dto.MenuTypes.Count > 0, (m) => dto.MenuTypes.Contains(m.MenuType!))
                 .OrderBy(m => new { m.ParentId, m.OrderNum })
             ;
         }
@@ -38,6 +39,7 @@ namespace RuoYi.System.Repositories
                 .WhereIF(dto.UserId > 0, (m, rm, ur, r) => ur.UserId == dto.UserId)
                 .WhereIF(dto.RoleId > 0, (m, rm, ur, r) => rm.RoleId == dto.RoleId)
                 .WhereIF(!string.IsNullOrEmpty(dto.RoleStatus), (m, rm, ur, r) => r.Status == dto.RoleStatus)
+                .WhereIF(dto.MenuTypes.Count > 0, (m) => dto.MenuTypes.Contains(m.MenuType!))
                 .OrderBy(m => new { m.ParentId, m.OrderNum })
                 .Select((m, rm, ur, r) => new SysMenuDto
                 {
@@ -110,13 +112,8 @@ namespace RuoYi.System.Repositories
         /// </summary>
         public List<SysMenu> SelectMenuTreeAll()
         {
-            var sql = @"
-		        select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
-		        from sys_menu m where m.menu_type in ('M', 'C') and m.status = 0
-		        order by m.parent_id, m.order_num
-            ";
-
-            return base.SqlQueryable(sql).ToList();
+            SysMenuDto dto = new SysMenuDto { Status = Status.Enabled, MenuTypes = new List<string> { "M", "C" } };
+            return this.GetList(dto);
         }
 
         /// <summary>
@@ -124,15 +121,6 @@ namespace RuoYi.System.Repositories
         /// </summary>
         public List<SysMenu> SelectMenuTreeByUserId(long userId)
         {
-            //  var sql = @"
-            //select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
-            //from sys_menu m
-            //left join sys_role_menu rm on m.menu_id = rm.menu_id
-            //left join sys_user_role ur on rm.role_id = ur.role_id
-            //left join sys_role ro on ur.role_id = ro.role_id
-            //where ur.user_id = @UserId
-            //  ";
-
             SysMenuDto dto = new SysMenuDto { UserId = userId, Status = Status.Enabled, RoleStatus = Status.Enabled };
 
             return this.GetList(dto);
@@ -140,25 +128,15 @@ namespace RuoYi.System.Repositories
 
         public List<long> SelectMenuListByRoleId(long roleId, bool isMenuCheckStrictly)
         {
-            var sql = @"
-                select m.menu_id
-		        from sys_menu m
-                left join sys_role_menu rm on m.menu_id = rm.menu_id
-                where rm.role_id = @RoleId
-            ";
-            if (isMenuCheckStrictly)
-            {
-                sql += "and m.menu_id not in (select m.parent_id from sys_menu m inner join sys_role_menu rm on m.menu_id = rm.menu_id and rm.role_id = @RoleId)";
-            }
-            sql += "order by m.parent_id, m.order_num";
+            var queryable = Repo.AsQueryable()
+                .LeftJoin<SysRoleMenu>((m, rm) => m.MenuId == rm.MenuId)
+                .Where((m, rm) => rm.RoleId == roleId)
+                .WhereIF(isMenuCheckStrictly, (m, rm) => SqlFunc.Subqueryable<SysMenu>()
+                    .InnerJoin<SysRoleMenu>((sm, srm) => sm.MenuId == srm.MenuId && srm.RoleId == roleId)
+                    .Where(sm => sm.ParentId == m.MenuId).NotAny())
+                .OrderBy(m => new { m.ParentId, m.OrderNum });
 
-            List<SugarParameter> parameters = new List<SugarParameter> {
-                new SugarParameter("@RoleId" , roleId)
-            };
-
-            return base.SqlQueryable(sql, parameters)
-                  .Select(m => m.MenuId)
-                  .ToList();
+            return queryable.Select(m => m.MenuId).ToList();
         }
 
 

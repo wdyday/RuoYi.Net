@@ -318,9 +318,9 @@ namespace RuoYi.System.Services
         /// <summary>
         /// 修改用户状态
         /// </summary>
-        public int UpdateUserStatus(SysUserDto user)
+        public async Task<int> UpdateUserStatus(SysUserDto user)
         {
-            return _sysUserRepository.Update(user, true);
+            return await _sysUserRepository.UpdateUserStatusAsync(user);
         }
 
         /// <summary>
