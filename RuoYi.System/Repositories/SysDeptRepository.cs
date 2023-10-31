@@ -43,7 +43,7 @@ namespace RuoYi.System.Repositories
                 .WhereIF(dto.DeptCheckStrictly ?? false, (d) => d.DeptId !=
                     SqlFunc.Subqueryable<SysDept>().InnerJoin<SysRoleDept>((d1, rd1) => d1.DeptId == rd1.DeptId)
                     .Where((d1, rd1) => rd1.RoleId == dto.RoleId)
-                    .GroupBy(d1 => d1.DeptId)
+                    .GroupBy(d1 => d1.ParentId)
                     .Select(d1 => d1.ParentId))
                 .Select((d) => new SysDeptDto
                 {
@@ -91,11 +91,6 @@ namespace RuoYi.System.Repositories
         /// <param name="deptId">部门ID</param>
         public async Task<int> CountNormalChildrenDeptByIdAsync(long deptId)
         {
-            //var sql = "select 1 from sys_dept where status = 0 and del_flag = '0' and find_in_set(@DeptId, ancestors)";
-            //var paramters = new List<SugarParameter>
-            //{
-            //    new SugarParameter("@DeptId", deptId)
-            //};
             return await base.CountAsync(d => d.DelFlag == DelFlag.No && d.Status == "0" && SqlFunc.SplitIn(d.Ancestors, deptId.ToString()));
         }
 
@@ -106,13 +101,6 @@ namespace RuoYi.System.Repositories
         /// <returns></returns>
         public async Task<List<SysDept>> GetChildrenDeptByIdAsync(long deptId)
         {
-            //var sql = "select * from sys_dept where find_in_set(@DeptId, ancestors)";
-            //var paramters = new List<SugarParameter>
-            //{
-            //    new SugarParameter("@DeptId", deptId)
-            //};
-            //return await base.SqlQueryable(sql, paramters).ToListAsync();
-
             var queryable = Repo.AsQueryable()
                 .Where(d => SqlFunc.SplitIn(d.Ancestors, deptId.ToString()));
             return await queryable.ToListAsync();

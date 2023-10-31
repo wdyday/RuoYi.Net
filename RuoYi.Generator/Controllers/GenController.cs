@@ -41,8 +41,8 @@ namespace RuoYi.Generator.Controllers
         [AppAuthorize("tool:gen:query")]
         public AjaxResult GetTableInfo(long tableId)
         {
-            GenTable table = _genTableService.SelectGenTableById(tableId);
-            List<GenTable> tables = _genTableService.SelectGenTableAll();
+            GenTableDto table = _genTableService.SelectGenTableById(tableId);
+            List<GenTableDto> tables = _genTableService.SelectGenTableAll();
             List<GenTableColumn> list = _genTableColumnService.SelectGenTableColumnListByTableId(tableId);
             Dictionary<string, object> map = new Dictionary<string, object>();
             map.Add("info", table);

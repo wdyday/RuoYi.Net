@@ -2,7 +2,7 @@
 {
     public static class ConvertUtils
     {
-        public static long[] ToLongArray(string split, string str = ",")
+        public static long[] ToLongArray(string str, string split = ",")
         {
             if (string.IsNullOrEmpty(str))
             {

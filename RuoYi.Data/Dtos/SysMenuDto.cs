@@ -73,5 +73,9 @@ namespace RuoYi.Data.Dtos
         /// </summary>
         public long RoleId { get; set; }
 
+
+        /** 类型（M目录 C菜单 F按钮） */
+        public List<string> MenuTypes { get; set; } = new List<string>();
+
     }
 }

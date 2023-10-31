@@ -54,7 +54,7 @@ namespace RuoYi.Common.Interceptors
             }
         }
 
-        public void DataScopeFilter(AspectContext context, SysUserDto user, string deptAlias, string userAlias, string permission)
+        private void DataScopeFilter(AspectContext context, SysUserDto user, string deptAlias, string userAlias, string permission)
         {
             StringBuilder sqlString = new StringBuilder();
             List<string> conditions = new List<string>();

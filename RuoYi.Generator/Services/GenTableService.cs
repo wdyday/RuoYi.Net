@@ -2,9 +2,12 @@
 using Furion.LinqBuilder;
 using ICSharpCode.SharpZipLib.Zip;
 using RazorEngineCore;
+using RuoYi.Data.Entities;
 using RuoYi.Data.Utils;
 using RuoYi.Framework.Exceptions;
+using RuoYi.Framework.Interceptors;
 using RuoYi.Generator.Dtos;
+using RuoYi.Generator.RepoSql;
 
 namespace RuoYi.Generator.Services
 {
@@ -15,6 +18,7 @@ namespace RuoYi.Generator.Services
 
         private readonly GenTableRepository _genTableRepository;
         private readonly GenTableColumnRepository _genTableColumnRepository;
+        //private readonly RepoSqlService _repoSqlService;
 
         public GenTableService(ILogger<GenTableService> logger,
             IRazorEngine razorEngine,
@@ -25,6 +29,7 @@ namespace RuoYi.Generator.Services
             _razorEngine = razorEngine;
             _genTableRepository = genTableRepository;
             _genTableColumnRepository = genTableColumnRepository;
+            //_repoSqlService = repoSqlService;
 
             BaseRepo = genTableRepository;
         }
@@ -34,9 +39,10 @@ namespace RuoYi.Generator.Services
         /// </summary>
         /// <param name="id">业务ID</param>
         /// <returns>业务信息</returns>
-        public GenTable SelectGenTableById(long id)
+        public GenTableDto SelectGenTableById(long id)
         {
-            return _genTableRepository.SelectGenTableById(id);
+            var genTable = _genTableRepository.SelectGenTableById(id);
+            return _genTableRepository.ToDto(genTable);
         }
 
         /// <summary>
@@ -75,9 +81,10 @@ namespace RuoYi.Generator.Services
         /// 查询所有表信息
         /// </summary>
         /// <returns>表信息集合</returns>
-        public List<GenTable> SelectGenTableAll()
+        public List<GenTableDto> SelectGenTableAll()
         {
-            return _genTableRepository.SelectGenTableAll();
+            var list = _genTableRepository.SelectGenTableAll();
+            return _genTableRepository.ToDtos(list);
         }
 
         /// <summary>
@@ -86,7 +93,14 @@ namespace RuoYi.Generator.Services
         /// <param name="dto">业务信息</param>
         public void UpdateGenTable(GenTableDto dto)
         {
-            dto.Options = dto.Params != null ? JSON.Serialize(dto.Params) : null;
+            var options = new
+            {
+                treeCode = dto.TreeCode,
+                treeName = dto.TreeName,
+                treeParentCode = dto.TreeParentCode,
+                parentMenuId = dto.ParentMenuId
+            };
+            dto.Options = JSON.Serialize(options);
             int row = _genTableRepository.Update(dto);
 
             if (row > 0 && !dto.Columns.IsEmpty())
@@ -111,6 +125,7 @@ namespace RuoYi.Generator.Services
         /// 导入表结构
         /// </summary>
         /// <param name="tableList">导入表列表</param>
+        [Transactional]
         public void ImportGenTable(List<GenTable> tableList)
         {
             string operName = SecurityUtils.GetUsername();
@@ -155,7 +170,7 @@ namespace RuoYi.Generator.Services
             var context = TemplateUtils.PrepareContext(table);
 
             // 获取模板列表
-            List<string> templatePaths = TemplateUtils.GetTemplateList(table.TplCategory);
+            List<string> templatePaths = TemplateUtils.GetTemplateList(_genTableRepository.GetDbType(), table.TplCategory);
             foreach (string templatePath in templatePaths)
             {
                 //// 渲染模板
@@ -375,7 +390,7 @@ namespace RuoYi.Generator.Services
             TemplateContext context = TemplateUtils.PrepareContext(table);
 
             // 获取模板列表
-            List<string> templates = TemplateUtils.GetTemplateList(table.TplCategory);
+            List<string> templates = TemplateUtils.GetTemplateList(_genTableRepository.GetDbType(), table.TplCategory);
             foreach (string template in templates)
             {
                 // 渲染模板

@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Quartz", "RuoYi.Quartz\RuoYi.Quartz.csproj", "{21F845AA-320A-43B0-B5A5-5929445A2C64}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlSugar", "..\..\..\..\Learn\Net\SqlSugar\Src\Asp.NetCore2\SqlSugar\SqlSugar.csproj", "{F9CF077F-604D-4D65-BD72-3AE359A1605F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{21F845AA-320A-43B0-B5A5-5929445A2C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21F845AA-320A-43B0-B5A5-5929445A2C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21F845AA-320A-43B0-B5A5-5929445A2C64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9CF077F-604D-4D65-BD72-3AE359A1605F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9CF077F-604D-4D65-BD72-3AE359A1605F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9CF077F-604D-4D65-BD72-3AE359A1605F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9CF077F-604D-4D65-BD72-3AE359A1605F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -39,7 +39,7 @@ namespace RuoYi.Generator.Utils
             // 设置 .net字段名
             column.NetField = columnName.ToUpperCamelCase2();
             // 设置默认类型
-            column.NetType = GenConstants.TYPE_STRING;
+            //column.NetType = GenConstants.TYPE_STRING;
             column.QueryType = GenConstants.QUERY_EQ;
 
             if (ArraysContains(GenConstants.COLUMNTYPE_STR, dataType) || ArraysContains(GenConstants.COLUMNTYPE_TEXT, dataType))
@@ -58,24 +58,32 @@ namespace RuoYi.Generator.Utils
             {
                 column.HtmlType = GenConstants.HTML_INPUT;
 
-                // 如果是浮点型 统一用Decimal, 如: decimal(18,2)
-                string[] str = column.ColumnType.SubstringBetween("(", ")").Split(",");
-                if (str != null && str.Length == 2 && int.Parse(str[1]) > 0)
+                if (string.IsNullOrEmpty(column.NetType))
                 {
-                    column.NetType = GenConstants.TYPE_DECIMAL;
-                }
-                // 如果是整形
-                else if (str != null && str.Length == 1 && int.Parse(str[0]) <= 10)
-                {
-                    column.NetType = GenConstants.TYPE_INTEGER;
-                }
-                // 长整形
-                else
-                {
-                    column.NetType = GenConstants.TYPE_LONG;
+                    // 如果是浮点型 统一用Decimal, 如: decimal(18,2)
+                    string[] str = column.ColumnType.SubstringBetween("(", ")").Split(",");
+                    if (str != null && str.Length == 2 && int.Parse(str[1]) > 0)
+                    {
+                        column.NetType = GenConstants.TYPE_DECIMAL;
+                    }
+                    // 如果是整形
+                    else if (str != null && str.Length == 1 && int.Parse(str[0]) <= 10)
+                    {
+                        column.NetType = GenConstants.TYPE_INTEGER;
+                    }
+                    // 长整形
+                    else
+                    {
+                        column.NetType = GenConstants.TYPE_LONG;
+                    }
                 }
             }
-            if(!column.Is_Required() && !column.Is_Pk())
+            else
+            {
+                // 设置默认类型
+                column.NetType = GenConstants.TYPE_STRING;
+            }
+            if (!column.Is_Required() && !column.Is_Pk())
             {
                 column.NetType = $"{column.NetType}?";
             }

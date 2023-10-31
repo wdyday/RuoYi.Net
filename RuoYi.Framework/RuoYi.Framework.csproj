@@ -17,8 +17,11 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.12" />
     <PackageReference Include="MiniExcel" Version="1.31.2" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.4.110" />
     <PackageReference Include="UAParser.Core" Version="4.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Learn\Net\SqlSugar\Src\Asp.NetCore2\SqlSugar\SqlSugar.csproj" />
   </ItemGroup>
 
 </Project>

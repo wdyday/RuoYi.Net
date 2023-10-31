@@ -180,9 +180,9 @@ namespace RuoYi.System.Controllers
         /// <summary>
         /// 查询已分配用户角色列表
         /// </summary>
-        [HttpPost("authUser/allocatedList")]
+        [HttpGet("authUser/allocatedList")]
         [AppAuthorize("system:role:list")]
-        public async Task<SqlSugarPagedList<SysUserDto>> GetAllocatedList([FromBody] SysUserDto dto)
+        public async Task<SqlSugarPagedList<SysUserDto>> GetAllocatedList([FromQuery] SysUserDto dto)
         {
             return await _sysUserService.GetPagedAllocatedListAsync(dto);
         }
@@ -190,9 +190,9 @@ namespace RuoYi.System.Controllers
         /// <summary>
         /// 查询未分配用户角色列表
         /// </summary>
-        [HttpPost("authUser/unallocatedList")]
+        [HttpGet("authUser/unallocatedList")]
         [AppAuthorize("system:role:list")]
-        public async Task<SqlSugarPagedList<SysUserDto>> GetUnallocatedList([FromBody] SysUserDto dto)
+        public async Task<SqlSugarPagedList<SysUserDto>> GetUnallocatedList([FromQuery] SysUserDto dto)
         {
             return await _sysUserService.GetPagedUnallocatedListAsync(dto);
         }
@@ -215,7 +215,7 @@ namespace RuoYi.System.Controllers
         [HttpPut("authUser/cancelAll")]
         [AppAuthorize("system:role:edit")]
         [Log(Title = "角色管理", BusinessType = BusinessType.GRANT)]
-        public async Task<AjaxResult> CancelAuthUserBath([FromBody] SysUserRoleDto dto)
+        public async Task<AjaxResult> CancelAuthUserBath([FromQuery] SysUserRoleDto dto)
         {
             var data = await _sysRoleService.DeleteAuthUserBathAsync(dto);
             return AjaxResult.Success(data);
@@ -226,7 +226,7 @@ namespace RuoYi.System.Controllers
         /// </summary>
         [HttpPut("authUser/selectAll")]
         [AppAuthorize("system:role:edit")]
-        public async Task<AjaxResult> SaveAuthUserAll([FromBody] SysUserRoleDto dto)
+        public async Task<AjaxResult> SaveAuthUserAll([FromQuery] SysUserRoleDto dto)
         {
             await _sysRoleService.CheckRoleDataScopeAsync(dto.RoleId);
             var data = await _sysRoleService.InsertAuthUsersAsync(dto.RoleId, dto.UserIds);
@@ -241,7 +241,7 @@ namespace RuoYi.System.Controllers
         {
             AjaxResult ajax = AjaxResult.Success();
             ajax.Add("checkedKeys", await _sysDeptService.GetDeptListByRoleIdAsync(roleId));
-            ajax.Add("depts", _sysDeptService.GetDeptTreeListAsync(new SysDeptDto()));
+            ajax.Add("depts", await _sysDeptService.GetDeptTreeListAsync(new SysDeptDto()));
             return ajax;
         }
     }

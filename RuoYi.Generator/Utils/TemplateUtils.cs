@@ -113,7 +113,7 @@ namespace RuoYi.Generator.Utils
          *
          * @return 模板列表
          */
-        public static List<string> GetTemplateList(string? tplCategory)
+        public static List<string> GetTemplateList(DbType dbType, string? tplCategory)
         {
             List<string> templates = new()
             {
@@ -122,9 +122,23 @@ namespace RuoYi.Generator.Utils
                 "Vm/Net/Repository.cs.cshtml",
                 "Vm/Net/Service.cs.cshtml",
                 "Vm/Net/Controller.cs.cshtml",
-                "Vm/Sql/sql.cshtml",
                 "Vm/Js/api.js.cshtml"
             };
+            switch (dbType)
+            {
+                case DbType.MySql:
+                    templates.Add("Vm/Sql/mysql.sql.cshtml");
+                    break;
+                case DbType.SqlServer:
+                    templates.Add("Vm/Sql/sqlserver.sql.cshtml");
+                    break;
+                //case DbType.Oracle:
+                //    break;
+                default:
+                    templates.Add("Vm/Sql/mysql.sql.cshtml");
+                    break;
+
+            }
             if (GenConstants.TPL_CRUD.Equals(tplCategory))
             {
                 templates.Add("Vm/Vue/index.vue.cshtml");

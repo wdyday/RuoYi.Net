@@ -102,6 +102,11 @@
                 <li>若依.NET前后端分离系统正式发布</li>
               </ol>
             </el-collapse-item>
+            <el-collapse-item title="v1.0.1 - 2023-10-31">
+              <ol>
+                <li>支持 SqlServer & 修复bug</li>
+              </ol>
+            </el-collapse-item>
           </el-collapse>
         </el-card>
       </el-col>
@@ -132,7 +137,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "1.0.0"
+      version: "1.0.1"
     };
   },
   methods: {
