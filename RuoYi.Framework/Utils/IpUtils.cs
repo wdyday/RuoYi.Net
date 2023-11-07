@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace RuoYi.Common.Utils
+namespace RuoYi.Framework.Utils
 {
     public static class IpUtils
     {

@@ -2,6 +2,7 @@
 using Furion.RemoteRequest.Extensions;
 using Newtonsoft.Json.Linq;
 using RuoYi.Framework;
+using RuoYi.Framework.Utils;
 
 namespace RuoYi.Common.Utils
 {

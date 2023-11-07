@@ -107,6 +107,11 @@
                 <li>支持 SqlServer & 修复bug</li>
               </ol>
             </el-collapse-item>
+            <el-collapse-item title="v1.0.2 - 2023-11-07">
+              <ol>
+                <li>添加限流 & 修复模板判断条件bug</li>
+              </ol>
+            </el-collapse-item>
           </el-collapse>
         </el-card>
       </el-col>

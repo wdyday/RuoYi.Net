@@ -11,6 +11,7 @@ public static class CaptchaExtensions
     public static IServiceCollection AddLazyCaptcha(this IServiceCollection services)
     {
         var options = App.GetOptionsMonitor<LazyCaptchaOptions>();
+
         // 配置中并未添加 CaptchaOptions, 遵循 ruoyi的配置, 取 RuoYiConfig.CaptchaType
         // 如果要做配置, 请在 adminsettings.json 中 添加 CaptchaOptions 
         // CaptchaOptions 的配置参考: https://github.com/pojianbing/LazyCaptcha

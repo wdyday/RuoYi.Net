@@ -15,16 +15,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configs\**" />
+    <EmbeddedResource Remove="Configs\**" />
+    <None Remove="Configs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Constants\Constants.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RuoYi.Data\RuoYi.Data.csproj" />
     <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Configs\" />
   </ItemGroup>
 
 </Project>

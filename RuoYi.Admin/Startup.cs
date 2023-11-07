@@ -10,6 +10,7 @@ using RuoYi.Admin.Authorization;
 using RuoYi.Common.Files;
 using RuoYi.Framework;
 using RuoYi.Framework.Filters;
+using RuoYi.Framework.RateLimit;
 
 namespace RuoYi.Admin
 {
@@ -102,6 +103,9 @@ namespace RuoYi.Admin
 
             // 自定义拦截器 (AspectCore)
             services.ConfigureDynamicProxy();
+
+            // 限流 https://github.com/cristipufu/aspnetcore-redis-rate-limiting/tree/master
+            services.AddConcurrencyLimiter();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -130,7 +134,11 @@ namespace RuoYi.Admin
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // Furion
             app.UseInject();
+
+            // 限流
+            app.UseRateLimiter();
 
             app.UseEndpoints(endpoints =>
             {

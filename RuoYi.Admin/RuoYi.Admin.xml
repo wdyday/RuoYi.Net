@@ -45,7 +45,7 @@
         </member>
         <member name="M:RuoYi.Admin.CaptchaController.GetCaptchaImage">
             <summary>
-            获取系统描述
+            获取验证码
             </summary>
             <returns></returns>
         </member>
@@ -69,6 +69,18 @@
             <summary>
             从库(slave) 用户查询
             表 SysUser 的实体类上 添加特性 [Tenant(DataConstants.Slave)]
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.Sample.SampleController.RateLimit">
+            <summary>
+            限流
+            添加特性 [EnableRateLimiting(LimitType.Default)]
+            </summary>
+        </member>
+        <member name="M:RuoYi.Admin.Sample.SampleController.IpRateLimit">
+            <summary>
+            IP限流
+            添加特性 [EnableRateLimiting(LimitType.IP)]
             </summary>
         </member>
         <member name="T:RuoYi.System.Controllers.CacheController">
