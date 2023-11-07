@@ -5,31 +5,24 @@ namespace RuoYi.Data.Slave.Dtos
     public class SysUserDto : BaseDto
     {
         /** 用户ID */
-        //@Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
         public long UserId { get; set; }
 
         /** 部门ID */
-        //@Excel(name = "部门编号", type = Type.IMPORT)
         public long DeptId { get; set; }
 
         /** 用户账号 */
-        //@Excel(name = "登录名称")
         public string? UserName { get; set; }
 
         /** 用户昵称 */
-        //@Excel(name = "用户名称")
         public string? NickName { get; set; }
 
         /** 用户邮箱 */
-        //@Excel(name = "用户邮箱")
         public string? Email { get; set; }
 
         /** 手机号码 */
-        //@Excel(name = "手机号码")
         public string? PhoneNumber { get; set; }
 
         /** 用户性别 */
-        //@Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
         public string? Sex { get; set; }
 
         /** 用户头像 */
@@ -39,25 +32,18 @@ namespace RuoYi.Data.Slave.Dtos
         public string? Password { get; set; }
 
         /** 帐号状态（0正常 1停用） */
-        //@Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
         public string? Status { get; set; }
 
         /** 删除标志（0代表存在 2代表删除） */
         public string? DelFlag { get; set; }
 
         /** 最后登录IP */
-        //@Excel(name = "最后登录IP", type = Type.EXPORT)
         public string? LoginIp { get; set; }
 
         /** 最后登录时间 */
-        //@Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
         public DateTime LoginDate { get; set; }
 
         /** 部门对象 */
-        //@Excels({
-        //    @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
-        //@Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
-        //})
         public SysDeptDto Dept { get; set; }
 
         /** 角色对象 */
@@ -72,5 +58,14 @@ namespace RuoYi.Data.Slave.Dtos
         /** 角色ID */
         public long RoleId { get; set; }
 
+
+        /// <summary>
+        /// 不序列化 Password 
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializePassword()
+        {
+            return false;
+        }
     }
 }

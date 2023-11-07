@@ -16,6 +16,7 @@
     <PackageReference Include="Lazy.Captcha.Core" Version="2.0.6" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.12" />
     <PackageReference Include="MiniExcel" Version="1.31.2" />
+    <PackageReference Include="RedisRateLimiting.AspNetCore" Version="1.0.9" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="SqlSugarCore" Version="5.1.4.112" />
     <PackageReference Include="UAParser.Core" Version="4.0.2" />

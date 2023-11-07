@@ -23,7 +23,7 @@ namespace RuoYi.Admin
         }
 
         /// <summary>
-        /// 获取系统描述
+        /// 获取验证码
         /// </summary>
         /// <returns></returns>
         [HttpGet("/captchaImage")]

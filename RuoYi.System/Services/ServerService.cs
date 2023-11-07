@@ -1,11 +1,7 @@
 ﻿using Hardware.Info;
-using RuoYi.Common.Utils;
 using RuoYi.Data.Models;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using RuoYi.Framework.Extensions;
-using Furion.JsonSerialization;
-using Microsoft.DotNet.PlatformAbstractions;
 
 namespace RuoYi.System.Services
 {

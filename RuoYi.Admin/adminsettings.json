@@ -74,7 +74,14 @@
     "Algorithm": "HS256" // 加密算法，string 类型，默认 HS256
   },
 
-  //"FriendlyExceptionSettings": {
-  //  "DefaultErrorMessage": "系统异常，请联系管理员" // Furion: 4.8.8.30 版本好用, 新版本不好用, 暂不要升级
-  //}
+  // 全局限流配置, 如以下配置为: 在 1秒的窗口期内可访问100次
+  "GlobalLimitConfig": {
+    "PermitLimit": 50, // 最多并发的请求数。该值必须 > 0
+    "Window": 1 // 窗口大小，即时间长度(秒)
+  },
+  // ip限流配置, 如以下配置为: 每个ip 在 1秒的窗口期内可访问10次
+  "IpRateLimitConfig": {
+    "PermitLimit": 10, // 最多并发的请求数。该值必须 > 0
+    "Window": 1 // 窗口大小，即时间长度(秒)
+  }
 }

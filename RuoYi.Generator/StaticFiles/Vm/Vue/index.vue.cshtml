@@ -165,7 +165,7 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 @foreach(var column in Model.Columns) {
   attrName = column.NetFieldLower();
-  if(column.Is_Insert() && column.Is_Pk()) {
+  if(column.Is_Insert() && !column.Is_Pk()) {
     if(column.IsUsableColumn() || !column.IsSuperColumn()) {
       parentheseIndex = column.ColumnComment.IndexOf("（");
       comment = parentheseIndex != -1 ? column.ColumnComment.Substring(0, parentheseIndex) : column.ColumnComment;
