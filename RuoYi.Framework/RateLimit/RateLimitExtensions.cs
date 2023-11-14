@@ -12,7 +12,6 @@ namespace RuoYi.Framework.RateLimit
     {
         public static IServiceCollection AddConcurrencyLimiter(this IServiceCollection services)
         {
-            var connectionMultiplexer = Furion.App.GetService<IConnectionMultiplexer>();
             services.AddRateLimiter(options =>
             {
                 // 全局 并发限流
