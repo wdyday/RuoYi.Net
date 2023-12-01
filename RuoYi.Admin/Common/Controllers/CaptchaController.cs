@@ -32,7 +32,7 @@ namespace RuoYi.Admin
             bool captchaEnabled = _sysConfigService.IsCaptchaEnabled();
             if (!captchaEnabled)
             {
-                return "";
+                return new { CaptchaEnabled = captchaEnabled };
             }
 
             string uuid = Guid.NewGuid().ToString();
