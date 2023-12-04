@@ -227,7 +227,7 @@ namespace RuoYi.Generator.Utils
          */
         public static string? GetPackagePrefix(string? packageName)
         {
-            if (string.IsNullOrEmpty(packageName)) return packageName;
+            if (string.IsNullOrEmpty(packageName) || !packageName.Contains(".")) return packageName;
             int lastIndex = packageName.LastIndexOf(".");
             return packageName.Substring(0, lastIndex);
         }
