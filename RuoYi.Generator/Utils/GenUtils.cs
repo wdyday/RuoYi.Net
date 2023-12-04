@@ -39,7 +39,7 @@ namespace RuoYi.Generator.Utils
             // 设置 .net字段名
             column.NetField = columnName.ToUpperCamelCase2();
             // 设置默认类型
-            //column.NetType = GenConstants.TYPE_STRING;
+            column.NetType = GenConstants.TYPE_STRING;
             column.QueryType = GenConstants.QUERY_EQ;
 
             if (ArraysContains(GenConstants.COLUMNTYPE_STR, dataType) || ArraysContains(GenConstants.COLUMNTYPE_TEXT, dataType))
