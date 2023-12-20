@@ -106,19 +106,24 @@ namespace RuoYi.Quartz.Utils
 
         /// <summary>
         /// 检查包名是否为白名单配置
+        /// job白名单配置: JobWhiteListAssembly, Assembly 集合, 多个逗号分隔
         /// </summary>
         /// <param name="invokeTarget">目标字符串</param>
         /// <returns></returns>
         public static bool InWhiteList(string invokeTarget)
         {
+            var whiteListAssembly = App.GetConfig<string>("JobWhiteListAssembly");
+            var whiteListAssemblies = !string.IsNullOrEmpty(whiteListAssembly) ? whiteListAssembly.Split(",") : new string[] { };
+            var jobWhiteList = whiteListAssemblies.Length > 0 ? whiteListAssemblies : ScheduleConstants.JOB_WHITELIST_STR;
+
             string packageName = StringUtils.SubstringBefore(invokeTarget, "(") ?? "";
             int count = StringUtils.CountMatches(packageName, ".");
             if (count > 1)
             {
-                return StringUtils.ContainsAnyIgnoreCase(invokeTarget, ScheduleConstants.JOB_WHITELIST_STR);
+                return StringUtils.ContainsAnyIgnoreCase(invokeTarget, jobWhiteList);
             }
             string classNamespace = AssemblyUtils.GetTaskAttributeClassNamespace(invokeTarget.Split(".")[0]);
-            return StringUtils.ContainsAnyIgnoreCase(classNamespace, ScheduleConstants.JOB_WHITELIST_STR)
+            return StringUtils.ContainsAnyIgnoreCase(classNamespace, jobWhiteList)
                     && !StringUtils.ContainsAnyIgnoreCase(classNamespace, ScheduleConstants.JOB_ERROR_STR);
         }
 
