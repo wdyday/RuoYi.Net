@@ -1,4 +1,5 @@
-﻿using RuoYi.Framework.Attributes;
+﻿using Furion;
+using RuoYi.Framework.Attributes;
 using System.Reflection;
 
 namespace RuoYi.Framework.Utils
@@ -15,7 +16,9 @@ namespace RuoYi.Framework.Utils
             var list = new List<Type>();
 
             // 业务逻辑项目 
-            var businessAssemblyPrefixes = new string[] { "RuoYi." };
+            var whiteListAssembly = App.GetConfig<string>("JobWhiteListAssembly");
+            var whiteListAssemblies = !string.IsNullOrEmpty(whiteListAssembly) ? whiteListAssembly.Split(",") : new string[] { };
+            var businessAssemblyPrefixes = whiteListAssemblies.Length > 0 ? whiteListAssemblies : new string[] { "RuoYi." };
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => StringUtils.ContainsAnyIgnoreCase(a.FullName, businessAssemblyPrefixes))
                 .ToList();
