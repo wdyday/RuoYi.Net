@@ -20,13 +20,13 @@ namespace RuoYi.Quartz.Entities
         /// <summary>
         /// 任务名称 (job_name)
         /// </summary>
-        [SugarColumn(ColumnName = "job_name", ColumnDescription = "任务名称", IsIdentity = true)]
+        [SugarColumn(ColumnName = "job_name", ColumnDescription = "任务名称", IsPrimaryKey = true)]
         public string JobName { get; set; }
                 
         /// <summary>
         /// 任务组名 (job_group)
         /// </summary>
-        [SugarColumn(ColumnName = "job_group", ColumnDescription = "任务组名", IsIdentity = true)]
+        [SugarColumn(ColumnName = "job_group", ColumnDescription = "任务组名", IsPrimaryKey = true)]
         public string JobGroup { get; set; }
                 
         /// <summary>
