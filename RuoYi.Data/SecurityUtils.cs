@@ -50,13 +50,58 @@ namespace RuoYi.Data.Utils
             return user == null ? throw new ServiceException("获取用户信息异常", StatusCodes.Status401Unauthorized) : user;
         }
 
+        public static LoginUser GetLoginUser(HttpRequest request)
+        {
+            // 获取请求携带的令牌
+            string token = GetToken(request);
+            if (!string.IsNullOrEmpty(token))
+            {
+                try
+                {
+                    var claims = ParseToken(token);
+                    // 解析对应的权限以及用户信息
+                    string uuid = claims.Where(c => c.Type.Equals(Constants.LOGIN_USER_KEY)).First().Value;
+                    string userKey = GetTokenKey(uuid);
+                    LoginUser user = _redisCache.Get<LoginUser>(userKey);
+                    return user;
+                }
+                catch (Exception e)
+                {
+                    Log.Error("获取用户信息异常'{}'", e.Message);
+                }
+            }
+            return null;
+        }
+
         private static LoginUser GetCurrentUser()
         {
-            // 解析对应的权限以及用户信息
-            string uuid = App.User.FindFirstValue(Constants.LOGIN_USER_KEY) ?? "";
-            string userKey = GetTokenKey(uuid);
-            return _redisCache.Get<LoginUser>(userKey);
+            return GetLoginUser(App.HttpContext.Request);
         }
+
+        #region Token
+
+        public static IEnumerable<Claim> ParseToken(string token)
+        {
+            var jwtSecurityToken = JWTEncryption.SecurityReadJwtToken(token);
+            return jwtSecurityToken.Claims;
+        }
+
+        /// <summary>
+        /// 获取请求token
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static string GetToken(HttpRequest request)
+        {
+            string token = request.Headers["Authorization"]!;
+            if (!string.IsNullOrEmpty(token) && token.StartsWith(Constants.TOKEN_PREFIX))
+            {
+                token = token.Replace(Constants.TOKEN_PREFIX, "");
+            }
+            return token;
+        }
+
+        #endregion
 
         /// <summary>
         /// 生成BCryptPasswordEncoder密码
