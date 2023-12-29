@@ -37,25 +37,7 @@ namespace RuoYi.System.Services
         /// </summary>
         public LoginUser GetLoginUser(HttpRequest request)
         {
-            // 获取请求携带的令牌
-            string token = GetToken(request);
-            if (!string.IsNullOrEmpty(token))
-            {
-                try
-                {
-                    var claims = ParseToken(token);
-                    // 解析对应的权限以及用户信息
-                    string uuid = claims.Where(c => c.Type.Equals(Constants.LOGIN_USER_KEY)).First().Value;
-                    string userKey = GetTokenKey(uuid);
-                    LoginUser user = _redisCache.Get<LoginUser>(userKey);
-                    return user;
-                }
-                catch (Exception e)
-                {
-                    Log.Error("获取用户信息异常'{}'", e.Message);
-                }
-            }
-            return null;
+            return SecurityUtils.GetLoginUser(request);
         }
 
         public void DelLoginUser(string token)
@@ -131,12 +113,6 @@ namespace RuoYi.System.Services
             _redisCache.Set<LoginUser>(userKey, loginUser, expireTime);
         }
 
-        public IEnumerable<Claim> ParseToken(string token)
-        {
-            var jwtSecurityToken = JWTEncryption.SecurityReadJwtToken(token);
-            return jwtSecurityToken.Claims;
-        }
-
         /// <summary>
         /// 设置用户代理信息
         /// </summary>
@@ -151,21 +127,6 @@ namespace RuoYi.System.Services
             loginUser.LoginLocation = AddressUtils.GetRealAddressByIP(ip);
             loginUser.Browser = clientInfo.Browser.ToString();
             loginUser.OS = clientInfo.OS.Family.ToString();
-        }
-
-        /// <summary>
-        /// 获取请求token
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private string GetToken(HttpRequest request)
-        {
-            string token = request.Headers["Authorization"]!;
-            if (!string.IsNullOrEmpty(token) && token.StartsWith(Constants.TOKEN_PREFIX))
-            {
-                token = token.Replace(Constants.TOKEN_PREFIX, "");
-            }
-            return token;
         }
 
         private string GetTokenKey(string uuid)
