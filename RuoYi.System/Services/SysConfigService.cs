@@ -30,8 +30,6 @@ namespace RuoYi.System.Services
             _redisCache = redisCache;
             _sysConfigRepository = sysConfigRepository;
             BaseRepo = sysConfigRepository;
-
-            this.LoadingConfigCache();
         }
 
         /// <summary>
