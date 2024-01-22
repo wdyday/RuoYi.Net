@@ -131,9 +131,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="whereExpression"></param>
     /// <returns></returns>
-    public Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression)
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
-        return Entities.CountAsync(whereExpression);
+        return await Entities.CountAsync(whereExpression);
     }
 
     /// <summary>
@@ -181,9 +181,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="whereExpression"></param>
     /// <returns></returns>
-    public Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> whereExpression)
+    public async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
-        return Entities.SingleAsync(whereExpression);
+        return await Entities.SingleAsync(whereExpression);
     }
 
     /// <summary>
@@ -241,9 +241,9 @@ where TEntity : class, new()
     /// 获取列表
     /// </summary>
     /// <returns></returns>
-    public Task<List<TEntity>> ToListAsync()
+    public async Task<List<TEntity>> ToListAsync()
     {
-        return Entities.ToListAsync();
+        return await Entities.ToListAsync();
     }
 
     /// <summary>
@@ -251,9 +251,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="whereExpression"></param>
     /// <returns></returns>
-    public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression)
+    public async Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression)
     {
-        return Entities.Where(whereExpression).ToListAsync();
+        return await Entities.Where(whereExpression).ToListAsync();
     }
 
     /// <summary>
@@ -263,9 +263,9 @@ where TEntity : class, new()
     /// <param name="orderByExpression"></param>
     /// <param name="orderByType"></param>
     /// <returns></returns>
-    public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
+    public async Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
     {
-        return Entities.OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToListAsync();
+        return await Entities.OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToListAsync();
     }
 
     /// <summary>
@@ -321,9 +321,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    public virtual Task<int> InsertAsync(TEntity entity)
+    public virtual async Task<int> InsertAsync(TEntity entity)
     {
-        return Context.Insertable(entity).ExecuteCommandAsync();
+        return await Context.Insertable(entity).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -347,9 +347,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="entities"></param>
     /// <returns></returns>
-    public virtual Task<int> InsertAsync(params TEntity[] entities)
+    public virtual async Task<int> InsertAsync(params TEntity[] entities)
     {
-        return Context.Insertable(entities).ExecuteCommandAsync();
+        return await Context.Insertable(entities).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -411,9 +411,9 @@ where TEntity : class, new()
     /// <summary>
     /// 更新一条记录
     /// </summary>
-    public virtual Task<int> UpdateAsync(TEntity entity, bool ignoreAllNullColumns = false)
+    public virtual async Task<int> UpdateAsync(TEntity entity, bool ignoreAllNullColumns = false)
     {
-        return Context.Updateable(entity).IgnoreColumns(ignoreAllNullColumns).ExecuteCommandAsync();
+        return await Context.Updateable(entity).IgnoreColumns(ignoreAllNullColumns).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -421,9 +421,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="entities"></param>
     /// <returns></returns>
-    public virtual Task<int> UpdateAsync(params TEntity[] entities)
+    public virtual async Task<int> UpdateAsync(params TEntity[] entities)
     {
-        return Context.Updateable(entities).ExecuteCommandAsync();
+        return await Context.Updateable(entities).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -431,9 +431,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="entities"></param>
     /// <returns></returns>
-    public virtual Task<int> UpdateAsync(IEnumerable<TEntity> entities)
+    public virtual async Task<int> UpdateAsync(IEnumerable<TEntity> entities)
     {
-        return Context.Updateable(entities.ToArray()).ExecuteCommandAsync();
+        return await Context.Updateable(entities.ToArray()).ExecuteCommandAsync();
     }
 
 
@@ -442,9 +442,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="whereExpression"></param>
     /// <returns></returns>
-    public virtual Task<int> UpdateAsync(Expression<Func<TEntity, bool>> columns, Expression<Func<TEntity, bool>> whereExpression)
+    public virtual async Task<int> UpdateAsync(Expression<Func<TEntity, bool>> columns, Expression<Func<TEntity, bool>> whereExpression)
     {
-        return Context.Updateable<TEntity>().SetColumns(columns).Where(whereExpression).ExecuteCommandAsync();
+        return await Context.Updateable<TEntity>().SetColumns(columns).Where(whereExpression).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -492,9 +492,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    public virtual Task<int> DeleteAsync(TEntity entity)
+    public virtual async Task<int> DeleteAsync(TEntity entity)
     {
-        return Context.Deleteable(entity).ExecuteCommandAsync();
+        return await Context.Deleteable(entity).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -502,9 +502,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public virtual Task<int> DeleteAsync<TKey>(TKey key)
+    public virtual async Task<int> DeleteAsync<TKey>(TKey key)
     {
-        return Context.Deleteable<TEntity>().In(key).ExecuteCommandAsync();
+        return await Context.Deleteable<TEntity>().In(key).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -512,9 +512,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="keys"></param>
     /// <returns></returns>
-    public virtual Task<int> DeleteAsync<TKey>(TKey[] keys)
+    public virtual async Task<int> DeleteAsync<TKey>(TKey[] keys)
     {
-        return Context.Deleteable<TEntity>().In(keys).ExecuteCommandAsync();
+        return await Context.Deleteable<TEntity>().In(keys).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -522,9 +522,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="keys"></param>
     /// <returns></returns>
-    public virtual Task<int> DeleteAsync<TKey>(List<TKey> keys)
+    public virtual async Task<int> DeleteAsync<TKey>(List<TKey> keys)
     {
-        return Context.Deleteable<TEntity>().In(keys).ExecuteCommandAsync();
+        return await Context.Deleteable<TEntity>().In(keys).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -631,9 +631,9 @@ where TEntity : class, new()
     /// 直接返回数据库结果
     /// </summary>
     /// <returns></returns>
-    public virtual Task<List<TEntity>> AsAsyncEnumerable()
+    public virtual async Task<List<TEntity>> AsAsyncEnumerable()
     {
-        return AsQueryable().ToListAsync();
+        return await AsQueryable().ToListAsync();
     }
 
     /// <summary>
@@ -641,9 +641,9 @@ where TEntity : class, new()
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    public virtual Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate)
+    public virtual async Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate)
     {
-        return AsQueryable(predicate).ToListAsync();
+        return await AsQueryable(predicate).ToListAsync();
     }
 
     /// <summary>
