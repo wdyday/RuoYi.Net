@@ -1,6 +1,4 @@
-﻿using RuoYi.Framework.Extensions;
-
-namespace RuoYi.Data.Models
+﻿namespace RuoYi.Data.Models
 {
     /// <summary>
     /// 路由显示信息
@@ -56,7 +54,7 @@ namespace RuoYi.Data.Models
             this.Title = title;
             this.Icon = icon;
             this.NoCache = noCache;
-            if (link.IsHttp())
+            if (!string.IsNullOrEmpty(link) && link.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
                 this.Link = link;
             }

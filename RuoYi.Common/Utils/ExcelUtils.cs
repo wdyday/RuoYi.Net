@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Http;
 using MiniExcelLibs;
 using MiniExcelLibs.Attributes;
 using MiniExcelLibs.OpenXml;
-using RuoYi.Framework.Attributes;
+using RuoYi.Data.Attributes;
 using RuoYi.Framework.Exceptions;
 using RuoYi.Framework.Extensions;
 using SqlSugar;
+using System.Text;
+using System.Web;
 
-namespace RuoYi.Framework.Utils
+namespace RuoYi.Common.Utils
 {
     public static class ExcelUtils
     {
@@ -22,7 +24,7 @@ namespace RuoYi.Framework.Utils
         /// <param name="startCell">指定单元格开始读取数据, 如 A2, 从 A列的第二行开始读取</param>
         public static async Task<IEnumerable<T>> ImportAsync<T>(MemoryStream stream, string? sheetName = null, string? startCell = "A1") where T : class, new()
         {
-            var config = GetOpenXmlConfiguration<T>(OptType.Import);
+            var config = GetOpenXmlConfiguration<T>(ExcelOperationType.Import);
             return await stream.QueryAsync<T>(sheetName, ExcelType.XLSX, startCell: startCell, configuration: config);
         }
 
@@ -34,7 +36,7 @@ namespace RuoYi.Framework.Utils
         {
             var list = new List<T>();
 
-            var config = GetOpenXmlConfiguration<T>(OptType.Import);
+            var config = GetOpenXmlConfiguration<T>(ExcelOperationType.Import);
 
             var sheetNames = MiniExcel.GetSheetNames(stream);
             foreach (var sheetName in sheetNames)
@@ -89,10 +91,10 @@ namespace RuoYi.Framework.Utils
         public static async Task GetImportTemplateAsync<T>(HttpResponse response, string? fileName = null, string? sheetName = null) where T : class, new()
         {
             var list = new List<T>();
-            await ExportAsync<T>(response, list, fileName, sheetName, OptType.Import);
+            await ExportAsync<T>(response, list, fileName, sheetName, ExcelOperationType.Import);
         }
 
-        public static async Task ExportAsync<T>(HttpResponse response, IEnumerable<T> list, string? fileName = null, string? sheetName = null, OptType optType = OptType.Export) where T : class, new()
+        public static async Task ExportAsync<T>(HttpResponse response, IEnumerable<T> list, string? fileName = null, string? sheetName = null, ExcelOperationType optType = ExcelOperationType.Export) where T : class, new()
         {
             if (string.IsNullOrEmpty(fileName))
             {
@@ -105,7 +107,7 @@ namespace RuoYi.Framework.Utils
 
             try
             {
-                fileName = System.Web.HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8);
+                fileName = HttpUtility.UrlEncode(fileName, Encoding.UTF8);
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 response.Headers["Content-Disposition"] = $"attachment;filename=\"{fileName}\"";
 
@@ -129,14 +131,14 @@ namespace RuoYi.Framework.Utils
         /// <summary>
         /// 动态列设置
         /// </summary>
-        private static OpenXmlConfiguration GetOpenXmlConfiguration<T>(OptType optType)
+        private static OpenXmlConfiguration GetOpenXmlConfiguration<T>(ExcelOperationType optType)
         {
             var dynamicColumns = new List<DynamicExcelColumn>();
 
             var props = typeof(T).GetProperties();
             foreach (var prop in props)
             {
-                var excelAttribute = prop.CustomAttributes.Where(a => a.AttributeType == typeof(Attributes.ExcelAttribute)).FirstOrDefault();
+                var excelAttribute = prop.CustomAttributes.Where(a => a.AttributeType == typeof(Data.Attributes.ExcelAttribute)).FirstOrDefault();
                 if (excelAttribute != null)
                 {
                     // 当前列是否忽略
@@ -174,7 +176,7 @@ namespace RuoYi.Framework.Utils
                         dynamicExcelColumn.Width = 12;
                     }
 
-                    // OptType == All || OptType == null 时 添加 dynamicExcelColumn
+                    // ExcelOperationType == All || ExcelOperationType == null 时 添加 dynamicExcelColumn
                     if (argOptType.TypedValue.Value != null)
                     {
                         // optType: 导入(Import), 导出(Export)

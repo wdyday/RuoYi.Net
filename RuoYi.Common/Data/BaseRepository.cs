@@ -22,10 +22,9 @@ namespace RuoYi.Data
         {
             await Task.FromResult(true);
         }
-        //public virtual async Task FillRelatedDataAsync(IEnumerable<TEntity> entities)
-        //{
-        //    await Task.FromResult(true);
-        //}
+        public virtual void FillRelatedData(IEnumerable<TDto> entities)
+        {
+        }
 
         public DbType GetDbType()
         {
@@ -84,32 +83,32 @@ namespace RuoYi.Data
 
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return this.FirstOrDefaultAsync(predicate).GetAwaiter().GetResult();
+            return Repo.Context.Queryable<TEntity>().Where(predicate).First();
         }
 
         public int Count(Expression<Func<TEntity, bool>> predicate)
         {
-            return this.CountAsync(predicate).GetAwaiter().GetResult();
+            return Repo.Context.Queryable<TEntity>().Count(predicate);
         }
 
         public int Count(TDto dto)
         {
-            return this.CountAsync(dto).GetAwaiter().GetResult();
+            return Queryable(dto).Count();
         }
 
         public bool Any(TDto dto)
         {
-            return this.AnyAsync(dto).GetAwaiter().GetResult();
+            return Queryable(dto).Any();
         }
 
         public TEntity GetFirst(TDto dto)
         {
-            return this.GetFirstAsync(dto).GetAwaiter().GetResult();
+            return Queryable(dto).First();
         }
 
         public List<TEntity> GetList(TDto dto)
         {
-            return this.GetListAsync(dto).GetAwaiter().GetResult();
+            return Queryable(dto).ToList();
         }
 
         // 分页查询
@@ -122,13 +121,35 @@ namespace RuoYi.Data
         // 分页查询
         public SqlSugarPagedList<TEntity> GetPagedList(ISugarQueryable<TEntity> queryable)
         {
-            return this.GetPagedListAsync(queryable).GetAwaiter().GetResult();
+            var pageDomain = PageUtils.GetPageDomain();
+
+            SqlSugarPagedList<TEntity> pagedInfo;
+            if (!string.IsNullOrEmpty(pageDomain.PropertyName))
+            {
+                OrderByType? orderByType = (pageDomain.IsAsc ?? "").EqualsIgnoreCase("desc") ? OrderByType.Desc : OrderByType.Asc;
+                pagedInfo = queryable
+                    .OrderByPropertyName(pageDomain.PropertyName, orderByType)
+                    .ToPagedList(pageDomain.PageNum, pageDomain.PageSize);
+            }
+            else
+            {
+                pagedInfo = queryable.ToPagedList(pageDomain.PageNum, pageDomain.PageSize);
+            }
+
+            pagedInfo.Code = StatusCodes.Status200OK;
+
+            return pagedInfo;
         }
 
         #region 返回 Dto
+        public TDto GetDtoFirst(TDto dto)
+        {
+            return DtoQueryable(dto).First();
+        }
+
         public List<TDto> GetDtoList(TDto dto)
         {
-            return this.GetDtoListAsync(dto).GetAwaiter().GetResult();
+            return DtoQueryable(dto).ToList();
         }
 
         // 分页查询
@@ -140,7 +161,29 @@ namespace RuoYi.Data
 
         public SqlSugarPagedList<TDto> GetDtoPagedList(ISugarQueryable<TDto> queryable)
         {
-            return this.GetDtoPagedListAsync(queryable).GetAwaiter().GetResult();
+            var pageDomain = PageUtils.GetPageDomain();
+
+            SqlSugarPagedList<TDto> pagedInfo;
+            if (!string.IsNullOrEmpty(pageDomain.PropertyName))
+            {
+                OrderByType? orderByType = (pageDomain.IsAsc ?? "").EqualsIgnoreCase("desc") ? OrderByType.Desc : OrderByType.Asc;
+                pagedInfo = queryable
+                    .OrderByPropertyName(pageDomain.PropertyName, orderByType)
+                    .ToPagedList(pageDomain.PageNum, pageDomain.PageSize);
+            }
+            else
+            {
+                pagedInfo = queryable.ToPagedList(pageDomain.PageNum, pageDomain.PageSize);
+            }
+            pagedInfo.Code = StatusCodes.Status200OK;
+
+            // 填充关联表数据
+            if (pagedInfo.Rows.IsNotEmpty())
+            {
+                FillRelatedData(pagedInfo.Rows);
+            }
+
+            return pagedInfo;
         }
         #endregion
 
@@ -207,12 +250,6 @@ namespace RuoYi.Data
             {
                 pagedInfo = await queryable.ToPagedListAsync(pageDomain.PageNum, pageDomain.PageSize);
             }
-
-            //// 填充关联表数据
-            //if (pagedInfo.Rows.IsNotEmpty())
-            //{
-            //    await FillRelatedDataAsync(pagedInfo.Rows);
-            //}
 
             pagedInfo.Code = StatusCodes.Status200OK;
 
@@ -290,16 +327,16 @@ namespace RuoYi.Data
 
         public bool Insert(TEntity entity)
         {
-            return this.InsertAsync(entity).GetAwaiter().GetResult();
+            return Repo.Context.Insertable(entity).ExecuteCommandIdentityIntoEntity();
         }
 
         /// <summary>
         /// 新增多条记录
         /// </summary>
         /// <param name="entities"></param>
-        public int Insert(IEnumerable<TEntity> entities)
+        public bool Insert(IEnumerable<TEntity> entities)
         {
-            return this.InsertAsync(entities).GetAwaiter().GetResult();
+            return Repo.Context.Insertable(entities.ToArray()).ExecuteCommandIdentityIntoEntity();
         }
 
         /// <summary>
@@ -323,7 +360,7 @@ namespace RuoYi.Data
         /// 新增多条记录
         /// </summary>
         /// <param name="dtos"></param>
-        public int Insert(IEnumerable<TDto> dtos)
+        public bool Insert(IEnumerable<TDto> dtos)
         {
             var entities = dtos.Adapt<List<TEntity>>();
             return this.Insert(entities);
@@ -365,12 +402,12 @@ namespace RuoYi.Data
 
         public int Update(TEntity entity, bool ignoreAllNullColumns = false)
         {
-            return this.UpdateAsync(entity, ignoreAllNullColumns).GetAwaiter().GetResult();
+            return Repo.Context.Updateable(entity).IgnoreColumns(ignoreAllNullColumns).ExecuteCommand();
         }
 
         public int Update(IEnumerable<TEntity> entities)
         {
-            return this.UpdateAsync(entities).GetAwaiter().GetResult();
+            return Repo.Context.Updateable(entities.ToArray()).ExecuteCommand();
         }
 
         public async Task<int> UpdateAsync(TEntity entity, bool ignoreAllNullColumns = false)
@@ -383,6 +420,15 @@ namespace RuoYi.Data
         {
             this.SetUpdateUserInfo(entities);
             return await Repo.UpdateAsync(entities);
+        }
+
+        /// <summary>
+        /// 大数据更新
+        /// </summary>
+        public async Task<int> UpdateBulkAsync(List<TEntity> entities)
+        {
+            this.SetUpdateUserInfo(entities);
+            return await Repo.Context.Fastest<TEntity>().BulkUpdateAsync(entities);
         }
 
         public int Update(TDto dto, bool ignoreAllNullColumns = false)
@@ -409,6 +455,15 @@ namespace RuoYi.Data
             return await this.UpdateAsync(entities);
         }
 
+        /// <summary>
+        /// 大数据更新
+        /// </summary>
+        public async Task<int> UpdateBulkAsync(List<TDto> dtos)
+        {
+            var entities = dtos.Adapt<List<TEntity>>();
+            return await this.UpdateBulkAsync(entities);
+        }
+
         #endregion
 
         #region Delete
@@ -419,7 +474,7 @@ namespace RuoYi.Data
         /// <param name="entity"></param>
         public int Delete(TEntity entity)
         {
-            return this.DeleteAsync(entity).GetAwaiter().GetResult();
+            return Repo.Context.Deleteable(entity).ExecuteCommand();
         }
 
         /// <summary>
@@ -429,7 +484,7 @@ namespace RuoYi.Data
         public int Delete(TDto dto)
         {
             var entity = dto.Adapt<TEntity>();
-            return this.DeleteAsync(entity).GetAwaiter().GetResult();
+            return this.Delete(entity);
         }
 
         /// <summary>
@@ -438,7 +493,7 @@ namespace RuoYi.Data
         /// <param name="key"></param>
         public int Delete<TKey>(TKey key)
         {
-            return this.DeleteAsync(key).GetAwaiter().GetResult();
+            return Repo.Context.Deleteable<TEntity>().In(key).ExecuteCommand();
         }
 
         /// <summary>
@@ -447,12 +502,12 @@ namespace RuoYi.Data
         /// <param name="keys"></param>
         public int Delete<TKey>(TKey[] keys)
         {
-            return this.DeleteAsync(keys).GetAwaiter().GetResult();
+            return Repo.Context.Deleteable<TEntity>().In(keys).ExecuteCommand();
         }
 
         public int Delete<TKey>(List<TKey> keys)
         {
-            return this.DeleteAsync(keys).GetAwaiter().GetResult();
+            return Repo.Context.Deleteable<TEntity>().In(keys).ExecuteCommand();
         }
 
         /// <summary>
@@ -461,7 +516,7 @@ namespace RuoYi.Data
         /// <param name="whereExpression"></param>
         public int Delete(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return this.DeleteAsync(whereExpression).GetAwaiter().GetResult();
+            return Repo.Context.Deleteable<TEntity>().In(whereExpression).ExecuteCommand();
         }
 
         /// <summary>
@@ -551,14 +606,16 @@ namespace RuoYi.Data
         // 新增时: 设置 用户信息
         private void SetCreateUserInfo(TEntity entity)
         {
-            if (typeof(TEntity).BaseType != typeof(UserBaseEntity)) return;
+            var baseType = typeof(TEntity).BaseType;
+            if (baseType != typeof(UserBaseEntity) && baseType != typeof(CreateUserBaseEntity)) return;
 
             ReflectUtils.SetPropertyValue(entity, "CreateBy", SecurityUtils.GetUsername()!);
             ReflectUtils.SetPropertyValue(entity, "CreateTime", DateTime.Now);
         }
         private void SetCreateUserInfo(IEnumerable<TEntity> entities)
         {
-            if (typeof(TEntity) != typeof(UserBaseEntity)) return;
+            var baseType = typeof(TEntity).BaseType;
+            if (baseType != typeof(UserBaseEntity) && baseType != typeof(CreateUserBaseEntity)) return;
             foreach (TEntity entity in entities)
             {
                 this.SetCreateUserInfo(entity);
@@ -575,7 +632,7 @@ namespace RuoYi.Data
         }
         private void SetUpdateUserInfo(IEnumerable<TEntity> entities)
         {
-            if (typeof(TEntity) != typeof(UserBaseEntity)) return;
+            if (typeof(TEntity).BaseType != typeof(UserBaseEntity)) return;
             foreach (TEntity entity in entities)
             {
                 this.SetUpdateUserInfo(entity);

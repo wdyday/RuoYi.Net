@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RuoYi.Framework.Attributes;
+using RuoYi.Data.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace RuoYi.Data.Dtos
@@ -11,7 +11,7 @@ namespace RuoYi.Data.Dtos
         public long? UserId { get; set; }
 
         /** 部门ID */
-        [Excel(Name = "部门编号", Type = OptType.Import)]
+        [Excel(Name = "部门编号", Type = ExcelOperationType.Import)]
         public long? DeptId { get; set; }
 
         /** 用户账号 */
@@ -57,20 +57,20 @@ namespace RuoYi.Data.Dtos
         public string? DelFlag { get; set; }
 
         /** 最后登录IP */
-        [Excel(Name = "最后登录IP", Type = OptType.Export)]
+        [Excel(Name = "最后登录IP", Type = ExcelOperationType.Export)]
         public string? LoginIp { get; set; }
 
         /** 最后登录时间 */
-        [Excel(Name = "最后登录时间", Format = "yyyy-MM-dd HH:mm:ss", Type = OptType.Export)]
+        [Excel(Name = "最后登录时间", Format = "yyyy-MM-dd HH:mm:ss", Type = ExcelOperationType.Export)]
         public DateTime LoginDate { get; set; }
 
         /** 部门对象 */
         public SysDeptDto? Dept { get; set; }
 
-        [Excel(Name = "部门名称", Type = OptType.Export)]
+        [Excel(Name = "部门名称", Type = ExcelOperationType.Export)]
         public string? DeptName { get; set; }
 
-        [Excel(Name = "部门负责人", Type = OptType.Export)]
+        [Excel(Name = "部门负责人", Type = ExcelOperationType.Export)]
         public string? DeptLeader { get; set; }
 
         /** 角色对象 */

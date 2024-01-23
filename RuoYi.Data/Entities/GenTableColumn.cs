@@ -1,5 +1,4 @@
-﻿using RuoYi.Framework.Extensions;
-using SqlSugar;
+﻿using SqlSugar;
 
 namespace RuoYi.Data.Entities
 {
@@ -161,7 +160,12 @@ namespace RuoYi.Data.Entities
         // 首字母小写的 NetField
         public string NetFieldLower()
         {
-            return NetField.ToLowerCamelCase() ?? "";
+            if (!string.IsNullOrEmpty(NetField))
+            {
+                return string.Concat(NetField.First().ToString().ToLower(), NetField.AsSpan(1));
+            }
+
+            return NetField;
         }
         #endregion
     }

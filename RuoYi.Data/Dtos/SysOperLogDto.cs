@@ -1,5 +1,5 @@
 using RuoYi.Data.Dtos;
-using RuoYi.Framework.Attributes;
+using RuoYi.Data.Attributes;
 
 namespace RuoYi.System.Data.Dtos
 {

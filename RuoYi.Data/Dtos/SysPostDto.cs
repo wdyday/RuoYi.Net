@@ -1,4 +1,4 @@
-using RuoYi.Framework.Attributes;
+using RuoYi.Data.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace RuoYi.Data.Dtos

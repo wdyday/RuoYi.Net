@@ -4,6 +4,21 @@ namespace RuoYi.Data.Entities
 {
     public class BaseEntity { }
 
+    public class CreateUserBaseEntity : BaseEntity
+    {
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        [SugarColumn(ColumnName = "create_by", ColumnDescription = "创建人")]
+        public string? CreateBy { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [SugarColumn(ColumnName = "create_time", ColumnDescription = "创建时间")]
+        public DateTime? CreateTime { get; set; }
+    }
+
     public class UserBaseEntity: BaseEntity
     {
         /// <summary>

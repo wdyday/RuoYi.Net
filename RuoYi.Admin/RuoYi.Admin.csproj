@@ -8,11 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Common\Services\ISystemService.cs" />
-	</ItemGroup>
-
-
-	<ItemGroup>
 		<None Remove="adminsettings.json" />
 		<None Remove="RuoYi.Admin.xml" />
 	</ItemGroup>

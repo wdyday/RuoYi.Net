@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-
-
+	
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -9,13 +7,9 @@
 		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 	</PropertyGroup>
 
-
-
 	<ItemGroup>
 	  <ProjectReference Include="..\RuoYi.Admin\RuoYi.Admin.csproj" />
 	</ItemGroup>
-
-
 
 	<ItemGroup>
 	  <Folder Include="logs\" />

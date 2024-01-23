@@ -1,9 +1,9 @@
-﻿namespace RuoYi.Framework.Attributes
+﻿namespace RuoYi.Data.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public class ExcelAttribute : Attribute
     {
-        public OptType Type { get; set; }
+        public ExcelOperationType Type { get; set; }
 
         public string? Name { get; set; }
 
@@ -21,7 +21,7 @@
     /// <summary>
     /// 操作类型（0：导出导入；1：仅导出；2：仅导入）
     /// </summary>
-    public enum OptType
+    public enum ExcelOperationType
     {
         All,
         Export,

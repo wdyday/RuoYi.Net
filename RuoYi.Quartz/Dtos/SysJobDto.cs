@@ -1,4 +1,4 @@
-using RuoYi.Framework.Attributes;
+using RuoYi.Data.Attributes;
 
 namespace RuoYi.Quartz.Dtos
 {

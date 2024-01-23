@@ -15,23 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Enums\BusinessType.cs" />
-    <Compile Remove="Enums\DataScope.cs" />
-    <Compile Remove="Enums\DelFlag.cs" />
-    <Compile Remove="Enums\GenType.cs" />
-    <Compile Remove="Enums\NoticeType.cs" />
-    <Compile Remove="Enums\OperatorType.cs" />
-    <Compile Remove="Enums\Sex.cs" />
-    <Compile Remove="Enums\Status.cs" />
-    <Compile Remove="Enums\YesNo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\RuoYi.Framework\RuoYi.Framework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Enums\" />
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.112" />
   </ItemGroup>
 
 </Project>
