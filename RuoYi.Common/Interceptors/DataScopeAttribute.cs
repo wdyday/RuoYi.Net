@@ -1,12 +1,11 @@
 ﻿using AspectCore.DynamicProxy;
-using Furion.Logging;
 using RuoYi.Common.Constants;
-using RuoYi.Common.Utils;
 using RuoYi.Data;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Models;
 using RuoYi.Data.Utils;
 using RuoYi.Framework.Extensions;
+using RuoYi.Framework.Logging;
 using RuoYi.Framework.Utils;
 using System.Text;
 
@@ -59,7 +58,7 @@ namespace RuoYi.Common.Interceptors
             StringBuilder sqlString = new StringBuilder();
             List<string> conditions = new List<string>();
 
-            foreach (SysRoleDto role in user.Roles)
+            foreach (SysRoleDto role in user.Roles ?? new List<SysRoleDto>())
             {
                 var dataScope = role.DataScope ?? DataScope.Custom;
                 if (dataScope != DataScope.Custom && conditions.Contains(dataScope))

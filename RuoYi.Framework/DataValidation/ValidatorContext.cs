@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Collections;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
@@ -30,8 +29,8 @@ internal static class ValidatorContext
             {
                 _modelState = modelState;
                 // 将验证错误信息转换成字典并序列化成 Json
-                validationResults = modelState.Where(u => modelState[u.Key].ValidationState == ModelValidationState.Invalid)
-                        .ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage).ToArray());
+                validationResults = modelState.Where(u => modelState[u.Key]!.ValidationState == ModelValidationState.Invalid)
+                        .ToDictionary(u => u.Key, u => modelState[u.Key]!.Errors.Select(c => c.ErrorMessage).ToArray());
             }
             // 如果是 ValidationProblemDetails 特殊类型
             else if (errors is ValidationProblemDetails validation)
@@ -50,8 +49,8 @@ internal static class ValidatorContext
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 WriteIndented = true
             });
-            firstErrorMessage = (validationResults as Dictionary<string, string[]>).First().Value[0];
-            firstErrorProperty = (validationResults as Dictionary<string, string[]>).First().Key;
+            firstErrorMessage = (validationResults as Dictionary<string, string[]>)!.First().Value[0];
+            firstErrorProperty = (validationResults as Dictionary<string, string[]>)!.First().Key;
         }
         // 其他类型
         else

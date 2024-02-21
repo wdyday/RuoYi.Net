@@ -1,8 +1,6 @@
-﻿using Furion;
-using Furion.DependencyInjection;
-using Furion.JsonSerialization;
-using Furion.Logging;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using RuoYi.Framework.JsonSerialization;
+using RuoYi.Framework.Logging;
 using RuoYi.Framework.Utils;
 using StackExchange.Redis;
 using System.Text;

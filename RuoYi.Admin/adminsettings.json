@@ -1,6 +1,4 @@
 ﻿{
-  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
-
   "CorsAccessorSettings": {
     "WithExposedHeaders": [
       "access-token",
@@ -19,20 +17,20 @@
       "IncludeOfMethods": [], // 是否指定拦截特定方法，当 GlobalEnabled: false 有效
       "ExcludeOfMethods": [], // 是否指定排除特定方法，当 GlobalEnabled: true 有效
       "BahLogLevel": "Information", // 配置 Oops.Oh 和 Oops.Bah 业务日志输出级别，默认 Information
-      "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
-      "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
-      "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
-      "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
-      "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
+      "WithReturnValue": true, // 配置是否包含返回值，默认 `true`
+      "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出
+      "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None
+      "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false
+      "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase
       //"MethodsSettings": [
-      //  // 配置被监视方法更多信息，Furion 4.3.9+ 有效
+      //  // 配置被监视方法更多信息
       //  {
-      //    "FullName": "Furion.Application.TestLoggerServices.MethodName", // 方法完全限定名
-      //    "WithReturnValue": true, // 配置是否包含返回值，默认 `true`，Furion 4.3.9+ 有效
-      //    "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出，Furion 4.3.9+ 有效
-      //    "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false，Furion 4.8.2+ 有效
-      //    "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None，Furion 4.5.2+ 有效
-      //    "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase，Furion 4.8.6.12+ 有效
+      //    "FullName": "RuoYi.Application.TestLoggerServices.MethodName", // 方法完全限定名
+      //    "WithReturnValue": true, // 配置是否包含返回值，默认 `true`
+      //    "ReturnValueThreshold": 0, // 配置返回值字符串阈值，默认 0，全量输出
+      //    "JsonIndented": false, // 配置 LoggingMonitor Json 格式化行为，默认 false
+      //    "JsonBehavior": "None", // 配置 LoggingMonitor Json 输出行为，默认 None
+      //    "ContractResolver": "CamelCase" // 配置 LoggingMonitor 序列化属性命名规则，默认 CamelCase
       //  }
       //]
     }
@@ -42,7 +40,7 @@
     // 名称
     "Name": "RuoYi.Net",
     // 版本
-    "Version": "1.0.0",
+    "Version": "2.0.0",
     // 版权年份
     "CopyrightYear": "2023",
     // 实例演示开关
@@ -63,7 +61,7 @@
 
   "JWTSettings": {
     "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
-    "IssuerSigningKey": "6xxB6AOJqysdt-rvz=&NWc=lB+3r=$", // 密钥，string 类型，必须是复杂密钥，长度大于16
+    "IssuerSigningKey": "Z$7H5g#&&#uxzv6DyVxS%aJ%P4q*G$7uwM#Z", // 密钥，string 类型，必须是复杂密钥，长度大于32
     "ValidateIssuer": true, // 是否验证签发方，bool 类型，默认true
     "ValidIssuer": "ruoyi.net.issuer", // 签发方，string 类型
     "ValidateAudience": true, // 是否验证签收方，bool 类型，默认true

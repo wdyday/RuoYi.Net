@@ -1,5 +1,4 @@
-﻿using Furion;
-using RuoYi.Framework.Configs;
+﻿using RuoYi.Framework.Configs;
 
 namespace RuoYi.Framework
 {

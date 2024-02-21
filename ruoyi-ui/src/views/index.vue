@@ -112,6 +112,11 @@
                 <li>添加限流 & 修复模板判断条件bug</li>
               </ol>
             </el-collapse-item>
+            <el-collapse-item title="v2.0.0 - 2024-02-21">
+              <ol>
+                <li>移除Furion引用</li>
+              </ol>
+            </el-collapse-item>
           </el-collapse>
         </el-card>
       </el-col>

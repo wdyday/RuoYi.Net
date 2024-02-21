@@ -1,10 +1,4 @@
-using Furion.DependencyInjection;
-using Mapster;
-using Microsoft.Extensions.Logging;
 using Quartz;
-using Quartz.Core;
-using RuoYi.Data;
-using RuoYi.Framework.Attributes;
 using RuoYi.Framework.Interceptors;
 using RuoYi.Quartz.Constants;
 using RuoYi.Quartz.Dtos;
@@ -12,8 +6,6 @@ using RuoYi.Quartz.Entities;
 using RuoYi.Quartz.Enums;
 using RuoYi.Quartz.Repositories;
 using RuoYi.Quartz.Utils;
-using SqlSugar;
-using static Quartz.Logging.OperationName;
 
 namespace RuoYi.Quartz.Services
 {

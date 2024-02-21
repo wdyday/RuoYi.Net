@@ -6,7 +6,7 @@ namespace RuoYi.Admin
     /// 系统服务接口
     /// </summary>
     [ApiDescriptionSettings("Common")]
-    public class IndexController : IDynamicApiController
+    public class IndexController : ControllerBase
     {
         private readonly ILogger<IndexController> _logger;
 
@@ -21,6 +21,7 @@ namespace RuoYi.Admin
         /// 获取系统描述
         /// </summary>
         /// <returns></returns>
+        [HttpGet("GetDescription")]
         public string GetDescription()
         {
             _logger.LogInformation("获取系统描述");

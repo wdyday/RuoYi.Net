@@ -4,22 +4,47 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="UnifyResult\UnifyResultProvider.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Exceptions\Assets\error.html" />
+    <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+    <None Remove="SpecificationDocument\Assets\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Exceptions\Assets\error.html" />
+    <EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
+    <EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AspectCore.Abstractions" Version="2.4.0" />
     <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.4.0" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.48" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.48" />
-    <PackageReference Include="Furion.Pure" Version="4.8.8.48" />
+    <PackageReference Include="Ben.Demystifier" Version="0.4.1" />
     <PackageReference Include="Hardware.Info" Version="100.0.0" />
     <PackageReference Include="Lazy.Captcha.Core" Version="2.0.6" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.16" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
     <PackageReference Include="MiniExcel" Version="1.31.2" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
+    <PackageReference Include="MiniProfiler.Shared" Version="4.3.8" />
     <PackageReference Include="RedisRateLimiting.AspNetCore" Version="1.0.9" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
     <PackageReference Include="SqlSugarCore" Version="5.1.4.112" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
     <PackageReference Include="UAParser.Core" Version="4.0.2" />
   </ItemGroup>
 

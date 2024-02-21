@@ -1,4 +1,4 @@
-﻿using Furion.Authorization;
+﻿using RuoYi.Framework.Authorization;
 
 namespace RuoYi.Admin.Authorization
 {

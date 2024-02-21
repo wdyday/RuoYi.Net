@@ -1,5 +1,4 @@
-﻿using Furion;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 
 namespace RuoYi.Framework

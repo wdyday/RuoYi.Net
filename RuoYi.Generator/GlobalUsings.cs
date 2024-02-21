@@ -1,5 +1,5 @@
-﻿global using Furion;
-global using Furion.DependencyInjection;
+﻿global using RuoYi.Framework;
+global using RuoYi.Framework.DependencyInjection;
 global using Mapster;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Http;

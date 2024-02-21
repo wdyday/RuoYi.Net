@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace RuoYi.Framework.Utils
 {
@@ -100,5 +101,6 @@ namespace RuoYi.Framework.Utils
             }
             return dstList;
         }
+
     }
 }

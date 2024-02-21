@@ -1,4 +1,4 @@
-﻿using Furion.ConfigurableOptions;
+﻿using RuoYi.Framework.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
 
 namespace RuoYi.Generator.Options

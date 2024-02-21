@@ -1,6 +1,6 @@
 ﻿using AspectCore.DependencyInjection;
 using AspectCore.DynamicProxy;
-using Furion.Logging;
+using RuoYi.Framework.Logging;
 using SqlSugar;
 
 namespace RuoYi.Framework.Interceptors

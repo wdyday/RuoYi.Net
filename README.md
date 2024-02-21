@@ -1,7 +1,7 @@
 <p align="center">
 	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-dd77653d7c9f197dd9d93684f3c8dcfbab6.png">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi.Net v1.0.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi.Net v2.0.0</h1>
 <h4 align="center">基于.NET开发的快速开发框架</h4>
 
 ## 平台简介
@@ -9,7 +9,8 @@
 	
 ## 技术框架及依赖
 1. 后端		
-   - 基础架构: .NET7 + 国产优秀框架<a href="https://github.com/MonkSoul/Furion" target="_blank">Furion</a>, Excel处理基于国产优秀框架<a href="https://github.com/mini-software/MiniExcel" target="_blank">MiniExcel</a>
+   - 基础架构: .NET7
+   - Excel处理: 基于国产优秀框架<a href="https://github.com/mini-software/MiniExcel" target="_blank">MiniExcel</a>
    - 数据库: MySql + 国产优秀框架<a href="https://github.com/DotNetNext/SqlSugar" target="_blank">SqlSugar</a>, SqlSugar支持多数据库, 目前项目支持MySql/SqlServer, 其他数据库支持待完善.
    
 2. 前端 

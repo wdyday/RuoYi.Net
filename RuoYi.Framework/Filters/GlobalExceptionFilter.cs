@@ -49,8 +49,8 @@ namespace RuoYi.Framework.Filters
         {
             var serviceExcepion = context.Exception as ServiceException;
             return serviceExcepion!.Code.HasValue 
-                ? AjaxResult.Error(serviceExcepion!.Code.Value, serviceExcepion!.ErrorMessage!)
-                : AjaxResult.Error(serviceExcepion!.ErrorMessage!);
+                ? AjaxResult.Error(serviceExcepion!.Code.Value, serviceExcepion!.ErrorMessage?.ToString() ?? "")
+                : AjaxResult.Error(serviceExcepion!.ErrorMessage?.ToString() ?? "");
         }
     }
 }

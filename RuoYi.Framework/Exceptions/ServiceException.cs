@@ -15,7 +15,12 @@ namespace RuoYi.Framework.Exceptions
         /// <summary>
         /// 错误提示
         /// </summary>
-        public string? ErrorMessage { get; set; }
+        public object? ErrorMessage { get; set; }
+
+        /// <summary>
+        /// 是否是数据验证异常
+        /// </summary>
+        public bool ValidationException { get; set; } = false;
 
         public ServiceException() : base()
         {

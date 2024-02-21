@@ -1,11 +1,10 @@
-﻿using Furion.Authorization;
-using Microsoft.IdentityModel.JsonWebTokens;
+﻿using Microsoft.IdentityModel.JsonWebTokens;
 using RuoYi.Common.Utils;
 using RuoYi.Data;
 using RuoYi.Data.Models;
 using RuoYi.Data.Utils;
+using RuoYi.Framework.JwtBearer;
 using RuoYi.Framework.Redis;
-using System.Security.Claims;
 using UAParser.Interfaces;
 
 namespace RuoYi.System.Services

@@ -1,10 +1,11 @@
-﻿using Furion;
-using Furion.DataEncryption;
-using Furion.Logging;
+﻿using RuoYi.Framework;
+using RuoYi.Framework.DataEncryption;
+using RuoYi.Framework.Logging;
 using Microsoft.AspNetCore.Http;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Models;
 using RuoYi.Framework.Exceptions;
+using RuoYi.Framework.JwtBearer;
 using RuoYi.Framework.Redis;
 using System.Security.Claims;
 

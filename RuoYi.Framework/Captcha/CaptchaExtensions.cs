@@ -1,5 +1,4 @@
-﻿using Furion;
-using Lazy.Captcha.Core.Generator;
+﻿using Lazy.Captcha.Core.Generator;
 using RuoYi.Framework;
 using RuoYi.Framework.Captcha;
 using RuoYi.Framework.Extensions;

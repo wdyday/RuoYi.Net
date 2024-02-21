@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace SqlSugar;
 
@@ -656,7 +654,7 @@ where TEntity : class, new()
     {
         //return _sqlSugarRepository.Change<TChangeEntity>();
 
-        return Furion.App.GetService<ISqlSugarRepository<TEntity>>().Change<TChangeEntity>();
+        return RuoYi.Framework.App.GetService<ISqlSugarRepository<TEntity>>().Change<TChangeEntity>();
     }
 
     //public TRepository ChangeRepository<TRepository>() where TRepository : ISugarRepository

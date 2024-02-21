@@ -1,5 +1,4 @@
-﻿using Furion;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.RegularExpressions;
 

@@ -1,4 +1,4 @@
-﻿using Furion;
+﻿using RuoYi.Framework;
 
 namespace RuoYi.Common.Interceptors
 {

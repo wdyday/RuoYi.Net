@@ -288,7 +288,7 @@ namespace RuoYi.Generator.Utils
             }
             catch (Exception ex)
             {
-                Furion.Logging.Log.Error("Export zip error.", ex);
+                RuoYi.Framework.Logging.Log.Error("Export zip error.", ex);
                 throw new ServiceException("导出zip失败");
             }
         }

@@ -1,8 +1,4 @@
-﻿using Furion.Logging;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic;
-
-namespace RuoYi.Generator.Services
+﻿namespace RuoYi.Generator.Services
 {
     /// <summary>
     /// 业务字段 服务层

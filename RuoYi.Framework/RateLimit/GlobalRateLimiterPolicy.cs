@@ -34,7 +34,7 @@ namespace RuoYi.Framework.RateLimit
         public RateLimitPartition<string> GetPartition(HttpContext httpContext)
         {
             var ip = IpUtils.GetIpAddr();
-            var rateLimitConfig = Furion.App.GetConfig<GlobalLimitConfig>(nameof(GlobalLimitConfig));
+            var rateLimitConfig = App.GetConfig<GlobalLimitConfig>(nameof(GlobalLimitConfig));
             var permitLimit = rateLimitConfig?.PermitLimit ?? 50; // 并发最大数量
             var window = rateLimitConfig?.Window ?? 1; // 默认一秒
 

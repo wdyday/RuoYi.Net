@@ -1,7 +1,7 @@
-﻿using Furion.Logging;
-using Furion.RemoteRequest.Extensions;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using RuoYi.Framework;
+using RuoYi.Framework.Logging;
+using RuoYi.Framework.RemoteRequest.Extensions;
 using RuoYi.Framework.Utils;
 
 namespace RuoYi.Common.Utils

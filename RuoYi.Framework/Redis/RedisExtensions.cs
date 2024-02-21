@@ -1,4 +1,4 @@
-﻿using Furion;
+﻿using RuoYi.Framework;
 using RuoYi.Framework.Redis;
 using StackExchange.Redis;
 

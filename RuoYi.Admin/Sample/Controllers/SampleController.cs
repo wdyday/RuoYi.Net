@@ -9,7 +9,7 @@ namespace RuoYi.Admin.Sample
     /// 示例接口
     /// </summary>
     [ApiDescriptionSettings("Sample")]
-    public class SampleController : IDynamicApiController
+    public class SampleController : ControllerBase
     {
         private readonly ILogger<SampleController> _logger;
 

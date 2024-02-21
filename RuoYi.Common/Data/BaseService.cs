@@ -1,5 +1,5 @@
-﻿using Furion.DependencyInjection;
-using Furion.Logging;
+﻿using RuoYi.Framework.DependencyInjection;
+using RuoYi.Framework.Logging;
 using Mapster;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Entities;
@@ -12,7 +12,7 @@ namespace RuoYi.Data
         where TEntity : BaseEntity, new()
         where TDto : BaseDto, new()
     {
-        public virtual BaseRepository<TEntity, TDto> BaseRepo { get; set; }
+        public virtual required BaseRepository<TEntity, TDto> BaseRepo { get; set; }
 
         #region sync
 

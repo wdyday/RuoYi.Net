@@ -1,4 +1,4 @@
-﻿using Furion;
+﻿using RuoYi.Framework;
 using System.Reflection;
 
 namespace RuoYi.Web.Entry

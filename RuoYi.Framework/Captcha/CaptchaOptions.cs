@@ -1,7 +1,7 @@
-﻿using Furion.ConfigurableOptions;
-using Lazy.Captcha.Core;
+﻿using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
 using Microsoft.Extensions.Configuration;
+using RuoYi.Framework.ConfigurableOptions;
 using SkiaSharp;
 
 namespace RuoYi.Framework.Captcha

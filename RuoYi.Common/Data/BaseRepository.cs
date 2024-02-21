@@ -1,9 +1,9 @@
-﻿using Furion.DependencyInjection;
-using Mapster;
+﻿using Mapster;
 using Microsoft.AspNetCore.Http;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Entities;
 using RuoYi.Data.Utils;
+using RuoYi.Framework.DependencyInjection;
 using RuoYi.Framework.Extensions;
 using RuoYi.Framework.Utils;
 using SqlSugar;

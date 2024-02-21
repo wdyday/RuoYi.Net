@@ -1,5 +1,4 @@
-﻿using Furion;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using RuoYi.Common.Constants;
 using RuoYi.Common.Utils;
 using RuoYi.Framework;

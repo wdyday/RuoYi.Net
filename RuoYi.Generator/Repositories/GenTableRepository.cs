@@ -1,4 +1,4 @@
-﻿using Furion.JsonSerialization;
+﻿using RuoYi.Framework.JsonSerialization;
 using RuoYi.Generator.RepoSql;
 
 namespace RuoYi.Generator.Repositories

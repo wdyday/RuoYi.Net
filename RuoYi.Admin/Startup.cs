@@ -134,7 +134,7 @@ namespace RuoYi.Admin
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Furion
+            // 注入基础中间件
             app.UseInject();
 
             // 限流

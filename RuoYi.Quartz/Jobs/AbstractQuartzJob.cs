@@ -1,5 +1,5 @@
-﻿using Furion.Logging;
-using Quartz;
+﻿using Quartz;
+using RuoYi.Framework.Logging;
 using RuoYi.Quartz.Constants;
 using RuoYi.Quartz.Dtos;
 using RuoYi.Quartz.Entities;

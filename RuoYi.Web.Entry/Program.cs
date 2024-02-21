@@ -16,7 +16,7 @@ internal class Program
                 webBuilder.ConfigureKestrel(serverOptions =>
                 {
                     // Set properties and call methods on options
-                    //serverOptions.Limits.MaxRequestBodySize = 50 * 1024 * 1024;
+                    // serverOptions.Limits.MaxRequestBodySize = 50 * 1024 * 1024;
                     serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(1);
                     serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
                 })

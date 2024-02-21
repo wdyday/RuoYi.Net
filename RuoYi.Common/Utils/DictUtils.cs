@@ -1,6 +1,6 @@
-﻿using Furion;
-using RuoYi.Data;
+﻿using RuoYi.Data;
 using RuoYi.Data.Entities;
+using RuoYi.Framework;
 using RuoYi.Framework.Extensions;
 using RuoYi.Framework.Redis;
 using RuoYi.Framework.Utils;
