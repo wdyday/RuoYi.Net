@@ -1,24 +1,18 @@
 ﻿using AspectCore.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RuoYi.Admin.Authorization;
 using RuoYi.Common.Files;
-using RuoYi.Framework;
 using RuoYi.Framework.Filters;
 using RuoYi.Framework.RateLimit;
 
 namespace RuoYi.Admin
 {
     [AppStartup(10000)]
-    public class Startup : AppStartup
+    public class Startup: AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
-        {
+         {
             services.AddConsoleFormatter();
             services.AddCorsAccessor();
 

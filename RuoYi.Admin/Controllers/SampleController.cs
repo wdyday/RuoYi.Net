@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using RuoYi.Data.Slave.Dtos;
 using RuoYi.Framework.RateLimit;
 
-namespace RuoYi.Admin.Sample
+namespace RuoYi.Admin
 {
     /// <summary>
     /// 示例接口

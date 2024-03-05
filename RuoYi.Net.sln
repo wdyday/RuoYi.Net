@@ -5,8 +5,6 @@ VisualStudioVersion = 17.3.32519.111
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Admin", "RuoYi.Admin\RuoYi.Admin.csproj", "{AB699EE9-43A8-46F2-A855-04A26DE63372}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Web.Entry", "RuoYi.Web.Entry\RuoYi.Web.Entry.csproj", "{9826E365-EEE9-4721-A738-B02AB64D47E5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.Framework", "RuoYi.Framework\RuoYi.Framework.csproj", "{9AB3519D-E9FC-4158-B4AF-5E2A1013EA82}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuoYi.System", "RuoYi.System\RuoYi.System.csproj", "{4163D950-81CA-475D-A4E1-DFE95CECBA68}"
@@ -31,10 +29,6 @@ Global
 		{AB699EE9-43A8-46F2-A855-04A26DE63372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB699EE9-43A8-46F2-A855-04A26DE63372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB699EE9-43A8-46F2-A855-04A26DE63372}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9826E365-EEE9-4721-A738-B02AB64D47E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9826E365-EEE9-4721-A738-B02AB64D47E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9826E365-EEE9-4721-A738-B02AB64D47E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9826E365-EEE9-4721-A738-B02AB64D47E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9AB3519D-E9FC-4158-B4AF-5E2A1013EA82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AB3519D-E9FC-4158-B4AF-5E2A1013EA82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AB3519D-E9FC-4158-B4AF-5E2A1013EA82}.Release|Any CPU.ActiveCfg = Release|Any CPU

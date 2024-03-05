@@ -1,7 +1,7 @@
 ﻿using RuoYi.Framework;
 using System.Reflection;
 
-namespace RuoYi.Web.Entry
+namespace RuoYi.Admin
 {
     public class SingleFilePublish : ISingleFilePublish
     {
@@ -17,7 +17,6 @@ namespace RuoYi.Web.Entry
                 "RuoYi.Framework",
                 "RuoYi.Common",
                 "RuoYi.Data",
-                "RuoYi.Web.Entry",
                 "RuoYi.Admin",
                 "RuoYi.Generator",
                 "RuoYi.System"

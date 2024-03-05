@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using RuoYi.Admin;
-
-namespace RuoYi.Web.Entry.Controllers
+﻿namespace RuoYi.Admin.Controllers
 {
     [SuppressMonitor]
     [AllowAnonymous]

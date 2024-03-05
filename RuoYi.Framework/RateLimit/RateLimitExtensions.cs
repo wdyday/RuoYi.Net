@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Redis;
 
 namespace RuoYi.Framework.RateLimit
 {

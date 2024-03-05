@@ -1,8 +1,4 @@
-﻿// 版权归百小僧及百签科技（广东）有限公司所有。
-//
-// 此源代码遵循位于源代码树根目录中的 LICENSE 文件的许可证。
-
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -41,8 +37,8 @@ public sealed class LoggingMonitorSettings
     /// <summary>
     /// 业务日志消息级别
     /// </summary>
-    /// <remarks>控制 Oops.Oh 或 Oops.Bah 日志记录位置，默认写入 <see cref="LogLevel.Information"/></remarks>
-    public LogLevel BahLogLevel { get; set; } = LogLevel.Information;
+    /// <remarks>控制业务日志记录位置，默认写入 <see cref="LogLevel.Information"/></remarks>
+    public LogLevel ServiceLogLevel { get; set; } = LogLevel.Information;
 
     /// <summary>
     /// 默认输出日志级别

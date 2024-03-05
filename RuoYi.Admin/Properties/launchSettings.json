@@ -7,7 +7,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "RuoYi.Web.Entry": {
+    "RuoYi.Admin": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -1046,7 +1046,7 @@ public sealed class LoggingMonitorAttribute : Attribute, IAsyncActionFilter, IAs
             else
             {
                 // 读取配置的日志级别并写入
-                logger.Log(Settings.BahLogLevel, finalMessage);
+                logger.Log(Settings.ServiceLogLevel, finalMessage);
             }
         }
     }

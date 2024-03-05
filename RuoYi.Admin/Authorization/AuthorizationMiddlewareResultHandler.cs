@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization.Policy;
 using RuoYi.Common.Interceptors;
 using RuoYi.Data.Models;
-using RuoYi.Framework;
-using RuoYi.Framework.Extensions;
 using RuoYi.System.Services;
 
 namespace RuoYi.Admin.Authorization
