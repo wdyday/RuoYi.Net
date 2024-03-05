@@ -5,13 +5,13 @@
 <h4 align="center">基于.NET开发的快速开发框架</h4>
 
 ## 平台简介
-<a href="https://github.com/yangzongzhuan/RuoYi" target="_blank">若依</a>是一款优秀的Java平台下的后台管理系统, 非常受欢迎. .NET平台下也有很多类似的开源项目, 但使用起来总感觉不够顺手, 因此便有了RuoYi.Net项目. RuoYi.Net目前仅实现了前后端分离版, 后端几乎一比一复刻了RuoYi后端功能, 前端仅对原ruoyi-ui(vue2版本)做了极小的改动以适应.net(如:服务监控页面的java相关信息改成了.net相关信息, 不在意此功能的可直接使用原ruoyi-ui).
+若依(<a href="https://github.com/yangzongzhuan/RuoYi" target="_blank">github</a>, <a href="https://gitee.com/y_project/RuoYi" target="_blank">gitee</a>)是一款优秀的Java平台下的后台管理系统, 非常受欢迎. .NET平台下也有很多类似的开源项目, 但使用起来总感觉不够顺手, 因此便有了RuoYi.Net项目. RuoYi.Net目前仅实现了前后端分离版, 后端几乎一比一复刻了RuoYi后端功能, 前端仅对原ruoyi-ui(vue2版本)做了极小的改动以适应.net(如:服务监控页面的java相关信息改成了.net相关信息, 不在意此功能的可直接使用原ruoyi-ui).
 	
 ## 技术框架及依赖
 1. 后端		
    - 基础架构: .NET7
-   - Excel处理: 基于国产优秀框架<a href="https://github.com/mini-software/MiniExcel" target="_blank">MiniExcel</a>
-   - 数据库: MySql + 国产优秀框架<a href="https://github.com/DotNetNext/SqlSugar" target="_blank">SqlSugar</a>, SqlSugar支持多数据库, 目前项目支持MySql/SqlServer, 其他数据库支持待完善.
+   - Excel处理: 基于国产优秀框架MiniExcel(<a href="https://github.com/mini-software/MiniExcel" target="_blank">github</a>, <a href="https://gitee.com/dotnetchina/MiniExcel" target="_blank">gitee</a>
+   - 数据库: MySql + 国产优秀框架SqlSugar(<a href="https://github.com/DotNetNext/SqlSugar" target="_blank">github</a>, <a href="https://gitee.com/dotnetchina/SqlSugar" target="_blank">gitee</a>), SqlSugar支持多数据库, 目前项目支持MySql/SqlServer, 其他数据库支持待完善.
    
 2. 前端 
    VUE2 (element-ui)
@@ -39,3 +39,7 @@
 16. 缓存监控：对系统的缓存查询，删除、清空等操作。
 17. 在线构建器：拖动表单元素生成相应的HTML代码。
 18. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。(暂无)
+
+
+## 我的联系方式
+有问题可以加我的微信(wdyday)或QQ(49870920)咨询.
