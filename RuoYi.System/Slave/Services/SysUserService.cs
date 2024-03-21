@@ -10,7 +10,7 @@ namespace RuoYi.System.Slave.Services
     ///  author ruoyi
     ///  date   2023-08-21 14:40:20
     /// </summary>
-    public class SysUserService : BaseService<SysUser, SysUserDto>, ITransient
+    public class SysUserService : BaseService<SlaveSysUser, SlaveSysUserDto>, ITransient
     {
         private readonly ILogger<SysUserService> _logger;
         private readonly SysUserRepository _sysUserRepository;
@@ -26,10 +26,10 @@ namespace RuoYi.System.Slave.Services
         /// <summary>
         /// 查询 用户信息表 详情
         /// </summary>
-        public async Task<SysUserDto> GetAsync(long? id)
+        public async Task<SlaveSysUserDto> GetAsync(long? id)
         {
             var entity = await base.FirstOrDefaultAsync(e => e.UserId == id);
-            var dto = entity.Adapt<SysUserDto>();
+            var dto = entity.Adapt<SlaveSysUserDto>();
             // TODO 填充关联表数据
             return dto;
         }
@@ -39,7 +39,7 @@ namespace RuoYi.System.Slave.Services
         /// </summary>
         /// <param name="username">用户名</param>
         /// <returns></returns>
-        public async Task<SysUser> GetByUsernameAsync(string username)
+        public async Task<SlaveSysUser> GetByUsernameAsync(string username)
         {
             return await base.FirstOrDefaultAsync(e => e.UserName == username);
         }

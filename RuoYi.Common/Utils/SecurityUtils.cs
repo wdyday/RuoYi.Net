@@ -1,19 +1,20 @@
-﻿using RuoYi.Framework;
-using RuoYi.Framework.DataEncryption;
-using RuoYi.Framework.Logging;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using RuoYi.Data;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Models;
+using RuoYi.Framework;
+using RuoYi.Framework.Cache;
+using RuoYi.Framework.DataEncryption;
 using RuoYi.Framework.Exceptions;
 using RuoYi.Framework.JwtBearer;
-using RuoYi.Framework.Redis;
+using RuoYi.Framework.Logging;
 using System.Security.Claims;
 
-namespace RuoYi.Data.Utils
+namespace RuoYi.Common.Utils
 {
     public static class SecurityUtils
     {
-        private static RedisCache _redisCache = App.GetService<RedisCache>();
+        private static ICache _cache = App.GetService<ICache>();
 
         /// <summary>
         /// 登录用户ID
@@ -61,9 +62,9 @@ namespace RuoYi.Data.Utils
                 {
                     var claims = ParseToken(token);
                     // 解析对应的权限以及用户信息
-                    string uuid = claims.Where(c => c.Type.Equals(Constants.LOGIN_USER_KEY)).First().Value;
+                    string uuid = claims.Where(c => c.Type.Equals(RuoYi.Data.Constants.LOGIN_USER_KEY)).First().Value;
                     string userKey = GetTokenKey(uuid);
-                    LoginUser user = _redisCache.Get<LoginUser>(userKey);
+                    LoginUser user = _cache.Get<LoginUser>(userKey);
                     return user;
                 }
                 catch (Exception e)
@@ -95,9 +96,9 @@ namespace RuoYi.Data.Utils
         public static string GetToken(HttpRequest request)
         {
             string token = request.Headers["Authorization"]!;
-            if (!string.IsNullOrEmpty(token) && token.StartsWith(Constants.TOKEN_PREFIX))
+            if (!string.IsNullOrEmpty(token) && token.StartsWith(RuoYi.Data.Constants.TOKEN_PREFIX))
             {
-                token = token.Replace(Constants.TOKEN_PREFIX, "");
+                token = token.Replace(RuoYi.Data.Constants.TOKEN_PREFIX, "");
             }
             return token;
         }

@@ -9,8 +9,7 @@ public sealed class Startup : AppStartup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        // options
-        // 代码生成配置信息
+        // 配置热重载
         services.AddConfigurableOptions<GenOptions>();
 
         // RazorEngine

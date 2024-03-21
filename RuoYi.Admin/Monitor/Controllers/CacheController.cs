@@ -1,8 +1,6 @@
-using Microsoft.Extensions.Logging;
 using RuoYi.Data;
 using RuoYi.Data.Models;
-using RuoYi.Framework;
-using RuoYi.Framework.Redis;
+using RuoYi.Framework.Cache;
 using RuoYi.Framework.Utils;
 using RuoYi.System.Services;
 
@@ -16,7 +14,7 @@ namespace RuoYi.System.Controllers;
 public class CacheController : ControllerBase
 {
     private readonly ILogger<SysOperLogController> _logger;
-    private readonly RedisCache _redisCache;
+    private readonly ICache _cache;
     private readonly ServerService _serverService;
 
     private static List<SysCache> _caches = new List<SysCache>
@@ -31,11 +29,11 @@ public class CacheController : ControllerBase
     };
 
     public CacheController(ILogger<SysOperLogController> logger,
-        RedisCache redisCache,
+        ICache cache,
         ServerService serverService)
     {
         _logger = logger;
-        _redisCache = redisCache;
+        _cache = cache;
         _serverService = serverService;
     }
 
@@ -46,9 +44,9 @@ public class CacheController : ControllerBase
     [AppAuthorize("monitor:cache:list")]
     public async Task<AjaxResult> GetCacheInfo()
     {
-        var info = await _redisCache.GetRedisInfoAsync();
-        var commandStats = await _redisCache.GetRedisInfoAsync("commandstats");
-        var dbSize = await _redisCache.GetDbSize();
+        var info = await _cache.GetDbInfoAsync();
+        var commandStats = await _cache.GetDbInfoAsync("commandstats");
+        var dbSize = await _cache.GetDbSize();
 
         var result = new Dictionary<string, object>();
         result.Add("info", info);
@@ -86,7 +84,7 @@ public class CacheController : ControllerBase
     [AppAuthorize("monitor:cache:list")]
     public AjaxResult GetCacheKeys(string cacheName)
     {
-        var cacheKeys = _redisCache.GetStringKeys(cacheName + "*");
+        var cacheKeys = _cache.GetDbKeys(cacheName + "*");
         return AjaxResult.Success(cacheKeys);
     }
 
@@ -97,7 +95,7 @@ public class CacheController : ControllerBase
     [AppAuthorize("monitor:cache:list")]
     public AjaxResult GetCacheValue([FromRoute] string cacheName, [FromRoute] string cacheKey)
     {
-        var cacheValue = _redisCache.GetString(cacheKey);
+        var cacheValue = _cache.GetString(cacheKey);
         SysCache sysCache = new SysCache(cacheName, cacheKey, cacheValue);
         return AjaxResult.Success(sysCache);
     }
@@ -109,8 +107,7 @@ public class CacheController : ControllerBase
     [AppAuthorize("monitor:cache:list")]
     public AjaxResult ClearCacheName([FromRoute] string cacheName)
     {
-        var redisKeys = _redisCache.GetKeys(cacheName + "*");
-        _redisCache.Remove(redisKeys);
+        _cache.RemoveByPattern(cacheName + "*");
         return AjaxResult.Success();
     }
 
@@ -121,7 +118,7 @@ public class CacheController : ControllerBase
     [AppAuthorize("monitor:cache:list")]
     public AjaxResult ClearCacheKey([FromRoute] string cacheKey)
     {
-        _redisCache.Remove(cacheKey);
+        _cache.Remove(cacheKey);
         return AjaxResult.Success();
     }
 
@@ -132,8 +129,7 @@ public class CacheController : ControllerBase
     [AppAuthorize("monitor:cache:list")]
     public AjaxResult ClearCacheAll()
     {
-        var redisKeys = _redisCache.GetKeys("*", 10000);
-        _redisCache.Remove(redisKeys);
+        _cache.RemoveByPattern("*");
         return AjaxResult.Success();
     }
 }

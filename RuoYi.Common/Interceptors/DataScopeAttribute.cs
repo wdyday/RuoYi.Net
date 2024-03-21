@@ -1,9 +1,9 @@
 ﻿using AspectCore.DynamicProxy;
 using RuoYi.Common.Constants;
+using RuoYi.Common.Utils;
 using RuoYi.Data;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Models;
-using RuoYi.Data.Utils;
 using RuoYi.Framework.Extensions;
 using RuoYi.Framework.Logging;
 using RuoYi.Framework.Utils;

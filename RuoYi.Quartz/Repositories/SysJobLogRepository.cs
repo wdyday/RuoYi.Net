@@ -1,37 +1,31 @@
-using RuoYi.Data;
-using RuoYi.Quartz.Dtos;
-using RuoYi.Quartz.Entities;
-using SqlSugar;
+namespace RuoYi.Quartz.Repositories;
 
-namespace RuoYi.Quartz.Repositories
+/// <summary>
+///  定时任务调度日志表 Repository
+///  author ruoyi.net
+///  date   2023-10-12 17:38:31
+/// </summary>
+public class SysJobLogRepository : BaseRepository<SysJobLog, SysJobLogDto>
 {
-    /// <summary>
-    ///  定时任务调度日志表 Repository
-    ///  author ruoyi.net
-    ///  date   2023-10-12 17:38:31
-    /// </summary>
-    public class SysJobLogRepository : BaseRepository<SysJobLog, SysJobLogDto>
+    public SysJobLogRepository(ISqlSugarRepository<SysJobLog> sqlSugarRepository)
     {
-        public SysJobLogRepository(ISqlSugarRepository<SysJobLog> sqlSugarRepository)
-        {
-            Repo = sqlSugarRepository;
-        }
+        Repo = sqlSugarRepository;
+    }
 
-        public override ISugarQueryable<SysJobLog> Queryable(SysJobLogDto dto)
-        {
-            return Repo.AsQueryable()
-                .WhereIF(dto.JobLogId > 0, (t) => t.JobLogId == dto.JobLogId)
-            ;
-        }
+    public override ISugarQueryable<SysJobLog> Queryable(SysJobLogDto dto)
+    {
+        return Repo.AsQueryable()
+            .WhereIF(dto.JobLogId > 0, (t) => t.JobLogId == dto.JobLogId)
+        ;
+    }
 
-        public override ISugarQueryable<SysJobLogDto> DtoQueryable(SysJobLogDto dto)
-        {
-            return Repo.AsQueryable()
-                .WhereIF(dto.JobLogId > 0, (t) => t.JobLogId == dto.JobLogId)
-                .Select((t) => new SysJobLogDto
-                {
-                    JobLogId = t.JobLogId
-                }, true);
-        }
+    public override ISugarQueryable<SysJobLogDto> DtoQueryable(SysJobLogDto dto)
+    {
+        return Repo.AsQueryable()
+            .WhereIF(dto.JobLogId > 0, (t) => t.JobLogId == dto.JobLogId)
+            .Select((t) => new SysJobLogDto
+            {
+                JobLogId = t.JobLogId
+            }, true);
     }
 }

@@ -1,7 +1,8 @@
-﻿using RuoYi.Framework;
+﻿using RuoYi.Common.Data;
+using RuoYi.Framework;
 using RuoYi.Framework.Extensions;
 
-namespace RuoYi.Data
+namespace RuoYi.Common.Utils
 {
     public class PageUtils
     {

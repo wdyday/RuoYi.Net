@@ -9,6 +9,7 @@ global using Microsoft.Extensions.Logging;
 global using System.Linq.Expressions;
 global using SqlSugar;
 global using System.ComponentModel.DataAnnotations;
+global using RuoYi.Common.Data;
 global using RuoYi.Data;
 global using RuoYi.Data.Dtos;
 global using RuoYi.Data.Entities;

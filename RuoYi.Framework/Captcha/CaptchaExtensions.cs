@@ -1,7 +1,5 @@
-﻿using Lazy.Captcha.Core.Generator;
+﻿using Lazy.Captcha.Core;
 using RuoYi.Framework;
-using RuoYi.Framework.Captcha;
-using RuoYi.Framework.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -9,18 +7,12 @@ public static class CaptchaExtensions
 {
     public static IServiceCollection AddLazyCaptcha(this IServiceCollection services)
     {
-        var options = App.GetOptionsMonitor<LazyCaptchaOptions>();
-
-        // 配置中并未添加 CaptchaOptions, 遵循 ruoyi的配置, 取 RuoYiConfig.CaptchaType
-        // 如果要做配置, 请在 adminsettings.json 中 添加 CaptchaOptions 
         // CaptchaOptions 的配置参考: https://github.com/pojianbing/LazyCaptcha
-        var captchaType = !string.IsNullOrEmpty(RyApp.RuoYiConfig.CaptchaType)
-                ? RyApp.RuoYiConfig.CaptchaType!.EqualsIgnoreCase("char") ? CaptchaType.WORD : CaptchaType.ARITHMETIC
-                : options.CaptchaType;
+        var options = App.GetConfig<CaptchaOptions>(nameof(CaptchaOptions), true);
 
         return services.AddCaptcha(option =>
         {
-            option.CaptchaType = captchaType; // 验证码类型
+            option.CaptchaType = options.CaptchaType; // 验证码类型
             option.CodeLength = options.CodeLength; // 验证码长度, 要放在CaptchaType设置后.  当类型为算术表达式时，长度代表操作的个数
             option.ExpirySeconds = options.ExpirySeconds; // 验证码过期时间
             option.IgnoreCase = options.IgnoreCase; // 比较时是否忽略大小写

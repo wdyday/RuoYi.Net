@@ -90,26 +90,26 @@
         }
     }
 
-    /// <summary>
-    /// 操作类别（0其它 1后台用户 2手机端用户）
-    /// </summary>
-    public class OperatorType
-    {
-        public const string Ohter = "0";
-        public const string Web = "1";
-        public const string Mobile = "2";
+    ///// <summary>
+    ///// 操作类别（0其它 1后台用户 2手机端用户）
+    ///// </summary>
+    //public class OperatorType
+    //{
+    //    public const string Other = "0";
+    //    public const string Web = "1";
+    //    public const string Mobile = "2";
 
-        public static string ToDesc(string? val)
-        {
-            return val switch
-            {
-                Ohter => "其它",
-                Web => "后台用户",
-                Mobile => "手机端用户",
-                _ => "未知"
-            };
-        }
-    }
+    //    public static string ToDesc(string? val)
+    //    {
+    //        return val switch
+    //        {
+    //            Other => "其它",
+    //            Web => "后台用户",
+    //            Mobile => "手机端用户",
+    //            _ => "未知"
+    //        };
+    //    }
+    //}
 
     /// <summary>
     /// 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）

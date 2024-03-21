@@ -1,8 +1,7 @@
-using Microsoft.Extensions.Logging;
 using RuoYi.Common.Enums;
 using RuoYi.Data;
 using RuoYi.Data.Models;
-using RuoYi.Framework.Redis;
+using RuoYi.Framework.Cache;
 using RuoYi.Framework.Utils;
 using RuoYi.System.Services;
 using SqlSugar;
@@ -17,15 +16,15 @@ namespace RuoYi.System.Controllers
     public class SysUserOnlineController : ControllerBase
     {
         private readonly ILogger<SysOperLogController> _logger;
-        private readonly RedisCache _redisCache;
+        private readonly ICache _cache;
         private readonly SysUserOnlineService _sysUserOnlineService;
 
         public SysUserOnlineController(ILogger<SysOperLogController> logger,
-            RedisCache redisCache,
+            ICache cache,
             SysUserOnlineService sysUserOnlineService)
         {
             _logger = logger;
-            _redisCache = redisCache;
+            _cache = cache;
             _sysUserOnlineService = sysUserOnlineService;
         }
 
@@ -36,12 +35,12 @@ namespace RuoYi.System.Controllers
         [AppAuthorize("monitor:online:list")]
         public async Task<SqlSugarPagedList<SysUserOnline>> GetSysOperLogList([FromQuery] string ipaddr, [FromQuery] string userName)
         {
-            var keys = _redisCache.GetStringKeys(CacheConstants.LOGIN_TOKEN_KEY + "*", 10000); // 取1万, 同时在线用户应该不会超过1万
+            var keys = _cache.GetDbKeys(CacheConstants.LOGIN_TOKEN_KEY + "*", 10000); // 取1万, 同时在线用户应该不会超过1万
 
             List<SysUserOnline> userOnlineList = new List<SysUserOnline>();
             foreach (var key in keys)
             {
-                LoginUser user = await _redisCache.GetAsync<LoginUser>(key);
+                LoginUser user = await _cache.GetAsync<LoginUser>(key);
                 if (StringUtils.IsNotEmpty(ipaddr) && StringUtils.IsNotEmpty(userName))
                 {
                     userOnlineList.Add(_sysUserOnlineService.GetOnlineByInfo(ipaddr, userName, user));
@@ -76,7 +75,7 @@ namespace RuoYi.System.Controllers
         [RuoYi.System.Log(Title = "在线用户", BusinessType = BusinessType.FORCE)]
         public AjaxResult ForceLogout(string tokenId)
         {
-            _redisCache.Remove(CacheConstants.LOGIN_TOKEN_KEY + tokenId);
+            _cache.Remove(CacheConstants.LOGIN_TOKEN_KEY + tokenId);
             return AjaxResult.Success();
         }
     }

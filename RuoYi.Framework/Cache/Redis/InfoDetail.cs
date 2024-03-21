@@ -1,4 +1,4 @@
-﻿namespace RuoYi.Framework.Redis;
+﻿namespace RuoYi.Framework.Cache.Redis;
 
 
 /// <summary>

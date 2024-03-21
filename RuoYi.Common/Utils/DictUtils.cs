@@ -1,8 +1,8 @@
 ﻿using RuoYi.Data;
 using RuoYi.Data.Entities;
 using RuoYi.Framework;
+using RuoYi.Framework.Cache;
 using RuoYi.Framework.Extensions;
-using RuoYi.Framework.Redis;
 using RuoYi.Framework.Utils;
 using System.Text;
 
@@ -20,7 +20,7 @@ namespace RuoYi.Common.Utils
         /// <param name="dictDatas">字典数据列表</param>
         public static void SetDictCache(string key, List<SysDictData> dictDatas)
         {
-            App.GetService<RedisCache>().Set(GetCacheKey(key), dictDatas);
+            App.GetService<ICache>().Set(GetCacheKey(key), dictDatas);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace RuoYi.Common.Utils
         /// <returns>字典数据列表</returns>
         public static List<SysDictData> GetDictCache(string key)
         {
-            return App.GetService<RedisCache>().Get<List<SysDictData>>(GetCacheKey(key));
+            return App.GetService<ICache>().Get<List<SysDictData>>(GetCacheKey(key));
         }
 
         /// <summary>
@@ -140,9 +140,9 @@ namespace RuoYi.Common.Utils
         /// 删除指定字典缓存
         /// </summary>
         /// <param name="key">字典键</param>
-        public static void RemoveDictCache(String key)
+        public static void RemoveDictCache(string key)
         {
-            App.GetService<RedisCache>().Remove(GetCacheKey(key));
+            App.GetService<ICache>().Remove(GetCacheKey(key));
         }
 
         /// <summary>
@@ -150,9 +150,8 @@ namespace RuoYi.Common.Utils
         /// </summary>
         public static void ClearDictCache()
         {
-            var redisCache = App.GetService<RedisCache>();
-            var keys = redisCache.GetKeys(CacheConstants.SYS_DICT_KEY + "*");
-            redisCache.Remove(keys);
+            var redisCache = App.GetService<ICache>();
+            redisCache.RemoveByPattern(CacheConstants.SYS_DICT_KEY + "*");
         }
 
         /// <summary>

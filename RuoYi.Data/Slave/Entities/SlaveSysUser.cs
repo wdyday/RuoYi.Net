@@ -5,7 +5,7 @@ namespace RuoYi.Data.Slave.Entities
 {
     [Tenant(DataConstants.Slave)]
     [SugarTable("sys_user", "用户表")]
-    public class SysUser : UserBaseEntity
+    public class SlaveSysUser : UserBaseEntity
     {
         /** 用户ID */
         //@Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Newtonsoft.Json;
 using RuoYi.Admin.Authorization;
 using RuoYi.Common.Files;
+using RuoYi.Framework.Cache;
 using RuoYi.Framework.Filters;
 using RuoYi.Framework.RateLimit;
 
@@ -86,8 +87,8 @@ namespace RuoYi.Admin
             // SqlSugar
             services.AddSqlSugar();
 
-            // Redis
-            services.AddStackExchangeRedisCache();
+            // Cache
+            services.AddCache();
 
             // SignalR
             services.AddSignalR();

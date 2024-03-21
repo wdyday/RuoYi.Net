@@ -1,9 +1,6 @@
 using SqlSugar;
-using System;
-using System.Collections.Generic;
-using RuoYi.Data.Entities;
 
-namespace RuoYi.System.Data.Entities
+namespace RuoYi.Data.Entities
 {
     /// <summary>
     ///  操作日志记录 对象 sys_oper_log

@@ -1,14 +1,37 @@
-﻿using RuoYi.Framework;
-using RuoYi.Framework.Redis;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RuoYi.Framework.Cache.Memory;
+using RuoYi.Framework.Cache.Redis;
 using StackExchange.Redis;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace RuoYi.Framework.Cache;
 
-public static class RedisExtensions
+public static class CacheExtensions
 {
-    public static IServiceCollection AddStackExchangeRedisCache(this IServiceCollection services)
+    public static IServiceCollection AddCache(this IServiceCollection services)
     {
-        var redisConfig = App.GetConfig<RedisConfig>("RedisConfig");
+        var cacheConfig = App.GetConfig<CacheConfig>("CacheConfig");
+        if (cacheConfig.CacheType == Enums.CacheType.Memory)
+        {
+            services.AddTransient<ICache, MemoryCache>();
+            return AddMemoryCache(services);
+        }
+        else
+        {
+            services.AddTransient<ICache, RedisCache>();
+            return AddStackExchangeRedisCache(services);
+        }
+    }
+
+    private static IServiceCollection AddMemoryCache(this IServiceCollection services)
+    {
+        services.AddDistributedMemoryCache();
+        return services;
+    }
+
+    private static IServiceCollection AddStackExchangeRedisCache(this IServiceCollection services)
+    {
+        var cacheConfig = App.GetConfig<CacheConfig>("CacheConfig");
+        var redisConfig = cacheConfig.RedisConfig;
         services.AddStackExchangeRedisCache(options =>
         {
             // 连接字符串

@@ -1,5 +1,5 @@
 ﻿using Lazy.Captcha.Core;
-using Microsoft.Extensions.Logging;
+using RuoYi.Framework.Cache;
 using RuoYi.System.Services;
 
 namespace RuoYi.Admin
@@ -15,11 +15,14 @@ namespace RuoYi.Admin
         private readonly ILogger<CaptchaController> _logger;
         private readonly SysConfigService _sysConfigService;
         private readonly ICaptcha _captcha;
-        public CaptchaController(ILogger<CaptchaController> logger, SysConfigService sysConfigService, ICaptcha captcha)
+        private readonly ICache _cache;
+
+        public CaptchaController(ILogger<CaptchaController> logger, ICache cache, ICaptcha captcha, SysConfigService sysConfigService)
         {
             _logger = logger;
-            _sysConfigService = sysConfigService;
+            _cache = cache;
             _captcha = captcha;
+            _sysConfigService = sysConfigService;
         }
 
         /// <summary>
@@ -43,7 +46,7 @@ namespace RuoYi.Admin
             return new
             {
                 Uuid = uuid,
-                Img = info.Bytes.ToBase64()
+                Img = info.Base64
             };
         }
     }

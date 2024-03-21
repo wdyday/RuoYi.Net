@@ -1,7 +1,6 @@
-using RuoYi.Data.Dtos;
 using RuoYi.Data.Attributes;
 
-namespace RuoYi.System.Data.Dtos
+namespace RuoYi.Data.Dtos
 {
     /// <summary>
     ///  操作日志记录 对象 sys_oper_log

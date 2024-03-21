@@ -29,7 +29,7 @@ namespace RuoYi.Admin
         /// 表 SysUser 的实体类上 添加特性 [Tenant(DataConstants.Slave)]
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<SysUserDto> Get(long? id)
+        public async Task<SlaveSysUserDto> Get(long? id)
         {
             return await _slaveSysUserService.GetAsync(id);
         }

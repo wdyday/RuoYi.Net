@@ -2,7 +2,7 @@
 
 namespace RuoYi.Data.Slave.Dtos
 {
-    public class SysUserDto : BaseDto
+    public class SlaveSysUserDto : BaseDto
     {
         /** 用户ID */
         public long UserId { get; set; }

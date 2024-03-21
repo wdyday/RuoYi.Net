@@ -138,7 +138,7 @@ namespace RuoYi.Common.Utils
             var props = typeof(T).GetProperties();
             foreach (var prop in props)
             {
-                var excelAttribute = prop.CustomAttributes.Where(a => a.AttributeType == typeof(Data.Attributes.ExcelAttribute)).FirstOrDefault();
+                var excelAttribute = prop.CustomAttributes.Where(a => a.AttributeType == typeof(ExcelAttribute)).FirstOrDefault();
                 if (excelAttribute != null)
                 {
                     // 当前列是否忽略
