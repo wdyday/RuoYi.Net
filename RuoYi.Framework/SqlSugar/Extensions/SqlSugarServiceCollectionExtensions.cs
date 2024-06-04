@@ -52,16 +52,17 @@ public static class SqlSugarServiceCollectionExtensions
         // 注册 SqlSugar 
         services.AddSingleton<ISqlSugarClient>(u =>
         {
+            // SqlSugarScope 必须使用单例
             var sqlSugarScope = new SqlSugarScope(configs.ToList());
             buildAction?.Invoke(sqlSugarScope);
             return sqlSugarScope;
         });
 
         // 注册非泛型仓储
-        services.AddSingleton<ISqlSugarRepository, SqlSugarRepository>();
+        services.AddScoped<ISqlSugarRepository, SqlSugarRepository>();
 
         // 注册 SqlSugar 仓储
-        services.AddSingleton(typeof(ISqlSugarRepository<>), typeof(SqlSugarRepository<>));
+        services.AddScoped(typeof(ISqlSugarRepository<>), typeof(SqlSugarRepository<>));
 
         return services;
     }
