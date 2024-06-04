@@ -14,9 +14,9 @@ public static class SqlSugarServiceCollectionExtensions
     /// <param name="config"></param>
     /// <param name="buildAction"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig config, Action<ISqlSugarClient> buildAction = default)
+    public static IServiceCollection AddSqlSugarClient(this IServiceCollection services, ConnectionConfig config, Action<ISqlSugarClient> buildAction = default)
     {
-        return services.AddSqlSugar(new ConnectionConfig[] { config }, buildAction);
+        return services.AddSqlSugarClient(new ConnectionConfig[] { config }, buildAction);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public static class SqlSugarServiceCollectionExtensions
     /// <param name="configs"></param>
     /// <param name="buildAction"></param>
     /// <returns></returns>
-    public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig[] configs, Action<ISqlSugarClient> buildAction = default)
+    public static IServiceCollection AddSqlSugarClient(this IServiceCollection services, ConnectionConfig[] configs, Action<ISqlSugarClient> buildAction = default)
     {
         // 注册 SqlSugar 客户端
         services.AddScoped<ISqlSugarClient>(u =>
@@ -50,7 +50,7 @@ public static class SqlSugarServiceCollectionExtensions
     public static IServiceCollection AddSqlSugarScope(this IServiceCollection services, ConnectionConfig[] configs, Action<SqlSugarScope> buildAction = default)
     {
         // 注册 SqlSugar 
-        services.AddScoped<ISqlSugarClient>(u =>
+        services.AddSingleton<ISqlSugarClient>(u =>
         {
             var sqlSugarScope = new SqlSugarScope(configs.ToList());
             buildAction?.Invoke(sqlSugarScope);
@@ -58,10 +58,10 @@ public static class SqlSugarServiceCollectionExtensions
         });
 
         // 注册非泛型仓储
-        services.AddScoped<ISqlSugarRepository, SqlSugarRepository>();
+        services.AddSingleton<ISqlSugarRepository, SqlSugarRepository>();
 
         // 注册 SqlSugar 仓储
-        services.AddScoped(typeof(ISqlSugarRepository<>), typeof(SqlSugarRepository<>));
+        services.AddSingleton(typeof(ISqlSugarRepository<>), typeof(SqlSugarRepository<>));
 
         return services;
     }

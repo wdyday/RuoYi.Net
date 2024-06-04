@@ -308,7 +308,7 @@ namespace RuoYi.Generator.Utils
          */
         public static string GetPermissionPrefix(string moduleName, string businessName)
         {
-            return $"{moduleName.ToLowerCamelCase()}:{businessName}";
+            return $"{moduleName.ToLowerCamelCase()}:{businessName.ToLowerCamelCase()}";
         }
 
         /**

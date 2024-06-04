@@ -16,7 +16,6 @@ public class SysJobService : BaseService<SysJob, SysJobDto>, ITransient
 {
     private readonly ILogger<SysJobService> _logger;
     private readonly SysJobRepository _sysJobRepository;
-    private readonly IScheduler _scheduler;
 
     public SysJobService(ILogger<SysJobService> logger,
         SysJobRepository sysJobRepository)
@@ -25,13 +24,12 @@ public class SysJobService : BaseService<SysJob, SysJobDto>, ITransient
 
         _logger = logger;
         _sysJobRepository = sysJobRepository;
-
-        _scheduler = ScheduleUtils.GetDefaultSchedule();
     }
 
     // 项目启动时，初始化定时器 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
     public async Task InitSchedule()
     {
+        IScheduler _scheduler = await ScheduleUtils.GetDefaultScheduleAsync();
         await _scheduler.Clear();
 
         var jobs = _sysJobRepository.GetDtoList(new SysJobDto());
@@ -97,6 +95,8 @@ public class SysJobService : BaseService<SysJob, SysJobDto>, ITransient
     /// <param name="jobGroup">任务组名</param>
     public async Task UpdateSchedulerJob(SysJobDto job, string jobGroup)
     {
+        IScheduler _scheduler = await ScheduleUtils.GetDefaultScheduleAsync();
+
         long jobId = job.JobId;
         // 判断是否存在
         JobKey jobKey = ScheduleUtils.GetJobKey(jobId, jobGroup);
@@ -168,6 +168,8 @@ public class SysJobService : BaseService<SysJob, SysJobDto>, ITransient
     /// <param name="job">调度信息</param>
     public async Task<bool> Run(SysJobDto job)
     {
+        IScheduler _scheduler = await ScheduleUtils.GetDefaultScheduleAsync();
+
         bool result = false;
         long jobId = job.JobId;
         string jobGroup = job.JobGroup!;
@@ -202,6 +204,8 @@ public class SysJobService : BaseService<SysJob, SysJobDto>, ITransient
     // 暂停任务
     private async Task<int> PauseJob(SysJob job)
     {
+        IScheduler _scheduler = await ScheduleUtils.GetDefaultScheduleAsync();
+
         job.Status = ScheduleStatus.PAUSE.GetValue();
         int rows = await _sysJobRepository.UpdateAsync(job, true);
         if (rows > 0)
@@ -214,6 +218,8 @@ public class SysJobService : BaseService<SysJob, SysJobDto>, ITransient
     // 恢复任务
     private async Task<int> ResumeJob(SysJob job)
     {
+        IScheduler _scheduler = await ScheduleUtils.GetDefaultScheduleAsync();
+
         job.Status = ScheduleStatus.NORMAL.GetValue();
         int rows = await _sysJobRepository.UpdateAsync(job, true);
         if (rows > 0)
@@ -226,6 +232,8 @@ public class SysJobService : BaseService<SysJob, SysJobDto>, ITransient
     // 删除任务
     private async Task<int> DeleteJob(SysJob job)
     {
+        IScheduler _scheduler = await ScheduleUtils.GetDefaultScheduleAsync();
+
         int rows = await _sysJobRepository.DeleteAsync(job.JobId);
         if (rows > 0)
         {

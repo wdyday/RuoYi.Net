@@ -1,6 +1,4 @@
 ﻿using Quartz;
-using RuoYi.Quartz.Dtos;
-using RuoYi.Quartz.Entities;
 using RuoYi.Quartz.Utils;
 
 namespace RuoYi.Quartz.Jobs
@@ -10,7 +8,14 @@ namespace RuoYi.Quartz.Jobs
     {
         protected override void DoExecute(IJobExecutionContext context, SysJobDto sysJob)
         {
-            JobInvokeUtils.InvokeMethod(sysJob);
+            try
+            {
+                JobInvokeUtils.InvokeMethod(sysJob);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }

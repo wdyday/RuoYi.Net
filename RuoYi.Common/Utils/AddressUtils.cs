@@ -11,12 +11,8 @@ namespace RuoYi.Common.Utils
         // IP地址查询
         public static string IP_URL = "http://whois.pconline.com.cn/ipJson.jsp";
         // 未知地址
-        public static string UNKNOWN = "XX XX";
+        public static string UNKNOWN = "X.X.X.X";
 
-        public static string GetRealAddressByIP(string ip)
-        {
-            return GetRealAddressByIPAsync(ip).GetAwaiter().GetResult();
-        }
 
         public static async Task<string> GetRealAddressByIPAsync(string ip)
         {

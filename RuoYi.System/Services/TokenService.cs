@@ -18,7 +18,7 @@ public class TokenService : ITransient
     private static long DEFAULT_EXPIREDTIME = 30;   // 默认过期 30分钟
 
     // JWT 过期分钟数: 一周. token有效期在redis中控制, JWT中存储的信息过期时间较长, 方便系统读取
-    private static long JWT_EXPIREDTIME =  60 * 24 * 7;   
+    private static long JWT_EXPIREDTIME = 60 * 24 * 7;
 
     private readonly IUserAgentParser _userAgentParser;
     private readonly ICache _cache;
@@ -62,11 +62,11 @@ public class TokenService : ITransient
     /// </summary>
     /// <param name="loginUser">用户信息</param>
     /// <returns></returns>
-    public string CreateToken(LoginUser loginUser)
+    public async Task<string> CreateToken(LoginUser loginUser)
     {
         var token = Guid.NewGuid().ToString();
         loginUser.Token = token;
-        SetUserAgent(loginUser);
+        await SetUserAgent(loginUser);
         RefreshToken(loginUser);
 
         // 生成 token
@@ -114,14 +114,14 @@ public class TokenService : ITransient
     /// 设置用户代理信息
     /// </summary>
     /// <param name="loginUser">用户信息</param>
-    public void SetUserAgent(LoginUser loginUser)
+    public async Task SetUserAgent(LoginUser loginUser)
     {
         var clientInfo = this._userAgentParser.ClientInfo;
 
         string ip = App.HttpContext.GetRemoteIpAddressToIPv4();
 
         loginUser.IpAddr = ip;
-        loginUser.LoginLocation = AddressUtils.GetRealAddressByIP(ip);
+        loginUser.LoginLocation = await AddressUtils.GetRealAddressByIPAsync(ip);
         loginUser.Browser = clientInfo.Browser.ToString();
         loginUser.OS = clientInfo.OS.Family.ToString();
     }

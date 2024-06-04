@@ -85,7 +85,7 @@ namespace RuoYi.Admin
             services.AddRemoteRequest();
 
             // SqlSugar
-            services.AddSqlSugar();
+            services.AddSqlSugarClient();
 
             // Cache
             services.AddCache();

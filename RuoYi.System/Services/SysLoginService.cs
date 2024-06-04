@@ -61,7 +61,7 @@ public class SysLoginService : ITransient
         await RecordLoginInfoAsync(userDto.UserId ?? 0);
 
         // 生成token
-        return _tokenService.CreateToken(loginUser);
+        return await _tokenService.CreateToken(loginUser);
     }
 
     private void CheckLoginUser(string username, string password, SysUserDto user)

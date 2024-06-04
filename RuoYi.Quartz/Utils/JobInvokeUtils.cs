@@ -1,8 +1,10 @@
-﻿using RuoYi.Framework.Attributes;
+﻿using Mapster.Adapters;
+using RuoYi.Framework.Attributes;
 using RuoYi.Framework.Extensions;
 using RuoYi.Framework.Utils;
 using RuoYi.Quartz.Dtos;
 using RuoYi.Quartz.Entities;
+using RuoYi.Quartz.Tasks;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -32,7 +34,20 @@ namespace RuoYi.Quartz.Utils
             MethodInfo? openMethodInfo = target.GetMethod(methodName);
             if(openMethodInfo == null) { return; }
 
-            var instance = ReflectUtils.CreateInstance(target);
+            // [TODO]
+            //var parameters = new List<object>();
+            //var constructors = target.GetConstructors();
+            //var construtor = constructors.FirstOrDefault(); 
+            //if(construtor != null)
+            //{
+            //    foreach (var param in construtor.GetParameters())
+            //    {
+            //        var service = _serviceProvider.GetService(param.ParameterType);//get instance of the class
+            //        parameters.Add(service);
+            //    }
+            //}
+
+            var instance = (ITask)ReflectUtils.CreateInstance(target);
             openMethodInfo.Invoke(instance, methodParams);
         }
 

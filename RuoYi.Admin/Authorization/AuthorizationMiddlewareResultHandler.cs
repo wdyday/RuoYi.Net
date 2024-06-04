@@ -10,18 +10,17 @@ namespace RuoYi.Admin.Authorization
         /** 所有权限标识 */
         private static string ALL_PERMISSION = "*:*:*";
 
-        private static TokenService _tokenService = App.GetService<TokenService>();
-
         public async Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
         {
             // 判断是否授权
-            LoginUser loginUser = _tokenService.GetLoginUser(context.Request);
+            var tokenService = App.GetService<TokenService>();
+            LoginUser loginUser = tokenService.GetLoginUser(context.Request);
             if (loginUser != null)
             {
                 var isAuthenticated = CheckAuthorize(context);
                 if (isAuthenticated)
                 {
-                    _tokenService.VerifyToken(loginUser);
+                    tokenService.VerifyToken(loginUser);
                     await next(context!);
                 }
                 else
@@ -74,7 +73,8 @@ namespace RuoYi.Admin.Authorization
         {
             if (string.IsNullOrEmpty(permission)) return false;
 
-            var loginUser = _tokenService.GetLoginUser(App.HttpContext.Request);
+            var tokenService = App.GetService<TokenService>();
+            var loginUser = tokenService.GetLoginUser(App.HttpContext.Request);
             if (loginUser == null || loginUser.Permissions.IsEmpty())
             {
                 return false;
@@ -92,7 +92,8 @@ namespace RuoYi.Admin.Authorization
         {
             if (permissions.IsEmpty()) return false;
 
-            var loginUser = _tokenService.GetLoginUser(App.HttpContext.Request);
+            var tokenService = App.GetService<TokenService>();
+            var loginUser = tokenService.GetLoginUser(App.HttpContext.Request);
             if (loginUser == null || loginUser.Permissions.IsEmpty())
             {
                 return false;

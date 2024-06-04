@@ -14,7 +14,7 @@ namespace RuoYi.Framework.Cache.Redis
 
         private readonly IDistributedCache _cache;
         private readonly IConnectionMultiplexer _multiplexer;
-        private readonly IDatabaseAsync _database;
+        private readonly IDatabase _database;
         private readonly IServer _server;
         private readonly RedisConfig _redisConfig;
 
@@ -89,16 +89,6 @@ namespace RuoYi.Framework.Cache.Redis
             Remove(redisKeys);
         }
 
-        //public async Task<Dictionary<string, string>> GetDbInfoAsync()
-        //{
-        //    //var info = (await _database.ScriptEvaluateAsync("return redis.call('INFO')").ConfigureAwait(false)).ToString();
-        //    var info = (await ExecuteAsync("INFO")).ToString();
-
-        //    return string.IsNullOrEmpty(info)
-        //        ? new Dictionary<string, string>()
-        //        : ParseInfo(info);
-        //}
-
         public async Task<Dictionary<string, string>> GetDbInfoAsync(params object[] args)
         {
             var info = (await ExecuteAsync("INFO", args)).ToString();
@@ -141,7 +131,7 @@ namespace RuoYi.Framework.Cache.Redis
 
         private long Remove(IEnumerable<RedisKey> keys)
         {
-            return _database.KeyDeleteAsync(keys.ToArray()).GetAwaiter().GetResult();
+            return _database.KeyDelete(keys.ToArray());
         }
 
         /// <summary>

@@ -1,10 +1,7 @@
 ﻿using Quartz;
-using Quartz.Core;
 using Quartz.Impl;
-using Quartz.Simpl;
 using RuoYi.Framework.Exceptions;
 using RuoYi.Quartz.Constants;
-using RuoYi.Quartz.Dtos;
 using RuoYi.Quartz.Enums;
 using RuoYi.Quartz.Jobs;
 using System.Collections.Specialized;
@@ -13,17 +10,25 @@ namespace RuoYi.Quartz.Utils
 {
     public static class ScheduleUtils
     {
-        private static string SchedulerName = "RuoYi.Quartz.Scheduler";
-        private static ISchedulerFactory _schedulerFactory = CreateSchedulerFactory();
+        private static ISchedulerFactory _schedulerFactory;
 
         private static ISchedulerFactory CreateSchedulerFactory()
         {
+            if (_schedulerFactory != null)
+                return _schedulerFactory;
+
             NameValueCollection properties = new NameValueCollection
             {
-                [StdSchedulerFactory.PropertySchedulerName] = SchedulerName,
+                [StdSchedulerFactory.PropertySchedulerName] = "RuoYi.Quartz.Scheduler",
                 //[StdSchedulerFactory.PropertySchedulerInstanceName] = "QuartzScheduler"
             };
             return new StdSchedulerFactory(properties);
+        }
+
+        public static async Task<IScheduler> GetDefaultScheduleAsync()
+        {
+            _schedulerFactory = CreateSchedulerFactory();
+            return await _schedulerFactory.GetScheduler();
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace RuoYi.Quartz.Utils
         /// </summary>
         public static async Task CreateScheduleJob(SysJobDto job)
         {
-            var scheduler = GetDefaultSchedule();
+            var scheduler = await GetDefaultScheduleAsync();
             await CreateScheduleJob(scheduler, job);
         }
 
@@ -97,11 +102,6 @@ namespace RuoYi.Quartz.Utils
             {
                 await scheduler.PauseJob(jobKey);
             }
-        }
-
-        public static IScheduler GetDefaultSchedule()
-        {
-            return _schedulerFactory.GetScheduler().GetAwaiter().GetResult();
         }
 
         /// <summary>
