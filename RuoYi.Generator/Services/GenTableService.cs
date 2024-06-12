@@ -114,7 +114,7 @@ public class GenTableService : BaseService<GenTable, GenTableDto>, ITransient
     {
         if (tableIds.IsEmpty()) return;
 
-        _genTableRepository.Delete(tableIds);
+        _genTableRepository.DeleteByKeys(tableIds);
         _genTableColumnRepository.Delete(d => tableIds.Contains(d.TableId ?? 0));
     }
 

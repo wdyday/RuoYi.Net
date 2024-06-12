@@ -58,7 +58,7 @@ public class GenTableColumnService : BaseService<GenTableColumn, GenTableColumnD
     public int DeleteGenTableColumnByIds(string ids)
     {
         string[] keys = ids.Split(',');
-        return _genTableColumnRepository.Delete(keys);
+        return _genTableColumnRepository.DeleteByKeys(keys);
     }
 
     /// <summary>

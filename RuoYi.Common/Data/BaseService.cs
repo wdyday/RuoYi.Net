@@ -70,7 +70,7 @@ public abstract class BaseService<TEntity, TDto> : ITransient
     /// </summary>
     public virtual int Delete(object key)
     {
-        return BaseRepo.Delete(key);
+        return BaseRepo.DeleteByKey(key);
     }
 
     /// <summary>

@@ -4,17 +4,8 @@ using RuoYi.Quartz.Services;
 namespace RuoYi.Quartz.Tasks
 {
     [Task("ryTask")]
-    public class RyTask : ITask
+    public class RyTask
     {
-        private protected IServiceProvider _serviceProvider;
-        private SysJobLogService _sysJobLogService;
-
-        public RyTask(IServiceProvider serviceProvider, SysJobLogService sysJobLogService)
-        {
-            _serviceProvider = serviceProvider;
-            _sysJobLogService = sysJobLogService;
-        }
-
         public void RyMultipleParams(string s, bool b, long l, double d, int i)
         {
             RuoYi.Framework.Logging.Log.Information($"执行多参方法： 字符串类型{s}，布尔类型{b}，长整型{l}，浮点型{d}，整形{i}");

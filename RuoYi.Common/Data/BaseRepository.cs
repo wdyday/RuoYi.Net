@@ -491,7 +491,7 @@ public abstract class BaseRepository<TEntity, TDto> : ITransient
     /// 删除一条记录
     /// </summary>
     /// <param name="key"></param>
-    public int Delete<TKey>(TKey key)
+    public int DeleteByKey<TKey>(TKey key)
     {
         return Repo.Context.Deleteable<TEntity>().In(key).ExecuteCommand();
     }
@@ -500,12 +500,12 @@ public abstract class BaseRepository<TEntity, TDto> : ITransient
     /// 删除多条记录
     /// </summary>
     /// <param name="keys"></param>
-    public int Delete<TKey>(TKey[] keys)
+    public int DeleteByKeys<TKey>(TKey[] keys)
     {
         return Repo.Context.Deleteable<TEntity>().In(keys).ExecuteCommand();
     }
 
-    public int Delete<TKey>(List<TKey> keys)
+    public int DeleteByKeys<TKey>(List<TKey> keys)
     {
         return Repo.Context.Deleteable<TEntity>().In(keys).ExecuteCommand();
     }
@@ -516,7 +516,7 @@ public abstract class BaseRepository<TEntity, TDto> : ITransient
     /// <param name="whereExpression"></param>
     public int Delete(Expression<Func<TEntity, bool>> whereExpression)
     {
-        return Repo.Context.Deleteable<TEntity>().In(whereExpression).ExecuteCommand();
+        return Repo.Context.Deleteable<TEntity>().Where(whereExpression).ExecuteCommand();
     }
 
     /// <summary>
