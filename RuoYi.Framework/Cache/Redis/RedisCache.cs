@@ -25,7 +25,7 @@ namespace RuoYi.Framework.Cache.Redis
             _database = _multiplexer.GetDatabase();
             _server = _multiplexer.GetServer(_multiplexer.GetEndPoints()[0]);
 
-            _redisConfig = App.GetConfig<RedisConfig>("RedisConfig");
+            _redisConfig = App.GetConfig<RedisConfig>("CacheConfig:RedisConfig");
         }
 
         #region String
