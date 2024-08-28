@@ -9,7 +9,7 @@
 	
 ## 技术框架及依赖
 1. 后端		
-   - 基础架构: .NET7
+   - 基础架构: .NET8
    - Excel处理: 基于国产优秀框架MiniExcel(<a href="https://github.com/mini-software/MiniExcel" target="_blank">github</a>, <a href="https://gitee.com/dotnetchina/MiniExcel" target="_blank">gitee</a>)
    - 数据库: MySql + 国产优秀框架SqlSugar(<a href="https://github.com/DotNetNext/SqlSugar" target="_blank">github</a>, <a href="https://gitee.com/dotnetchina/SqlSugar" target="_blank">gitee</a>), SqlSugar支持多数据库, 目前项目支持MySql/SqlServer, 其他数据库支持待完善.
    

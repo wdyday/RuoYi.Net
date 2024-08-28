@@ -34,7 +34,7 @@
           <el-col :span="6">
             <h4>后端技术</h4>
             <ul>
-              <li>.NET 7</li>
+              <li>.NET 8</li>
               <li>JWT</li>
               <li>SqlSugar</li>
               <li>MiniExcel</li>
@@ -115,6 +115,11 @@
             <el-collapse-item title="v2.0.0 - 2024-02-21">
               <ol>
                 <li>移除Furion引用</li>
+              </ol>
+            </el-collapse-item>
+            <el-collapse-item title="v2.0.1 - 2024-08-28">
+              <ol>
+                <li>升级到.NET 8</li>
               </ol>
             </el-collapse-item>
           </el-collapse>
