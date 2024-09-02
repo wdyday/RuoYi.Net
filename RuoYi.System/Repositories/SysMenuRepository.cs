@@ -19,6 +19,7 @@ public class SysMenuRepository : BaseRepository<SysMenu, SysMenuDto>
             .WhereIF(!string.IsNullOrEmpty(dto.MenuName), (m) => m.MenuName!.Contains(dto.MenuName!))
             .WhereIF(!string.IsNullOrEmpty(dto.Visible), (m) => m.Visible == dto.Visible)
             .WhereIF(dto.MenuTypes.Count > 0, (m) => dto.MenuTypes.Contains(m.MenuType!))
+            .WhereIF(dto.MenuTypes.Count > 0, (m) => dto.MenuTypes.Contains(m.MenuType!))
             .OrderBy(m => new { m.ParentId, m.OrderNum })
         ;
     }
@@ -117,9 +118,11 @@ public class SysMenuRepository : BaseRepository<SysMenu, SysMenuDto>
     /// </summary>
     public List<SysMenu> SelectMenuTreeByUserId(long userId)
     {
-        SysMenuDto dto = new SysMenuDto { UserId = userId, Status = Status.Enabled, RoleStatus = Status.Enabled };
+        SysMenuDto dto = new SysMenuDto { UserId = userId, Status = Status.Enabled, RoleStatus = Status.Enabled, MenuTypes = new List<string> { "M", "C" } };
 
-        return this.GetList(dto);
+        var dtos = this.GetDtoList(dto);
+
+        return dtos.Adapt<List<SysMenu>>();
     }
 
     public List<long> SelectMenuListByRoleId(long roleId, bool isMenuCheckStrictly)
