@@ -147,7 +147,7 @@ namespace RuoYi.Framework.Utils
             return IsEmpty(str) ? defaultStr : str;
         }
 
-        public static string TrimToEmpty(String str)
+        public static string TrimToEmpty(string str)
         {
             return str == null ? "" : str.Trim();
         }

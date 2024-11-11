@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization.Policy;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Policy;
 using RuoYi.Common.Interceptors;
+using RuoYi.Common.Utils;
 using RuoYi.Data.Models;
+using RuoYi.Framework.Utils;
 using RuoYi.System.Services;
 
 namespace RuoYi.Admin.Authorization
@@ -9,6 +12,14 @@ namespace RuoYi.Admin.Authorization
     {
         /** 所有权限标识 */
         private static string ALL_PERMISSION = "*:*:*";
+
+        /** 管理员角色权限标识 */
+        private static string SUPER_ADMIN = "admin";
+
+        //private static string ROLE_DELIMETER = ",";
+
+        //private static string PERMISSION_DELIMETER = ",";
+
 
         public async Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
         {
@@ -47,14 +58,17 @@ namespace RuoYi.Admin.Authorization
         {
             // 获Contoller取权限特性
             var appAuthorizeAttribute = httpContext.GetMetadata<AppAuthorizeAttribute>();
-            if (appAuthorizeAttribute == null) return true;
-
+            var appRoleAuthorizeAttribute = httpContext.GetMetadata<AppRoleAuthorizeAttribute>();
+            if (appAuthorizeAttribute == null && appRoleAuthorizeAttribute == null) return true;
 
             // 角色验证
-            //if (!string.IsNullOrEmpty(appAuthorizeAttribute.Roles))
-            //{
-            //    // TODO
-            //}
+            if (appRoleAuthorizeAttribute.AppRoles != null && appRoleAuthorizeAttribute.AppRoles.Length > 0)
+            {
+                if (!HasAnyRoles(appRoleAuthorizeAttribute.AppRoles))
+                {
+                    return false;
+                }
+            }
 
             // 权限验证
             if (!HasAnyPermi(appAuthorizeAttribute.Policies))
@@ -116,6 +130,62 @@ namespace RuoYi.Admin.Authorization
         private static bool HasPermissions(List<string> permissions, string permission)
         {
             return permissions.Contains(ALL_PERMISSION) || permissions.Contains(permission.Trim());
+        }
+        #endregion
+
+        #region Role
+        /// <summary>
+        /// 判断用户是否拥有某个角色
+        /// </summary>
+        /// <param name="role">角色字符串</param>
+        /// <returns>用户是否具备某角色</returns>
+        public static bool HasRole(string role)
+        {
+            if (StringUtils.IsEmpty(role))
+            {
+                return false;
+            }
+            LoginUser loginUser = SecurityUtils.GetLoginUser();
+            if (loginUser == null || loginUser.User.Roles == null || loginUser.User.Roles.Count == 0)
+            {
+                return false;
+            }
+            foreach (var sysRole in loginUser.User.Roles)
+            {
+                string roleKey = sysRole.RoleKey;
+                if (SUPER_ADMIN == roleKey || roleKey == StringUtils.TrimToEmpty(role))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 验证用户是否具有以下任意一个角色
+        /// </summary>
+        /// <param name="roles">以 ROLE_NAMES_DELIMETER 为分隔符的角色列表</param>
+        /// <returns>用户是否具有以下任意一个角色</returns>
+        public static bool HasAnyRoles(string[] roles)
+        {
+            if (roles == null && roles.Length == 0)
+            {
+                return false;
+            }
+
+            LoginUser loginUser = SecurityUtils.GetLoginUser();
+            if (loginUser == null || loginUser.User.Roles == null || loginUser.User.Roles.Count == 0)
+            {
+                return false;
+            }
+            foreach (string role in roles)
+            {
+                if (HasRole(role))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         #endregion
     }

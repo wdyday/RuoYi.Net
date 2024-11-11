@@ -35,6 +35,18 @@ namespace RuoYi.Admin
         }
 
         /// <summary>
+        /// 从库(slave) 用户查询
+        /// 表 SysUser 的实体类上 添加特性 [Tenant(DataConstants.Slave)]
+        /// </summary>
+        [HttpGet("getWithPerminAndRole/{id}")]
+        [AppAuthorize("system:dept:query")]
+        [AppRoleAuthorize("admin")]
+        public async Task<SlaveSysUserDto> GetWithPerminAndRole(long? id)
+        {
+            return await _slaveSysUserService.GetAsync(id);
+        }
+
+        /// <summary>
         /// 限流
         /// 添加特性 [EnableRateLimiting(LimitType.Default)]
         /// </summary>
