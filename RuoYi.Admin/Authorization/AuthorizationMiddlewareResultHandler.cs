@@ -62,7 +62,7 @@ namespace RuoYi.Admin.Authorization
             if (appAuthorizeAttribute == null && appRoleAuthorizeAttribute == null) return true;
 
             // 角色验证
-            if (appRoleAuthorizeAttribute.AppRoles != null && appRoleAuthorizeAttribute.AppRoles.Length > 0)
+            if (appRoleAuthorizeAttribute != null)
             {
                 if (!HasAnyRoles(appRoleAuthorizeAttribute.AppRoles))
                 {
@@ -71,9 +71,12 @@ namespace RuoYi.Admin.Authorization
             }
 
             // 权限验证
-            if (!HasAnyPermi(appAuthorizeAttribute.Policies))
+            if(appAuthorizeAttribute != null)
             {
-                return false;
+                if (!HasAnyPermi(appAuthorizeAttribute.Policies))
+                {
+                    return false;
+                }
             }
 
             return true;
