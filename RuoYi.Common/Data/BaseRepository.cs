@@ -588,18 +588,15 @@ public abstract class BaseRepository<TEntity, TDto> : ITransient
             if (attrSugarColumn != null)
             {
                 var primaryKey = attrSugarColumn.NamedArguments.Where(arg => arg.MemberInfo.Name.EqualsIgnoreCase("IsPrimaryKey")).FirstOrDefault();
-                if (primaryKey != null)
+                if (primaryKey.MemberInfo != null)
                 {
                     keyName = prop.Name;
                     type = prop.PropertyType;
                     id = prop.GetValue(entity);
-                    break;
+
+                    ReflectUtils.SetPropertyValue(dto, keyName, id);
                 }
             }
-        }
-        if (keyName.IsNotEmpty())
-        {
-            ReflectUtils.SetPropertyValue(dto, keyName, id);
         }
     }
 
