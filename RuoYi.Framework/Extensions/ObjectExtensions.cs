@@ -161,7 +161,7 @@ namespace RuoYi.Framework.Extensions
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(open) || string.IsNullOrEmpty(close))
             {
-                return null;
+                return str;
             }
 
             int start = str.IndexOf(open);

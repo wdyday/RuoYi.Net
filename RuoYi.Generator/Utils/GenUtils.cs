@@ -58,21 +58,25 @@ namespace RuoYi.Generator.Utils
             {
                 column.HtmlType = GenConstants.HTML_INPUT;
 
-                // 如果是浮点型 统一用Decimal, 如: decimal(18,2)
-                string[] str = column.ColumnType.SubstringBetween("(", ")").Split(",");
-                if (str != null && str.Length == 2 && int.Parse(str[1]) > 0)
+                string columnType = (column.ColumnType ?? "").ToLower();
+                if(!string.IsNullOrEmpty(columnType))
                 {
-                    column.NetType = GenConstants.TYPE_DECIMAL;
-                }
-                // 如果是整形
-                else if (str != null && str.Length == 1 && int.Parse(str[0]) <= 11)
-                {
-                    column.NetType = GenConstants.TYPE_INTEGER;
-                }
-                // 长整形
-                else
-                {
-                    column.NetType = GenConstants.TYPE_LONG;
+                    if (dataType.StartsWith("float") || dataType.StartsWith("double") || dataType.StartsWith("decimal"))
+                    {
+                        // 如果是浮点型 统一用Decimal, 如: decimal(18,2)
+                        // float/double/decimal
+                        column.NetType = GenConstants.TYPE_DECIMAL;
+                    }
+                    else if (dataType.StartsWith("bigint"))
+                    {
+                        // 长整形
+                        column.NetType = GenConstants.TYPE_LONG;
+                    }
+                    else
+                    {
+                        // 整形
+                        column.NetType = GenConstants.TYPE_INTEGER;
+                    }
                 }
             }
             else
