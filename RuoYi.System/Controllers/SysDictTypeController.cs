@@ -27,7 +27,7 @@ namespace RuoYi.System.Controllers
         /// 查询字典类型表列表
         /// </summary>
         [HttpGet("list")]
-        [AppAuthorize("system:type:list")]
+        [AppAuthorize("system:dict:list")]
         public async Task<SqlSugarPagedList<SysDictTypeDto>> GetSysDictTypeList([FromQuery] SysDictTypeDto dto)
         {
             return await _sysDictTypeService.GetDtoPagedListAsync(dto);
@@ -37,7 +37,7 @@ namespace RuoYi.System.Controllers
         /// 获取 字典类型表 详细信息
         /// </summary>
         [HttpGet("{id}")]
-        [AppAuthorize("system:type:query")]
+        [AppAuthorize("system:dict:query")]
         public async Task<AjaxResult> Get(long? id)
         {
             var data = await _sysDictTypeService.GetAsync(id);
@@ -48,7 +48,7 @@ namespace RuoYi.System.Controllers
         /// 新增 字典类型表
         /// </summary>
         [HttpPost("")]
-        [AppAuthorize("system:type:add")]
+        [AppAuthorize("system:dict:add")]
         [TypeFilter(typeof(RuoYi.Framework.DataValidation.DataValidationFilter))]
         [Log(Title = "字典类型", BusinessType = BusinessType.INSERT)]
         public async Task<AjaxResult> Add([FromBody] SysDictTypeDto dto)
@@ -65,7 +65,7 @@ namespace RuoYi.System.Controllers
         /// 修改 字典类型表
         /// </summary>
         [HttpPut("")]
-        [AppAuthorize("system:type:edit")]
+        [AppAuthorize("system:dict:edit")]
         [TypeFilter(typeof(RuoYi.Framework.DataValidation.DataValidationFilter))]
         [Log(Title = "字典类型", BusinessType = BusinessType.UPDATE)]
         public async Task<AjaxResult> Edit([FromBody] SysDictTypeDto dto)
@@ -82,7 +82,7 @@ namespace RuoYi.System.Controllers
         /// 删除 字典类型表
         /// </summary>
         [HttpDelete("{ids}")]
-        [AppAuthorize("system:type:remove")]
+        [AppAuthorize("system:dict:remove")]
         [Log(Title = "字典类型", BusinessType = BusinessType.DELETE)]
         public async Task<AjaxResult> Remove(long[] ids)
         {
@@ -94,7 +94,7 @@ namespace RuoYi.System.Controllers
         /// 刷新字典缓存
         /// </summary>
         [HttpDelete("refreshCache")]
-        [AppAuthorize("system:type:remove")]
+        [AppAuthorize("system:dict:remove")]
         [Log(Title = "字典类型", BusinessType = BusinessType.CLEAN)]
         public AjaxResult RefreshCache()
         {
@@ -116,7 +116,7 @@ namespace RuoYi.System.Controllers
         /// 导出 字典类型表
         /// </summary>
         [HttpPost("export")]
-        [AppAuthorize("system:type:export")]
+        [AppAuthorize("system:dict:export")]
         [Log(Title = "字典类型", BusinessType = BusinessType.EXPORT)]
         public async Task Export(SysDictTypeDto dto)
         {

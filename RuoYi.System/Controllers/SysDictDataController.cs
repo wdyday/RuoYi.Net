@@ -31,7 +31,7 @@ namespace RuoYi.System.Controllers
         /// 查询字典数据表列表
         /// </summary>
         [HttpGet("list")]
-        [AppAuthorize("system:data:list")]
+        [AppAuthorize("system:dict:list")]
         public async Task<SqlSugarPagedList<SysDictDataDto>> GetSysDictDataList([FromQuery] SysDictDataDto dto)
         {
             return await _sysDictDataService.GetDtoPagedListAsync(dto);
@@ -41,7 +41,7 @@ namespace RuoYi.System.Controllers
         /// 获取 字典数据表 详细信息
         /// </summary>
         [HttpGet("{dictCode}")]
-        [AppAuthorize("system:data:query")]
+        [AppAuthorize("system:dict:query")]
         public async Task<AjaxResult> Get(long dictCode)
         {
             var data = await _sysDictDataService.GetAsync(dictCode);
@@ -66,7 +66,7 @@ namespace RuoYi.System.Controllers
         /// 新增 字典数据表
         /// </summary>
         [HttpPost("")]
-        [AppAuthorize("system:data:add")]
+        [AppAuthorize("system:dict:add")]
         [TypeFilter(typeof(RuoYi.Framework.DataValidation.DataValidationFilter))]
         [Log(Title = "字典数据", BusinessType = BusinessType.INSERT)]
         public async Task<AjaxResult> Add([FromBody] SysDictDataDto dto)
@@ -79,7 +79,7 @@ namespace RuoYi.System.Controllers
         /// 修改 字典数据表
         /// </summary>
         [HttpPut("")]
-        [AppAuthorize("system:data:edit")]
+        [AppAuthorize("system:dict:edit")]
         [TypeFilter(typeof(RuoYi.Framework.DataValidation.DataValidationFilter))]
         [Log(Title = "字典数据", BusinessType = BusinessType.UPDATE)]
         public async Task<AjaxResult> Edit([FromBody] SysDictDataDto dto)
@@ -92,7 +92,7 @@ namespace RuoYi.System.Controllers
         /// 删除 字典数据表
         /// </summary>
         [HttpDelete("{dictCodes}")]
-        [AppAuthorize("system:data:remove")]
+        [AppAuthorize("system:dict:remove")]
         [Log(Title = "字典数据", BusinessType = BusinessType.DELETE)]
         public async Task<AjaxResult> Remove(long[] dictCodes)
         {
@@ -104,7 +104,7 @@ namespace RuoYi.System.Controllers
         /// 导出 字典数据表
         /// </summary>
         [HttpPost("export")]
-        [AppAuthorize("system:data:export")]
+        [AppAuthorize("system:dict:export")]
         [Log(Title = "字典数据", BusinessType = BusinessType.EXPORT)]
         public async Task Export(SysDictDataDto dto)
         {
