@@ -380,7 +380,7 @@ export default {
   @if(column.Is_Query()) {
     parentheseIndex = column.ColumnComment.IndexOf("（");
     comment = parentheseIndex != -1 ? column.ColumnComment.Substring(0, parentheseIndex) : column.ColumnComment;
-    var trigger = column.HtmlType == "select" || column.HtmlType == "radio" ? "change" : "blur";
+        var trigger = column.HtmlType == "select" || column.HtmlType == "radio" ? "\"change\"" : "\"blur\"";
         @:@column.NetFieldLower(): [
         @:  { required: true, message: "@(comment)不能为空", trigger: @(trigger) }
         @:],
