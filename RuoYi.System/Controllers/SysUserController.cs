@@ -214,7 +214,7 @@ namespace RuoYi.System.Controllers
         [HttpPost("importData")]
         [AppAuthorize("system:user:import")]
         [Log(Title = "用户管理", BusinessType = BusinessType.IMPORT)]
-        public async Task<AjaxResult> Import([Required] IFormFile file, bool updateSupport)
+        public async Task<AjaxResult> Import([FromForm] IFormFile file, bool updateSupport)
         {
             var stream = new MemoryStream();
             file.CopyTo(stream);

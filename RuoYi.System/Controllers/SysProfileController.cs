@@ -104,7 +104,7 @@ namespace RuoYi.System.Controllers
         /// </summary>
         [HttpPost("avatar")]
         [RuoYi.System.Log(Title = "用户头像", BusinessType = BusinessType.UPDATE)]
-        public async Task<object> UploadAvatar([Required] IFormFile file)
+        public async Task<object> UploadAvatar([FromForm(Name = "avatarfile")] IFormFile file)
         {
             if (file != null)
             {

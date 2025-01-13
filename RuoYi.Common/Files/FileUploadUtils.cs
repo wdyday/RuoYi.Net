@@ -86,14 +86,17 @@ namespace RuoYi.Common.Files
 
             AssertAllowed(file, allowedExtension);
 
-            // 文件物理路径
+            // 当前文件物理路径
             var physicalPath = GetResourcePhysicalPath(subDirectory);
-
-            if (!Directory.Exists(physicalPath))
-                Directory.CreateDirectory(physicalPath);
 
             string fileName = ExtractFilename(file);
             string filePath = Path.Combine(physicalPath, fileName);
+
+            // 当前文件目录
+            string folderPath = Directory.GetParent(filePath)?.FullName;
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
             using var stream = new FileStream(filePath, FileMode.Create);
             await file.CopyToAsync(stream);
 
@@ -106,8 +109,8 @@ namespace RuoYi.Common.Files
         /// </summary>
         public static string ExtractFilename(IFormFile file)
         {
-            var baseName = Path.GetFileNameWithoutExtension(file.FileName);
-            return $"{DateTime.Now.To_Ymd("/")}/{baseName}_{Guid.NewGuid():N}.{Path.GetExtension(file.FileName)}";
+            var baseName = Path.GetFileNameWithoutExtension(file.Name);
+            return $"{baseName}_{Guid.NewGuid():N}.{GetExtension(file)}";
         }
 
         /// <summary>

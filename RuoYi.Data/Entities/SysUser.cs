@@ -11,7 +11,7 @@ namespace RuoYi.Data.Entities
 
         /** 部门ID */
         [SugarColumn(ColumnName = "dept_id", ColumnDescription = "部门编号")]
-        public long DeptId { get; set; }
+        public long? DeptId { get; set; }
 
         /** 用户账号 */
         [SugarColumn(ColumnName = "user_name", ColumnDescription = "登录名称")]
