@@ -6,6 +6,7 @@ using RuoYi.Data.Dtos;
 using RuoYi.Data.Models;
 using RuoYi.Framework;
 using RuoYi.System.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RuoYi.System.Controllers
 {
@@ -102,6 +103,7 @@ namespace RuoYi.System.Controllers
         /// <summary>
         /// 头像上传
         /// </summary>
+        [SwaggerIgnore] // Swagger 不支持 [FromForm] IFormFile
         [HttpPost("avatar")]
         [RuoYi.System.Log(Title = "用户头像", BusinessType = BusinessType.UPDATE)]
         public async Task<object> UploadAvatar([FromForm(Name = "avatarfile")] IFormFile file)

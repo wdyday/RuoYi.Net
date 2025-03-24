@@ -5,6 +5,7 @@ using RuoYi.Data.Dtos;
 using RuoYi.Data.Entities;
 using RuoYi.Framework;
 using RuoYi.System.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RuoYi.System.Controllers
 {
@@ -211,6 +212,7 @@ namespace RuoYi.System.Controllers
         /// <summary>
         /// 导入 用户信息表
         /// </summary>
+        [SwaggerIgnore] //  Swagger 不支持 [FromForm] IFormFile
         [HttpPost("importData")]
         [AppAuthorize("system:user:import")]
         [Log(Title = "用户管理", BusinessType = BusinessType.IMPORT)]
