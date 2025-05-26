@@ -12,7 +12,7 @@ namespace RuoYi.Framework
             var connectionConfigs = App.GetConfig<ConnectionConfig[]>("ConnectionConfigs");
 
             // 注册 SqlSugar 客户端
-            services.AddSingleton<ISqlSugarClient>(u =>
+            services.AddScoped<ISqlSugarClient>(u =>
             {
                 var sqlSugarClient = new SqlSugarClient(connectionConfigs.ToList(), db => {
                     foreach (var conn in connectionConfigs)
