@@ -113,9 +113,10 @@ namespace RuoYi.Generator.Controllers
         [HttpDelete("{tableIds}")]
         [AppAuthorize("tool:gen:remove")]
         [Log(Title = "代码生成", BusinessType = BusinessType.DELETE)]
-        public AjaxResult Remove(long[] tableIds)
+        public AjaxResult Remove([FromRoute]string tableIds)
         {
-            _genTableService.DeleteGenTableByIds(tableIds);
+            long[] ids = tableIds.Split(',').Select(long.Parse).ToArray();
+            _genTableService.DeleteGenTableByIds(ids);
 
             return AjaxResult.Success();
         }
