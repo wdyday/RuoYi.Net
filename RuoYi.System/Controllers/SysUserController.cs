@@ -127,14 +127,13 @@ namespace RuoYi.System.Controllers
         [HttpDelete("{ids}")]
         [AppAuthorize("system:user:remove")]
         [Log(Title = "用户管理", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(string ids)
+        public async Task<AjaxResult> Remove([ModelBinder] long[] userIds)
         {
-            var userIds = ids.SplitToList<long>();
             if (userIds.Contains(SecurityUtils.GetUserId()))
             {
                 return AjaxResult.Error("当前用户不能删除");
             }
-            var data = await _sysUserService.DeleteUserByIdsAsync(userIds);
+            var data = await _sysUserService.DeleteUserByIdsAsync(userIds.ToList());
             return AjaxResult.Success(data);
         }
 

@@ -74,7 +74,7 @@ namespace RuoYi.System.Controllers
         [HttpDelete("{ids}")]
         [AppAuthorize("system:notice:remove")]
         [Log(Title = "通知公告", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(long[] ids)
+        public async Task<AjaxResult> Remove([ModelBinder] long[] ids)
         {
             var data = await _sysNoticeService.DeleteAsync(ids);
             return AjaxResult.Success(data);

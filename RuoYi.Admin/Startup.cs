@@ -5,15 +5,16 @@ using RuoYi.Admin.Authorization;
 using RuoYi.Common.Files;
 using RuoYi.Framework.Cache;
 using RuoYi.Framework.Filters;
+using RuoYi.Framework.ModelBinders;
 using RuoYi.Framework.RateLimit;
 
 namespace RuoYi.Admin
 {
     [AppStartup(10000)]
-    public class Startup: AppStartup
+    public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
-         {
+        {
             services.AddConsoleFormatter();
             services.AddCorsAccessor();
 
@@ -25,25 +26,29 @@ namespace RuoYi.Admin
                 opt.Filters.Add(typeof(GlobalExceptionFilter));
             });
 
-            services.AddControllersWithViews()
-                // NewtonsoftJson 
-                .AddNewtonsoftJson(options =>
-                {
-                    // 忽略循环引用
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+            services.AddControllersWithViews(options =>
+            {
+                // 添加 Long[] 参数绑定
+                options.ModelBinderProviders.Insert(0, new IntArrayModelBinderProvider());
+            })
+            // NewtonsoftJson 
+            .AddNewtonsoftJson(options =>
+            {
+                // 忽略循环引用
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
 
-                    // 忽略所有 null 属性
-                    //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    // long 类型序列化时转 string, 防止 JavaScript 出现精度溢出问题
-                    //options.SerializerSettings.Converters.AddLongTypeConverters();
-                })
-                .AddInject(options =>
-                {
-                    // 不启用全局验证: GlobalEnabled = false
-                    options.ConfigureDataValidation(options => { options.GlobalEnabled = false; });
-                })
-                ;
+                // 忽略所有 null 属性
+                //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                // long 类型序列化时转 string, 防止 JavaScript 出现精度溢出问题
+                //options.SerializerSettings.Converters.AddLongTypeConverters();
+            })
+            .AddInject(options =>
+            {
+                // 不启用全局验证: GlobalEnabled = false
+                options.ConfigureDataValidation(options => { options.GlobalEnabled = false; });
+            })
+            ;
 
             // 参数验证返回值处理
             services.Configure<ApiBehaviorOptions>(options =>
@@ -120,7 +125,7 @@ namespace RuoYi.Admin
             //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-            app.UseRyStaticFiles(env); 
+            app.UseRyStaticFiles(env);
 
             app.UseRouting();
 

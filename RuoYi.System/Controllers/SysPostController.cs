@@ -93,7 +93,7 @@ namespace RuoYi.System.Controllers
         [HttpDelete("{ids}")]
         [AppAuthorize("system:post:remove")]
         [Log(Title = "岗位管理", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(long[] ids)
+        public async Task<AjaxResult> Remove([ModelBinder] long[] ids)
         {
             var data = await _sysPostService.DeleteAsync(ids);
             return AjaxResult.Success(data);

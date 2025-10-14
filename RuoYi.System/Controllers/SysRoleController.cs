@@ -146,7 +146,7 @@ namespace RuoYi.System.Controllers
         [HttpDelete("{ids}")]
         [AppAuthorize("system:role:remove")]
         [Log(Title = "角色管理", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(List<long> ids)
+        public async Task<AjaxResult> Remove([ModelBinder] List<long> ids)
         {
             var data = await _sysRoleService.DeleteRoleByIdsAsync(ids);
             return AjaxResult.Success(data);

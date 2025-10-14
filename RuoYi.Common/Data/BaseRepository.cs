@@ -244,6 +244,7 @@ public abstract class BaseRepository<TEntity, TDto> : ITransient
             OrderByType? orderByType = (pageDomain.IsAsc ?? "").ToLower().Contains("desc") ? OrderByType.Desc : OrderByType.Asc;
             pagedInfo = await queryable
                 .OrderByPropertyName(pageDomain.PropertyName, orderByType)
+                //.OrderBy(pageDomain.OrderBy)
                 .ToPagedListAsync(pageDomain.PageNum, pageDomain.PageSize);
         }
         else
@@ -301,6 +302,7 @@ public abstract class BaseRepository<TEntity, TDto> : ITransient
             OrderByType? orderByType = (pageDomain.IsAsc ?? "").ToLower().Contains("desc") ? OrderByType.Desc : OrderByType.Asc;
             pagedInfo = await queryable
                 .OrderByPropertyName(pageDomain.PropertyName, orderByType)
+                //.OrderBy(pageDomain.OrderBy)
                 .ToPagedListAsync(pageDomain.PageNum, pageDomain.PageSize);
         }
         else

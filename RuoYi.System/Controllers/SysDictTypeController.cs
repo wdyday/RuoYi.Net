@@ -84,7 +84,7 @@ namespace RuoYi.System.Controllers
         [HttpDelete("{ids}")]
         [AppAuthorize("system:dict:remove")]
         [Log(Title = "字典类型", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(long[] ids)
+        public async Task<AjaxResult> Remove([ModelBinder] long[] ids)
         {
             await _sysDictTypeService.DeleteDictTypeByIdsAsync(ids);
             return AjaxResult.Success();

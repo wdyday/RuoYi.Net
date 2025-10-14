@@ -1,4 +1,5 @@
-﻿using RuoYi.Common.Enums;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using RuoYi.Common.Enums;
 using RuoYi.Framework;
 using RuoYi.System;
 
@@ -113,7 +114,7 @@ namespace RuoYi.Generator.Controllers
         [HttpDelete("{tableIds}")]
         [AppAuthorize("tool:gen:remove")]
         [Log(Title = "代码生成", BusinessType = BusinessType.DELETE)]
-        public AjaxResult Remove(long[] tableIds)
+        public AjaxResult Remove([ModelBinder] long[] tableIds)
         {
             _genTableService.DeleteGenTableByIds(tableIds);
 

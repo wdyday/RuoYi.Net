@@ -95,7 +95,7 @@ namespace RuoYi.System.Controllers
         [HttpDelete("{configIds}")]
         [AppAuthorize("system:config:remove")]
         [Log(Title = "参数管理", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(int[] configIds)
+        public async Task<AjaxResult> Remove([ModelBinder] int[] configIds)
         {
             await _sysConfigService.DeleteConfigByIdsAsync(configIds);
             return AjaxResult.Success();

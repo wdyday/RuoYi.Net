@@ -79,10 +79,9 @@ namespace RuoYi.System.Controllers
         [HttpDelete("{ids}")]
         [AppAuthorize("system:logininfor:remove")]
         [RuoYi.System.Log(Title = "系统访问记录", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(string ids)
+        public async Task<AjaxResult> Remove([ModelBinder] long[] ids)
         {
-            var idList = ids.SplitToList<long>();
-            var data = await _sysLogininforService.DeleteAsync(idList);
+            var data = await _sysLogininforService.DeleteAsync(ids);
             return AjaxResult.Success(data);
         }
 

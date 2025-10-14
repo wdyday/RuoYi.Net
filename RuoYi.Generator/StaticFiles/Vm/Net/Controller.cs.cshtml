@@ -91,10 +91,9 @@ namespace @(Model.PackageName).Controllers
         [HttpDelete("{ids}")]
         [AppAuthorize("@(Model.PermissionPrefix):remove")]
         [RuoYi.System.Log(Title = "@(Model.FunctionName)", BusinessType = BusinessType.DELETE)]
-        public async Task<AjaxResult> Remove(string ids)
+        public async Task<AjaxResult> Remove([ModelBinder] long[] ids)
         {
-            var idList = ids.SplitToList<long>();
-            var data = await _@(Model.className)Service.DeleteAsync(idList);
+            var data = await _@(Model.className)Service.DeleteAsync(ids);
             return AjaxResult.Success(data);
         }
 
