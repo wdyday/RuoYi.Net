@@ -7,11 +7,13 @@ namespace RuoYi.Generator.RepoSql
         private readonly ISqlSugarRepository _sqlSugarRepository;
         private readonly MySql _mySql;
         private readonly SqlServer _sqlServer;
-        public RepoSqlService(ISqlSugarRepository sqlSugarRepository, MySql mySql, SqlServer sqlServer)
+        private readonly Oracle _oracle;
+        public RepoSqlService(ISqlSugarRepository sqlSugarRepository, MySql mySql, SqlServer sqlServer, Oracle oracle)
         {
             _sqlSugarRepository = sqlSugarRepository;
             _mySql = mySql;
             _sqlServer = sqlServer;
+            _oracle = oracle;
         }
 
         public DbType GetDbType()
@@ -26,7 +28,7 @@ namespace RuoYi.Generator.RepoSql
             {
                 DbType.MySql => _mySql,
                 DbType.SqlServer => _sqlServer,
-                //DbType.Oracle => _oracle,
+                DbType.Oracle => _oracle,
                 _ => _mySql
             };
         }

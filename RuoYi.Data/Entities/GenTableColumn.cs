@@ -24,7 +24,7 @@ namespace RuoYi.Data.Entities
         /// 列描述 
         ///</summary>
         [SugarColumn(ColumnName = "column_comment")]
-        public string ColumnComment { get; set; }
+        public string ColumnComment { get; set; } = string.Empty;
         /// <summary>
         /// 列类型 
         ///</summary>
