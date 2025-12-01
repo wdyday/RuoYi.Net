@@ -145,7 +145,7 @@ public class SysLoginService : ITransient
             throw new ServiceException(MessageConstants.User_Passwrod_Not_Match);
         }
         // IP黑名单校验
-        string? blackStr = _cache.GetString("sys.login.blackIPList");
+        string? blackStr = _sysConfigService.SelectConfigByKey("sys.login.blackIPList");
         if (IpUtils.IsMatchedIp(blackStr, App.HttpContext.GetRemoteIpAddressToIPv4()))
         {
             Task.Factory.StartNew(async () =>
