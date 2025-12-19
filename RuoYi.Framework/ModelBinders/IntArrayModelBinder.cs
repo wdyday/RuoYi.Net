@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using RuoYi.Framework.Utils;
 
 namespace RuoYi.Framework.ModelBinders;
 
@@ -26,7 +27,7 @@ public class IntArrayModelBinder : IModelBinder
         var value = valueProviderResult.FirstValue;
 
         // Check if the argument value is null or empty
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(value) || !StringUtils.IsNumber(value))
         {
             return Task.CompletedTask;
         }

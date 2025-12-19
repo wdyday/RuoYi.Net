@@ -1,3 +1,4 @@
+using RuoYi.Data.Attributes;
 using RuoYi.Data.Dtos;
 
 namespace RuoYi.Quartz.Dtos
@@ -12,36 +13,48 @@ namespace RuoYi.Quartz.Dtos
         /// <summary>
         /// 任务日志ID
         /// </summary>
+        [Excel(Name = "操日志序号")]
         public long JobLogId { get; set; }
-                
+
         /// <summary>
         /// 任务名称
         /// </summary>
+        [Excel(Name = "任务名称")]
         public string JobName { get; set; }
-                
+
         /// <summary>
         /// 任务组名
         /// </summary>
+        [Excel(Name = "任务组名")]
         public string JobGroup { get; set; }
-                
+
         /// <summary>
         /// 调用目标字符串
         /// </summary>
+        [Excel(Name = "任务组名")]
         public string InvokeTarget { get; set; }
-                
+
         /// <summary>
         /// 日志信息
         /// </summary>
+        [Excel(Name = "日志信息")]
         public string? JobMessage { get; set; }
-                
+
         /// <summary>
         /// 执行状态（0正常 1失败）
         /// </summary>
         public string? Status { get; set; }
-                
+
+        /// <summary>
+        /// 执行状态（0正常 1失败）, 导出使用
+        /// </summary>
+        [Excel(Name = "执行状态")]
+        public string? StatusDesc { get; set; }
+
         /// <summary>
         /// 异常信息
         /// </summary>
+        [Excel(Name = "异常信息")]
         public string? ExceptionInfo { get; set; }
                 
     }

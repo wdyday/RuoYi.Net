@@ -29,9 +29,14 @@ namespace RuoYi.System.Slave.Services
         public async Task<SlaveSysUserDto> GetAsync(long? id)
         {
             var entity = await base.FirstOrDefaultAsync(e => e.UserId == id);
-            var dto = entity.Adapt<SlaveSysUserDto>();
-            // TODO 填充关联表数据
-            return dto;
+            if (entity != null)
+            {
+                return entity.Adapt<SlaveSysUserDto>();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

@@ -117,7 +117,7 @@ namespace @(Model.PackageName).Controllers
         [HttpPost("export")]
         [AppAuthorize("@(Model.PermissionPrefix):export")]
         [RuoYi.System.Log(Title = "@(Model.FunctionName)", BusinessType = BusinessType.EXPORT)]
-        public async Task Export(@(Model.ClassName)Dto dto)
+        public async Task Export([FromForm] @(Model.ClassName)Dto dto)
         {
             var list = await _@(Model.className)Service.GetDtoListAsync(dto);
             await ExcelUtils.ExportAsync(App.HttpContext.Response, list);

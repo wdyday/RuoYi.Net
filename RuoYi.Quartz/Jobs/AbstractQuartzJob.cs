@@ -54,7 +54,8 @@ namespace RuoYi.Quartz.Jobs
                 InvokeTarget = sysJob.InvokeTarget,
                 JobMessage = $"{sysJob.JobName} 总共耗时: {runMs}毫秒",
                 Status = e != null ? Data.Constants.FAIL: Data.Constants.SUCCESS,
-                ExceptionInfo = errorMsg
+                ExceptionInfo = errorMsg,
+                CreateTime = DateTime.Now
             };
 
             // 写入数据库当中

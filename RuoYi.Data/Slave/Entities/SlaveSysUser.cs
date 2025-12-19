@@ -76,7 +76,7 @@ namespace RuoYi.Data.Slave.Entities
         //@Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
         //})
         [SugarColumn(IsIgnore = true)]
-        public SysDept Dept { get; set; }
+        public SysDept? Dept { get; set; }
 
         /** 角色对象 */
         [SugarColumn(IsIgnore = true)]

@@ -1,4 +1,5 @@
-﻿using RuoYi.Framework.Extensions;
+﻿using Microsoft.IdentityModel.Tokens;
+using RuoYi.Framework.Extensions;
 
 namespace RuoYi.Framework.Utils
 {
@@ -268,18 +269,18 @@ namespace RuoYi.Framework.Utils
 
         public static bool ContainsIgnoreCase(string? str, string searchStr)
         {
-            if(str == null) return false;
+            if (str == null) return false;
 
             return str.ToLower().Contains(searchStr.ToLower());
         }
 
         public static bool ContainsAnyIgnoreCase(string? str, IEnumerable<string> searchStrs)
-        {            
+        {
             if (str == null) return false;
 
-            foreach(var searchStr in searchStrs)
+            foreach (var searchStr in searchStrs)
             {
-                if(ContainsIgnoreCase(str, searchStr))
+                if (ContainsIgnoreCase(str, searchStr))
                 {
                     return true;
                 }
@@ -331,6 +332,16 @@ namespace RuoYi.Framework.Utils
             {
                 return false;
             }
+        }
+
+        public static bool IsNumber(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return false;
+            }
+
+            return decimal.TryParse(str, out decimal num);
         }
     }
 }

@@ -5,10 +5,10 @@ namespace RuoYi.Data.Slave.Dtos
     public class SlaveSysUserDto : BaseDto
     {
         /** 用户ID */
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
 
         /** 部门ID */
-        public long DeptId { get; set; }
+        public long? DeptId { get; set; }
 
         /** 用户账号 */
         public string? UserName { get; set; }
@@ -41,10 +41,10 @@ namespace RuoYi.Data.Slave.Dtos
         public string? LoginIp { get; set; }
 
         /** 最后登录时间 */
-        public DateTime LoginDate { get; set; }
+        public DateTime? LoginDate { get; set; }
 
         /** 部门对象 */
-        public SysDeptDto Dept { get; set; }
+        public SysDeptDto? Dept { get; set; }
 
         /** 角色对象 */
         public List<SysRoleDto> Roles { get; set; }
@@ -56,7 +56,7 @@ namespace RuoYi.Data.Slave.Dtos
         public long[] PostIds { get; set; }
 
         /** 角色ID */
-        public long RoleId { get; set; }
+        public long? RoleId { get; set; }
 
 
         /// <summary>

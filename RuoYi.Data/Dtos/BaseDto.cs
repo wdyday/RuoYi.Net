@@ -32,9 +32,35 @@ namespace RuoYi.Data.Dtos
         /// <summary>
         /// 请求参数
         /// </summary>
-        [FromQuery(Name = "")]
-        public QueryParam Params { get; set; } = new QueryParam();
+        public QueryParam Params
+        {
+            get
+            {
+                if (QueryParam != null)
+                {
+                    return QueryParam;
+                }
+                if (FormParam != null)
+                {
+                    return new QueryParam
+                    {
+                        BeginTime = FormParam.BeginTime,
+                        EndTime = FormParam.EndTime,
+                        DataScopeSql = FormParam.DataScopeSql
+                    };
+                }
+                return new QueryParam();
+            }
+            set { 
+                QueryParam = value;
+            }
+        }
 
+        [FromQuery(Name = "")]
+        public QueryParam QueryParam { get; set; }
+
+        [FromForm(Name = "")]
+        public FormParam FormParam { get; set; }
     }
 
     public class QueryParam
@@ -42,6 +68,16 @@ namespace RuoYi.Data.Dtos
         [FromQuery(Name = "params[beginTime]")]
         public DateTime? BeginTime { get; set; }
         [FromQuery(Name = "params[endTime]")]
+        public DateTime? EndTime { get; set; }
+
+        public string? DataScopeSql { get; set; }
+    }
+
+    public class FormParam
+    {
+        [FromForm(Name = "params[beginTime]")]
+        public DateTime? BeginTime { get; set; }
+        [FromForm(Name = "params[endTime]")]
         public DateTime? EndTime { get; set; }
 
         public string? DataScopeSql { get; set; }

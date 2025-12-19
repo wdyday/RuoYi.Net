@@ -52,6 +52,11 @@ namespace RuoYi.Quartz.Entities
         /// </summary>
         [SugarColumn(ColumnName = "exception_info", ColumnDescription = "异常信息")]
         public string? ExceptionInfo { get; set; }
-                
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [SugarColumn(ColumnName = "create_time", ColumnDescription = "创建时间")]
+        public DateTime? CreateTime { get; set; }
     }
 }

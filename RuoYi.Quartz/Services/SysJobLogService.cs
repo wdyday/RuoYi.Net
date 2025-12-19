@@ -40,4 +40,12 @@ public class SysJobLogService : BaseService<SysJobLog, SysJobLogDto>, ITransient
         // TODO 填充关联表数据
         return dto;
     }
+
+    /// <summary>
+    /// 清表
+    /// </summary>
+    public void Clean()
+    {
+        _sysJobLogRepository.Truncate();
+    }
 }
