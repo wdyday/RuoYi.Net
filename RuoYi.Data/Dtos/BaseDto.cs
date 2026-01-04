@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using RuoYi.Data.Attributes;
 
 namespace RuoYi.Data.Dtos
 {
@@ -32,6 +34,7 @@ namespace RuoYi.Data.Dtos
         /// <summary>
         /// 请求参数
         /// </summary>
+        [ValidateNever]
         public QueryParam Params
         {
             get
@@ -56,9 +59,11 @@ namespace RuoYi.Data.Dtos
             }
         }
 
+        [ValidateNever]
         [FromQuery(Name = "")]
         public QueryParam QueryParam { get; set; }
 
+        [ValidateNever]
         [FromForm(Name = "")]
         public FormParam FormParam { get; set; }
     }
