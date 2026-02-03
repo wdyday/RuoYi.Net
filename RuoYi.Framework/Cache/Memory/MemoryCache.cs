@@ -218,7 +218,9 @@ public class MemoryCache : ICache
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
         var memCache = _cache.GetType().GetField("_memCache", flags)!.GetValue(_cache);
         var coherentState = memCache!.GetType().GetField("_coherentState", flags)!.GetValue(memCache);
-        var entries = coherentState!.GetType().GetField("_entries", flags)!.GetValue(coherentState);
+        var entries = coherentState!.GetType().GetField("_entries", flags) != null
+            ? coherentState!.GetType().GetField("_entries", flags)!.GetValue(coherentState)
+            : coherentState!.GetType().GetField("_stringEntries", flags)!.GetValue(coherentState);
 
         if (entries is not IDictionary cacheItems) return keys;
 
