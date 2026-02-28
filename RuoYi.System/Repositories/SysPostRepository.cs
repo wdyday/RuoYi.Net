@@ -34,6 +34,7 @@ namespace RuoYi.System.Repositories
                 .LeftJoin<SysUserPost>((p, up) => p.PostId == up.PostId)
                 .LeftJoin<SysUser>((p, up, u) => up.UserId == u.UserId)
                 .OrderBy((p, up, u) => p.PostSort)
+                .WhereIF(dto.UserId.HasValue && dto.UserId > 0, (p, up, u) => u.UserId == dto.UserId)
                 .WhereIF(!string.IsNullOrEmpty(dto.Status), (p, up, u) => p.Status == dto.Status)
                 .WhereIF(!string.IsNullOrEmpty(dto.UserName), (p, up, u) => u.UserName == dto.UserName)
                 .WhereIF(!string.IsNullOrEmpty(dto.PostCode), (p, up, u) => p.PostCode == dto.PostCode)
