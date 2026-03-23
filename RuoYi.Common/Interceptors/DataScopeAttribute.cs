@@ -4,9 +4,11 @@ using RuoYi.Common.Utils;
 using RuoYi.Data;
 using RuoYi.Data.Dtos;
 using RuoYi.Data.Models;
+using RuoYi.Framework;
 using RuoYi.Framework.Extensions;
 using RuoYi.Framework.Logging;
 using RuoYi.Framework.Utils;
+using SqlSugar;
 using System.Text;
 
 namespace RuoYi.Common.Interceptors
@@ -58,6 +60,8 @@ namespace RuoYi.Common.Interceptors
             StringBuilder sqlString = new StringBuilder();
             List<string> conditions = new List<string>();
 
+            DbType dbType = this.getDbType();
+
             foreach (SysRoleDto role in user.Roles ?? new List<SysRoleDto>())
             {
                 var dataScope = role.DataScope ?? DataScope.Custom;
@@ -86,7 +90,14 @@ namespace RuoYi.Common.Interceptors
                 }
                 else if (DataScopeConstants.DATA_SCOPE_DEPT_AND_CHILD.Equals(dataScope))
                 {
-                    sqlString.Append($" OR {deptAlias}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {user.DeptId} or find_in_set( {user.DeptId} , ancestors ) )");
+                    if (dbType == DbType.SqlServer)
+                    {
+                        sqlString.Append($" OR {deptAlias}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {user.DeptId} or CHARINDEX(',{user.DeptId},', ',' + ancestors + ',' ) > 0 )");
+                    }
+                    else
+                    {
+                        sqlString.Append($" OR {deptAlias}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {user.DeptId} or find_in_set( {user.DeptId} , ancestors ) )");
+                    }
                 }
                 else if (DataScopeConstants.DATA_SCOPE_SELF.Equals(dataScope))
                 {
@@ -118,6 +129,16 @@ namespace RuoYi.Common.Interceptors
                     baseEntity.Params.DataScopeSql = $" ({sqlString.ToString()[4..]})";
                 }
             }
+        }
+
+        private DbType getDbType() {
+            var connectionConfigs = App.GetConfig<ConnectionConfig[]>("ConnectionConfigs");
+            if (connectionConfigs != null && connectionConfigs.Length > 0)
+            {
+                return connectionConfigs[0].DbType;
+            }
+
+            return DbType.MySql;
         }
     }
 }
