@@ -78,6 +78,15 @@ namespace RuoYi.System.Repositories
             }
         }
 
+        public async Task<List<SysRole>> GetRolesByUserIdAsync(long userId)
+        {
+            return await Repo.AsQueryable()
+                .InnerJoin<SysUserRole>((r, ur) => r.RoleId == ur.RoleId)
+                .OrderBy((r) => r.RoleSort)
+                .Where((r, ur) => r.DelFlag == DelFlag.No && ur.UserId == userId)
+                .ToListAsync();
+        }
+
         public SysRole GetRoleById(long roleId)
         {
             return this.FirstOrDefault(r => r.RoleId == roleId);

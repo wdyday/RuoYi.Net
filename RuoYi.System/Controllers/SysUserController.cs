@@ -124,7 +124,7 @@ namespace RuoYi.System.Controllers
         /// <summary>
         /// 删除用户
         /// </summary>
-        [HttpDelete("{ids}")]
+        [HttpDelete("{userIds}")]
         [AppAuthorize("system:user:remove")]
         [Log(Title = "用户管理", BusinessType = BusinessType.DELETE)]
         public async Task<AjaxResult> Remove([ModelBinder] long[] userIds)
