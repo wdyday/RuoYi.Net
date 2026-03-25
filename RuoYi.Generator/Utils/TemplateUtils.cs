@@ -176,11 +176,11 @@ namespace RuoYi.Generator.Utils
             //string mybatisPath = MYBATIS_PATH + "/" + moduleName;
             string vuePath = ROOT_PATH + "/vue";
 
-            if (template.Contains("Entity.cs.cshtml"))
+            if (template.Contains("/Entity.cs.cshtml"))
             {
                 fileName = $"{netPath}/Entities/{className}.cs";
             }
-            else if (template.Contains("Dto.cs.cshtml"))
+            else if (template.Contains("/Dto.cs.cshtml"))
             {
                 fileName = $"{netPath}/Dtos/{className}Dto.cs";
             }
@@ -188,11 +188,15 @@ namespace RuoYi.Generator.Utils
             {
                 fileName = $"{netPath}/Entities/{genTable.SubTable.ClassName}.cs";
             }
-            else if (template.Contains("Repository.cs.cshtml"))
+            else if (template.Contains("SubDto.cs.cshtml") && GenConstants.TPL_SUB.Equals(genTable.TplCategory))
+            {
+                fileName = $"{netPath}/Dtos/{genTable.SubTable.ClassName}Dto.cs";
+            }
+            else if (template.Contains("/Repository.cs.cshtml"))
             {
                 fileName = $"{netPath}/Repositories/{className}Repository.cs";
             }
-            else if (template.Contains("Service.cs.cshtml"))
+            else if (template.Contains("/Service.cs.cshtml"))
             {
                 fileName = $"{netPath}/Services/{className}Service.cs";
             }
@@ -204,15 +208,15 @@ namespace RuoYi.Generator.Utils
             {
                 fileName = $"{ROOT_PATH}/{businessName}Menu.sql";
             }
-            else if (template.Contains("api.js.cshtml"))
+            else if (template.Contains("/api.js.cshtml"))
             {
                 fileName = $"{vuePath}/api/{moduleName}/{businessName}.js";
             }
-            else if (template.Contains("index.vue.cshtml"))
+            else if (template.Contains("/index.vue.cshtml"))
             {
                 fileName = $"{vuePath}/views/{moduleName}/{businessName}/index.vue";
             }
-            else if (template.Contains("index-tree.vue.cshtml"))
+            else if (template.Contains("/index-tree.vue.cshtml"))
             {
                 fileName = $"{vuePath}/views/{moduleName}/{businessName}/index.vue";
             }

@@ -18,7 +18,7 @@ public class GenTableRepository : BaseRepository<GenTable, GenTableDto>
         return Repo.AsQueryable()
             .Includes(t => t.Columns)
             .WhereIF(dto.TableId > 0, (e) => e.TableId == dto.TableId)
-            .WhereIF(!string.IsNullOrEmpty(dto.TableName), (e) => e.TableName!.Contains(dto.TableName!))
+            .WhereIF(!string.IsNullOrEmpty(dto.TableName), (e) => e.TableName == dto.TableName)
             .WhereIF(!string.IsNullOrEmpty(dto.TableComment), (e) => e.TableComment!.Contains(dto.TableComment!))
             .WhereIF(dto.Params.BeginTime != null, (u) => u.CreateTime >= dto.Params.BeginTime)
             .WhereIF(dto.Params.EndTime != null, (u) => u.CreateTime < dto.Params.EndTime!.Value.Date.AddDays(1))
@@ -30,7 +30,7 @@ public class GenTableRepository : BaseRepository<GenTable, GenTableDto>
         return Repo.AsQueryable()
             .LeftJoin<GenTableColumn>((t, c) => t.TableId == c.TableId)
             .WhereIF(dto.TableId > 0, (e) => e.TableId == dto.TableId)
-            .WhereIF(!string.IsNullOrEmpty(dto.TableName), (e) => e.TableName!.Contains(dto.TableName!))
+            .WhereIF(!string.IsNullOrEmpty(dto.TableName), (e) => e.TableName == dto.TableName)
             .WhereIF(!string.IsNullOrEmpty(dto.TableComment), (e) => e.TableComment!.Contains(dto.TableComment!))
             .WhereIF(dto.Params.EndTime != null, (u) => u.CreateTime < dto.Params.EndTime!.Value.Date.AddDays(1))
             .Select((t, c) => new GenTableDto
