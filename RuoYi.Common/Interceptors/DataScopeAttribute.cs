@@ -108,7 +108,7 @@ namespace RuoYi.Common.Interceptors
                     else
                     {
                         // 数据权限为仅本人且没有userAlias别名不查询任何数据
-                        sqlString.Append(" OR {deptAlias}.dept_id = 0 ");
+                        sqlString.Append($" OR {deptAlias}.dept_id = 0 ");
                     }
                 }
                 conditions.Add(dataScope);
